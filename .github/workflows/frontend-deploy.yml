@@ -1,0 +1,37 @@
+name: Deploy Industrial Frontend
+
+on:
+  push:
+    branches:
+      - main  # Скрипт сработает при пуше в ветку main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build  # После этого появится папка dist или build
+
+      - name: Deploy to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: root
+          port: ${{ secrets.SERVER_PORT }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          # Если React создает папку 'dist', оставь dist/*. Если 'build', поменяй на build/*
+          source: "dist/*"
+          target: "/var/www/industrial-furniture/frontend"
+          strip_components: 1 # Убирает папку dist/ и кладет сразу содержимое
