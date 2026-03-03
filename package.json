@@ -1,0 +1,40 @@
+{
+	"name": "indufurn---b2b-marketplace",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
+		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+		"lint:fix": "eslint . --ext ts,tsx --fix",
+		"format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+		"format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+		"type-check": "tsc --noEmit",
+		"test": "jest",
+		"test:watch": "jest --watch",
+		"test:coverage": "jest --coverage",
+		"test:integration": "jest --config jest.integration.config.js",
+		"test:performance": "lighthouse --chrome-flags='--headless' --output=json --output-path=./lighthouse-report.json http://localhost:3000",
+		"analyze": "npm run build && npx vite-bundle-analyzer dist/stats.html",
+		"deploy:dev": "./scripts/deploy-simple.sh development",
+		"deploy:staging": "./scripts/deploy-simple.sh staging",
+		"deploy:prod": "./scripts/deploy-simple.sh production",
+		"ci:test": "npm run lint && npm run format:check && npm run type-check && npm run test:coverage",
+		"ci:build": "npm ci && npm run build"
+	},
+	"dependencies": {
+		"axios": "^1.13.5",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"react-router-dom": "^6.30.3",
+		"swiper": "^12.0.3"
+	},
+	"devDependencies": {
+		"@types/node": "^22.14.0",
+		"@vitejs/plugin-react": "^5.0.0",
+		"typescript": "~5.8.2",
+		"vite": "^6.2.0"
+	}
+}
