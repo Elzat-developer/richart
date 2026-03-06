@@ -21,14 +21,14 @@ const Footer: React.FC<FooterProps> = ({ company, getImageUrl }) => {
 							{company?.logoUrl ? (
 								<img
 									src={getImageUrl(company.logoUrl)}
-									className="w-20 h-20 rounded-lg object-contain"
+									className="w-43 h-36 rounded-lg object-contain"
 									onError={(e) => {
 										const target = e.target as HTMLImageElement;
 										target.src = 'https://picsum.photos/80/80?error=logo-failed';
 									}}
 								/>
 							) : (
-								<div className="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center text-white text-lg font-bold font-display shadow-lg">
+								<div className="w-43 h-36 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center text-white text-lg font-bold font-display shadow-lg">
 									RA
 								</div>
 							)}
