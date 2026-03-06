@@ -11,8 +11,8 @@ const currentYear = new Date().getFullYear();
 
 // Функция для получения корректного URL изображения
 const getImageUrl = (url: string): string => {
-		return buildUrl(url);
-	};
+	return buildUrl(url);
+};
 
 const HeaderContent: React.FC<{ company: CompanyDto | null }> = ({ company }) => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,7 +52,7 @@ const HeaderContent: React.FC<{ company: CompanyDto | null }> = ({ company }) =>
 									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
 										<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
 									</svg>
-									+7 747 216 4664
+									{company?.phone || '+7 747 216 4664'}
 								</span>
 								<span className="flex items-center gap-2">
 									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -211,7 +211,7 @@ const HeaderContent: React.FC<{ company: CompanyDto | null }> = ({ company }) =>
 									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
 										<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
 									</svg>
-									+7 747 216 4664
+									{company?.phone || '+7 747 216 4664'}
 								</a>
 								<a href={`mailto:${company?.email || 'info@industrial-furniture.kz'}`} className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors text-sm font-medium">
 									<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -267,7 +267,7 @@ const HeaderContent: React.FC<{ company: CompanyDto | null }> = ({ company }) =>
 										<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
 									</svg>
 									<a href="tel:+77472164664" className="text-white font-medium">
-										+7 747 216 4664
+										{company?.phone || '+7 747 216 4664'}
 									</a>
 								</div>
 								<div className="mb-3 flex items-center gap-2">
@@ -282,7 +282,7 @@ const HeaderContent: React.FC<{ company: CompanyDto | null }> = ({ company }) =>
 									<svg className="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
 										<path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
 									</svg>
-									Пн-Пт: 9:00-18:00
+									Пн-Пт: {company?.jobStartAndEndDate || '9:00-18:00'}
 								</div>
 							</div>
 						</div>
@@ -399,7 +399,7 @@ export const Layout: React.FC = () => {
 											<div>
 												<p className="text-gray-400">Телефон</p>
 												<a href="tel:+77472164664" className="text-white font-medium hover:text-emerald-400 transition-colors">
-													+7 747 216 4664</a>
+													{company?.phone || '+7 747 216 4664'}</a>
 											</div>
 										</div>
 										<div className="flex items-start gap-3">
@@ -468,7 +468,7 @@ export const Layout: React.FC = () => {
 										&copy; {currentYear} RichArt. Все права защищены.
 									</div>
 									<div className="flex flex-wrap gap-6 text-sm">
-										<a className="text-gray-400 hover:text-emerald-400 transition-colors">Политика конфиденциальности</a>
+										<a href="/privacy" className="text-gray-400 hover:text-emerald-400 transition-colors">Политика конфиденциальности</a>
 										<a href="/contacts#/contacts" className="text-gray-400 hover:text-emerald-400 transition-colors">Реквизиты</a>
 									</div>
 								</div>

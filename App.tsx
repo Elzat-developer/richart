@@ -30,6 +30,7 @@ import AdminCompanyPage from './pages/AdminCompanyPage';
 import { CategoriesPage } from './pages/CategoriesPage';
 import { HouseholdCategoriesPage } from './pages/HouseholdCategoriesPage';
 import { HouseholdCatalogPage } from './pages/HouseholdCatalogPage';
+import PrivacyPage from './pages/PrivacyPage';
 
 function App() {
 	return (
@@ -53,6 +54,7 @@ function App() {
 							<Route path="contacts" element={<ContactsPage />} />
 							<Route path="orders" element={<OrdersPage />} />
 							<Route path="orders/:orderId" element={<OrderDetailPage />} />
+							<Route path="privacy" element={<PrivacyPage />} />
 						</Route>
 
 						{/* Admin routes */}
