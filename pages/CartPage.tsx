@@ -4,34 +4,13 @@ import { ApiService } from '../services/api';
 import { TrashIcon, PlusIcon, MinusIcon, FilePdfIcon, WhatsAppIcon, XIcon } from '../components/Icons';
 import { Link } from 'react-router-dom';
 import { GetPhotoDto } from '../types';
+import { buildUrl } from '../config/api';
 
-// Функция для получения URL изображения (аналогично PromotionsBlock)
+// Функция для получения URL изображения
 const getImageUrl = (photoDto: GetPhotoDto): string => {
 	if (!photoDto || !photoDto.photoURL) return `https://picsum.photos/80/80?random=${Math.random()}`;
 
-	const photoURL = photoDto.photoURL;
-
-	if (photoURL.startsWith('http://') || photoURL.startsWith('https://')) {
-		return photoURL;
-	}
-
-	if (photoURL.match(/^[A-Za-z]:/)) {
-		const uploadsMatch = photoURL.match(/uploads\/(.+)/);
-		if (uploadsMatch) {
-			return `http://localhost:8080/uploads/${uploadsMatch[1]}`;
-		}
-		return `http://localhost:8080/${photoURL.replace(/^[A-Za-z]:\\/, '').replace(/\\/g, '/')}`;
-	}
-
-	if (photoURL.startsWith('/api')) {
-		return `http://localhost:8080${photoURL}`;
-	}
-
-	if (photoURL.startsWith('/')) {
-		return `http://localhost:8080${photoURL}`;
-	}
-
-	return `http://localhost:8080/${photoURL}`;
+	return buildUrl(photoDto.photoURL);
 };
 
 export const CartPage: React.FC = () => {

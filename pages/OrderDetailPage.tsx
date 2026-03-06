@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ApiService } from '../services/api';
+import { UserApiService } from '../services/userApi';
 import { OrderDetailsDto, OrderItemDto } from '../types';
 import { ArrowLeftIcon, WhatsAppIcon, CheckCircleIcon, ClockIcon, XCircleIcon, ShoppingBagIcon } from '../components/Icons';
+import { buildUrl } from '../config/api';
 
 export const OrderDetailPage: React.FC = () => {
 	const { orderId } = useParams<{ orderId: string }>();
@@ -16,7 +17,7 @@ export const OrderDetailPage: React.FC = () => {
 
 			try {
 				setLoading(true);
-				const orderData = await ApiService.getOrderDetails(parseInt(orderId));
+				const orderData = await UserApiService.getOrderDetails(parseInt(orderId));
 				setOrder(orderData);
 			} catch (err) {
 				console.error('Error fetching order details:', err);
@@ -29,31 +30,15 @@ export const OrderDetailPage: React.FC = () => {
 		fetchOrderDetails();
 	}, [orderId]);
 
-	// Функция для обработки URL изображений как в новостях
+	// Функция для получения URL изображения
+	const getOrderImageUrl = (photoUrl: string): string => {
+		return buildUrl(photoUrl);
+	};
+
 	const getImageUrl = (photoUrl: string): string => {
 		if (!photoUrl) return `https://picsum.photos/100/100?random=${Math.random()}`;
 
-		if (photoUrl.startsWith('http://') || photoUrl.startsWith('https://')) {
-			return photoUrl;
-		}
-
-		if (photoUrl.match(/^[A-Za-z]:/)) {
-			const uploadsMatch = photoUrl.match(/uploads\/(.+)/);
-			if (uploadsMatch) {
-				return `http://localhost:8080/uploads/${uploadsMatch[1]}`;
-			}
-			return `http://localhost:8080/${photoUrl.replace(/^[A-Za-z]:\\/, '').replace(/\\/g, '/')}`;
-		}
-
-		if (photoUrl.startsWith('/api')) {
-			return `http://localhost:8080${photoUrl}`;
-		}
-
-		if (photoUrl.startsWith('/')) {
-			return `http://localhost:8080${photoUrl}`;
-		}
-
-		return `http://localhost:8080/${photoUrl}`;
+		return buildUrl(photoUrl);
 	};
 
 	const getStatusIcon = (status: string) => {

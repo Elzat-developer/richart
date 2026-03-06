@@ -5,6 +5,7 @@ import { ShoppingCartIcon, ArrowLeftIcon } from '../components/Icons';
 import { useCart } from '../context/CartContext';
 import { GetProductDto, GetProductsUserDto } from '../types';
 import { ProductCard } from '../components/ProductCard';
+import { buildUrl } from '../config/api';
 
 export const ProductDetailPage: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
@@ -62,61 +63,17 @@ export const ProductDetailPage: React.FC = () => {
 		fetchSimilarProducts();
 	}, [id]);
 
-	// Функция для получения URL изображения (как в новостях)
+	// Функция для получения URL изображения
 	const getImageUrl = (photoURL: string): string => {
 		if (!photoURL) return 'https://picsum.photos/800/600?error=no-url';
 
-		if (photoURL.startsWith('http://') || photoURL.startsWith('https://')) {
-			return photoURL;
-		}
-
-		if (photoURL.match(/^[A-Za-z]:/)) {
-			const uploadsMatch = photoURL.match(/uploads\/(.+)/);
-			if (uploadsMatch) {
-				return `http://localhost:8080/uploads/${uploadsMatch[1]}`;
-			}
-			return `http://localhost:8080/${photoURL.replace(/^[A-Za-z]:\\/, '').replace(/\\/g, '/')}`;
-		}
-
-		if (photoURL.startsWith('/api')) {
-			return `http://localhost:8080${photoURL}`;
-		}
-
-		if (photoURL.startsWith('/')) {
-			return `http://localhost:8080${photoURL}`;
-		}
-
-		return `http://localhost:8080/${photoURL}`;
+		return buildUrl(photoURL);
 	};
 
 	const getTechSpecUrl = (techSpecUrl: string): string => {
 		if (!techSpecUrl) return '';
 
-		// Если уже полный URL
-		if (techSpecUrl.startsWith('http://') || techSpecUrl.startsWith('https://')) {
-			return techSpecUrl;
-		}
-
-		// Если путь с диска (C:/uploads/...)
-		if (techSpecUrl.match(/^[A-Za-z]:/)) {
-			const uploadsMatch = techSpecUrl.match(/uploads\/(.+)/);
-			if (uploadsMatch) {
-				return `http://localhost:8080/uploads/${uploadsMatch[1]}`;
-			}
-			return `http://localhost:8080/${techSpecUrl.replace(/^[A-Za-z]:\\/, '').replace(/\\/g, '/')}`;
-		}
-
-		// Если API путь
-		if (techSpecUrl.startsWith('/api')) {
-			return `http://localhost:8080${techSpecUrl}`;
-		}
-
-		// Если относительный путь
-		if (techSpecUrl.startsWith('/')) {
-			return `http://localhost:8080${techSpecUrl}`;
-		}
-
-		return `http://localhost:8080/${techSpecUrl}`;
+		return buildUrl(techSpecUrl);
 	};
 
 	const handleDownloadTechSpec = async (fileUrl: string, fileName: string) => {
@@ -168,33 +125,11 @@ export const ProductDetailPage: React.FC = () => {
 		}
 	};
 
-	// Функция для получения URL изображения (как в админке)
+	// Функция для получения URL изображения
 	const getAdminImageUrl = (photoDto: any): string => {
 		if (!photoDto || !photoDto.photoURL) return 'https://picsum.photos/800/600?error=no-photo';
 
-		const urlPhoto = photoDto.photoURL;
-
-		if (urlPhoto.startsWith('http://') || urlPhoto.startsWith('https://')) {
-			return urlPhoto;
-		}
-
-		if (urlPhoto.match(/^[A-Za-z]:/)) {
-			const uploadsMatch = urlPhoto.match(/uploads\/(.+)/);
-			if (uploadsMatch) {
-				return `http://localhost:8080/uploads/${uploadsMatch[1]}`;
-			}
-			return `http://localhost:8080/${urlPhoto.replace(/^[A-Za-z]:\\/, '').replace(/\\/g, '/')}`;
-		}
-
-		if (urlPhoto.startsWith('/api')) {
-			return `http://localhost:8080${urlPhoto}`;
-		}
-
-		if (urlPhoto.startsWith('/')) {
-			return `http://localhost:8080${urlPhoto}`;
-		}
-
-		return `http://localhost:8080/${urlPhoto}`;
+		return buildUrl(photoDto.photoURL);
 	};
 
 	const formatDate = (dateString: string) => {

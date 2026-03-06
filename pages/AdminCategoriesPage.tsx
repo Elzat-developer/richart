@@ -4,6 +4,7 @@ import { useAdminAuth } from '../context/AdminAuthContext';
 import { AdminApiService } from '../services/adminApi';
 import { BackendCategoryDto, CreateCategoryDto, EditCategoryDto } from '../types';
 import { AdminNavigation } from '../components/AdminNavigation';
+import { buildUrl } from '../config/api';
 import {
 	EditIcon,
 	TrashIcon,
@@ -41,31 +42,9 @@ export const AdminCategoriesPage: React.FC = () => {
 		return category.photoUrl || '';
 	};
 
-	// Функция для получения URL фото категории (как в акциях)
+	// Функция для получения URL фото категории
 	const getCategoryPhotoUrl = (photoUrl: string): string => {
-		if (!photoUrl) return '';
-
-		if (photoUrl.startsWith('http://') || photoUrl.startsWith('https://')) {
-			return photoUrl;
-		}
-
-		if (photoUrl.match(/^[A-Za-z]:/)) {
-			const uploadsMatch = photoUrl.match(/uploads\/(.+)/);
-			if (uploadsMatch) {
-				return `http://localhost:8080/uploads/${uploadsMatch[1]}`;
-			}
-			return `http://localhost:8080/${photoUrl.replace(/^[A-Za-z]:\\/, '').replace(/\\/g, '/')}`;
-		}
-
-		if (photoUrl.startsWith('/api')) {
-			return `http://localhost:8080${photoUrl}`;
-		}
-
-		if (photoUrl.startsWith('/')) {
-			return `http://localhost:8080${photoUrl}`;
-		}
-
-		return `http://localhost:8080/${photoUrl}`;
+		return buildUrl(photoUrl);
 	};
 
 	useEffect(() => {

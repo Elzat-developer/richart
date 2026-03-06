@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ApiService } from '../services/api';
 import { GetCategoriesUserDto } from '../types';
+import { buildUrl } from '../config/api';
 
 // Стили для скрытия скроллбара
 const scrollbarHideStyles = `
@@ -14,31 +15,9 @@ const scrollbarHideStyles = `
 	}
 `;
 
-// Функция для правильного формирования URL изображения (как в акциях)
+// Функция для правильного формирования URL изображения
 const getCategoryImageUrl = (photoUrl: string): string => {
-	if (!photoUrl) return '';
-
-	if (photoUrl.startsWith('http://') || photoUrl.startsWith('https://')) {
-		return photoUrl;
-	}
-
-	if (photoUrl.match(/^[A-Za-z]:/)) {
-		const uploadsMatch = photoUrl.match(/uploads\/(.+)/);
-		if (uploadsMatch) {
-			return `http://localhost:8080/uploads/${uploadsMatch[1]}`;
-		}
-		return `http://localhost:8080/${photoUrl.replace(/^[A-Za-z]:\\/, '').replace(/\\/g, '/')}`;
-	}
-
-	if (photoUrl.startsWith('/api')) {
-		return `http://localhost:8080${photoUrl}`;
-	}
-
-	if (photoUrl.startsWith('/')) {
-		return `http://localhost:8080${photoUrl}`;
-	}
-
-	return `http://localhost:8080/${photoUrl}`;
+	return buildUrl(photoUrl);
 };
 
 export const HouseholdCategoriesBlock: React.FC = () => {

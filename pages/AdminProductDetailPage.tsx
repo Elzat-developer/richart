@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { buildUrl } from '../config/api';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { AdminApiService } from '../services/adminApi';
@@ -126,62 +127,12 @@ export const AdminProductDetailPage: React.FC = () => {
 		}
 	};
 
-	const getImageUrl = (photoDto: GetPhotoDto): string => {
-		if (!photoDto || !photoDto.photoURL) return 'https://picsum.photos/400/300?error=no-photo';
-
-		const urlPhoto = photoDto.photoURL;
-
-		if (urlPhoto.startsWith('http://') || urlPhoto.startsWith('https://')) {
-			return urlPhoto;
-		}
-
-		if (urlPhoto.match(/^[A-Za-z]:/)) {
-			const uploadsMatch = urlPhoto.match(/uploads\/(.+)/);
-			if (uploadsMatch) {
-				return `http://localhost:8080/uploads/${uploadsMatch[1]}`;
-			}
-			return `http://localhost:8080/${urlPhoto.replace(/^[A-Za-z]:\\/, '').replace(/\\/g, '/')}`;
-		}
-
-		if (urlPhoto.startsWith('/api')) {
-			return `http://localhost:8080${urlPhoto}`;
-		}
-
-		if (urlPhoto.startsWith('/')) {
-			return `http://localhost:8080${urlPhoto}`;
-		}
-
-		return `http://localhost:8080/${urlPhoto}`;
+	const getImageUrl = (url: string): string => {
+		return buildUrl(url);
 	};
 
-	const getTechSpecUrl = (techSpecUrl: string): string => {
-		if (!techSpecUrl) return '';
-
-		// Если уже полный URL
-		if (techSpecUrl.startsWith('http://') || techSpecUrl.startsWith('https://')) {
-			return techSpecUrl;
-		}
-
-		// Если путь с диска (C:/uploads/...)
-		if (techSpecUrl.match(/^[A-Za-z]:/)) {
-			const uploadsMatch = techSpecUrl.match(/uploads\/(.+)/);
-			if (uploadsMatch) {
-				return `http://localhost:8080/uploads/${uploadsMatch[1]}`;
-			}
-			return `http://localhost:8080/${techSpecUrl.replace(/^[A-Za-z]:\\/, '').replace(/\\/g, '/')}`;
-		}
-
-		// Если API путь
-		if (techSpecUrl.startsWith('/api')) {
-			return `http://localhost:8080${techSpecUrl}`;
-		}
-
-		// Если относительный путь
-		if (techSpecUrl.startsWith('/')) {
-			return `http://localhost:8080${techSpecUrl}`;
-		}
-
-		return `http://localhost:8080/${techSpecUrl}`;
+	const getTechSpecUrl = (url: string): string => {
+		return buildUrl(url);
 	};
 
 	const handleDownloadTechSpec = async (fileUrl: string, fileName: string) => {

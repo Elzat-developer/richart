@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { buildUrl } from '../config/api';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { AdminApiService } from '../services/adminApi';
 import { UserApiService } from '../services/userApi';
@@ -161,30 +162,8 @@ export const AdminPromotionsPage: React.FC = () => {
 		return pages;
 	};
 
-	const getImageUrl = (urlPhoto: string): string => {
-		if (!urlPhoto) return 'https://picsum.photos/400/225?error=no-url';
-
-		if (urlPhoto.startsWith('http://') || urlPhoto.startsWith('https://')) {
-			return urlPhoto;
-		}
-
-		if (urlPhoto.match(/^[A-Za-z]:/)) {
-			const uploadsMatch = urlPhoto.match(/uploads\/(.+)/);
-			if (uploadsMatch) {
-				return `http://localhost:8080/uploads/${uploadsMatch[1]}`;
-			}
-			return `http://localhost:8080/${urlPhoto.replace(/^[A-Za-z]:\\/, '').replace(/\\/g, '/')}`;
-		}
-
-		if (urlPhoto.startsWith('/api')) {
-			return `http://localhost:8080${urlPhoto}`;
-		}
-
-		if (urlPhoto.startsWith('/')) {
-			return `http://localhost:8080${urlPhoto}`;
-		}
-
-		return `http://localhost:8080/${urlPhoto}`;
+	const getImageUrl = (url: string): string => {
+		return buildUrl(url);
 	};
 
 	const formatFileSize = (bytes: number) => {

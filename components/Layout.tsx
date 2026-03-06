@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { buildUrl } from '../config/api';
 import { Link, useLocation, Outlet } from 'react-router-dom';
 import { CartProvider, useCart } from '../context/CartContext';
 import { AdminAuthProvider, useAdminAuth } from '../context/AdminAuthContext';
@@ -9,31 +10,9 @@ import { SearchIcon, PackageIcon, ShoppingCartIcon, MenuIcon, UserIcon } from '.
 const currentYear = new Date().getFullYear();
 
 // Функция для получения корректного URL изображения
-const getImageUrl = (urlPhoto: string): string => {
-	if (!urlPhoto) return 'https://picsum.photos/400/225?error=no-url';
-
-	if (urlPhoto.startsWith('http://') || urlPhoto.startsWith('https://')) {
-		return urlPhoto;
-	}
-
-	if (urlPhoto.match(/^[A-Za-z]:/)) {
-		const uploadsMatch = urlPhoto.match(/uploads\/(.+)/);
-		if (uploadsMatch) {
-			return `http://localhost:8080/uploads/${uploadsMatch[1]}`;
-		}
-		return `http://localhost:8080/${urlPhoto.replace(/^[A-Za-z]:\\/, '').replace(/\\/g, '/')}`;
-	}
-
-	if (urlPhoto.startsWith('/api')) {
-		return `http://localhost:8080${urlPhoto}`;
-	}
-
-	if (urlPhoto.startsWith('/')) {
-		return `http://localhost:8080${urlPhoto}`;
-	}
-
-	return `http://localhost:8080/${urlPhoto}`;
-};
+const getImageUrl = (url: string): string => {
+		return buildUrl(url);
+	};
 
 const HeaderContent: React.FC<{ company: CompanyDto | null }> = ({ company }) => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);

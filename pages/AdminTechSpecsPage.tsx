@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { buildUrl } from '../config/api';
 import { Link } from 'react-router-dom';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { AdminApiService } from '../services/adminApi';
@@ -135,34 +136,8 @@ export const AdminTechSpecsPage: React.FC = () => {
 		return pages;
 	};
 
-	const getFileUrl = (fileUrl: string): string => {
-		if (!fileUrl) return '';
-
-		// Если уже полный URL
-		if (fileUrl.startsWith('http://') || fileUrl.startsWith('https://')) {
-			return fileUrl;
-		}
-
-		// Если путь с диска (C:/uploads/...)
-		if (fileUrl.match(/^[A-Za-z]:/)) {
-			const uploadsMatch = fileUrl.match(/uploads\/(.+)/);
-			if (uploadsMatch) {
-				return `http://localhost:8080/uploads/${uploadsMatch[1]}`;
-			}
-			return `http://localhost:8080/${fileUrl.replace(/^[A-Za-z]:\\/, '').replace(/\\/g, '/')}`;
-		}
-
-		// Если API путь
-		if (fileUrl.startsWith('/api')) {
-			return `http://localhost:8080${fileUrl}`;
-		}
-
-		// Если относительный путь
-		if (fileUrl.startsWith('/')) {
-			return `http://localhost:8080${fileUrl}`;
-		}
-
-		return `http://localhost:8080/${fileUrl}`;
+	const getFileUrl = (url: string): string => {
+		return buildUrl(url);
 	};
 
 	const handleDownloadFile = async (fileUrl: string, fileName: string) => {

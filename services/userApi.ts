@@ -3,7 +3,7 @@ import { OrderDetailsDto } from '../types';
 
 // Создаем отдельный axios клиент для user API
 const userApiClient = axios.create({
-	baseURL: 'http://localhost:8080/api/v1/user',
+	baseURL: '/api/v1/user',
 });
 
 // Добавляем interceptor для JWT токена

@@ -4,6 +4,7 @@ import { useAdminAuth } from '../context/AdminAuthContext';
 import { AdminApiService } from '../services/adminApi';
 import { GetProductsDto, BackendCategoryDto, GetPhotoDto } from '../types';
 import { AdminNavigation } from '../components/AdminNavigation';
+import { buildUrl } from '../config/api';
 import {
 	EditIcon,
 	TrashIcon,
@@ -265,29 +266,7 @@ export const AdminProductsPage: React.FC = () => {
 	const getImageUrl = (photoDto: GetPhotoDto | null): string => {
 		if (!photoDto || !photoDto.photoURL) return 'https://picsum.photos/400/300?error=no-photo';
 
-		const urlPhoto = photoDto.photoURL;
-
-		if (urlPhoto.startsWith('http://') || urlPhoto.startsWith('https://')) {
-			return urlPhoto;
-		}
-
-		if (urlPhoto.match(/^[A-Za-z]:/)) {
-			const uploadsMatch = urlPhoto.match(/uploads\/(.+)/);
-			if (uploadsMatch) {
-				return `http://localhost:8080/uploads/${uploadsMatch[1]}`;
-			}
-			return `http://localhost:8080/${urlPhoto.replace(/^[A-Za-z]:\\/, '').replace(/\\/g, '/')}`;
-		}
-
-		if (urlPhoto.startsWith('/api')) {
-			return `http://localhost:8080${urlPhoto}`;
-		}
-
-		if (urlPhoto.startsWith('/')) {
-			return `http://localhost:8080${urlPhoto}`;
-		}
-
-		return `http://localhost:8080/${urlPhoto}`;
+		return buildUrl(photoDto.photoURL);
 	};
 
 	if (loading) {

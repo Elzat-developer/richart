@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { buildUrl } from '../config/api';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { AdminApiService } from '../services/adminApi';
 import { UserApiService } from '../services/userApi';
@@ -100,14 +101,8 @@ export const AdminOrdersPage: React.FC = () => {
 		}).format(price);
 	};
 
-	const getImageUrl = (urlPhoto: string): string => {
-		const API_BASE = 'http://localhost:8080'; // В будущем заменить на env
-		if (!urlPhoto) return 'https://picsum.photos/400/225?text=No+Photo';
-		if (urlPhoto.startsWith('http')) return urlPhoto;
-
-		// Обработка путей Windows и API
-		const cleanPath = urlPhoto.replace(/^[A-Z]:\\/, '').replace(/\\/g, '/');
-		return `${API_BASE}/${cleanPath.startsWith('/') ? cleanPath.slice(1) : cleanPath}`;
+	const getImageUrl = (url: string): string => {
+		return buildUrl(url);
 	};
 
 	const handleViewOrder = async (orderId: number) => {
@@ -136,7 +131,7 @@ export const AdminOrdersPage: React.FC = () => {
 		try {
 			setLoadingCustomerOrders(true);
 			// Используем API для получения истории заказов клиента
-			const response = await fetch(`http://localhost:8080/api/v1/user/get_user_phone_orders_history/${encodeURIComponent(customerPhone)}`);
+			const response = await fetch(`buildUrl('/api/v1/user/get_user_phone_orders_history/${encodeURIComponent(customerPhone)}')`);
 			const data = await response.json();
 			setCustomerOrders(data || []);
 			setSelectedCustomerInfo({ name: customerName, phone: customerPhone });
@@ -164,7 +159,7 @@ export const AdminOrdersPage: React.FC = () => {
 		try {
 			setLoadingCustomerSearch(true);
 			// Используем API для получения истории заказов клиента
-			const response = await fetch(`http://localhost:8080/api/v1/user/get_user_phone_orders_history/${encodeURIComponent(customerPhone.trim())}`);
+			const response = await fetch(`buildUrl('/api/v1/user/get_user_phone_orders_history/${encodeURIComponent(customerPhone.trim())}')`);
 			const data = await response.json();
 			setCustomerOrdersSearch(data || []);
 		} catch (error) {

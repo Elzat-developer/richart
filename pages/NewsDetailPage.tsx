@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ApiService } from '../services/api';
 import { NewsIdDto } from '../types';
+import { buildUrl } from '../config/api';
 
 const NewsDetailPage: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
@@ -51,27 +52,7 @@ const NewsDetailPage: React.FC = () => {
 	const getImageUrl = (newsPhotoUrl: string): string => {
 		if (!newsPhotoUrl) return 'https://picsum.photos/1200/600?error=no-url';
 
-		if (newsPhotoUrl.startsWith('http://') || newsPhotoUrl.startsWith('https://')) {
-			return newsPhotoUrl;
-		}
-
-		if (newsPhotoUrl.match(/^[A-Za-z]:/)) {
-			const uploadsMatch = newsPhotoUrl.match(/uploads\/(.+)/);
-			if (uploadsMatch) {
-				return `http://localhost:8080/uploads/${uploadsMatch[1]}`;
-			}
-			return `http://localhost:8080/${newsPhotoUrl.replace(/^[A-Za-z]:\\/, '').replace(/\\/g, '/')}`;
-		}
-
-		if (newsPhotoUrl.startsWith('/api')) {
-			return `http://localhost:8080${newsPhotoUrl}`;
-		}
-
-		if (newsPhotoUrl.startsWith('/')) {
-			return `http://localhost:8080${newsPhotoUrl}`;
-		}
-
-		return `http://localhost:8080/${newsPhotoUrl}`;
+		return buildUrl(newsPhotoUrl);
 	};
 
 	if (loading) {
