@@ -68,25 +68,25 @@ const HeaderContent: React.FC<{ company: CompanyDto | null }> = ({ company }) =>
 				<div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-2">
 					<div className="container mx-auto px-4">
 						<div className="flex flex-col sm:flex-row justify-between items-center text-sm">
-							<div className="flex items-center gap-4">
+							<div className="flex flex-col sm:flex-row items-center gap-4 text-sm">
 								<span className="flex items-center gap-2">
 									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
 										<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
 									</svg>
-									+7 777 718 8878
+									+7 747 216 4664
 								</span>
 								<span className="flex items-center gap-2">
 									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-										<path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+										<path fillRule="evenodd" d="M14.243 5.757a6 6 0 10-8.486 8.486L10 18.485l4.243-4.242a6 6 0 000-8.486zM10 2a4 4 0 00-4 4c0 .465.08.91.227 1.324a1 1 0 11-1.89.648A5.999 5.999 0 0110 0a6 6 0 015.663 8.352 1 1 0 01-1.89-.648c.147-.414.227-.859.227-1.324a4 4 0 00-4-4z" clipRule="evenodd" />
 									</svg>
-									Пн-Пт: 9:00-18:00
+									Казахстан
 								</span>
 							</div>
 							<div className="flex items-center gap-4 mt-2 sm:mt-0">
-								<a href="https://wa.me/77777188878" target="_blank" rel="noopener noreferrer" className="hover:bg-white/20 px-3 py-1 rounded transition-colors">
+								<a href="https://wa.me/77472164664" target="_blank" rel="noopener noreferrer" className="hover:bg-white/20 px-3 py-1 rounded transition-colors">
 									WhatsApp
 								</a>
-								<a href="tel:+77777188878" className="hover:bg-white/20 px-3 py-1 rounded transition-colors">
+								<a href="tel:+77472164664" className="hover:bg-white/20 px-3 py-1 rounded transition-colors">
 									Позвонить
 								</a>
 							</div>
@@ -144,14 +144,14 @@ const HeaderContent: React.FC<{ company: CompanyDto | null }> = ({ company }) =>
 							{/* B2B Button - скрыть при прокрутке */}
 							{!isScrolled && (
 								<a
-									href="https://wa.me/77777188878?text=Здравствуйте!%20Хочу%20сделать%20оптовые%20заказы%20промышленного%20оборудования"
+									href="https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20сделать%20оптовые%20заказы%20промышленного%20оборудования"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all shadow-lg"
 								>
 									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
 										<path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
-										<path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clipRule="evenodd" />
+										<path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
 									</svg>
 									B2B
 								</a>
@@ -159,7 +159,7 @@ const HeaderContent: React.FC<{ company: CompanyDto | null }> = ({ company }) =>
 
 							{/* Mobile Search Toggle */}
 							<button
-								className={`lg:hidden transition-all duration-300 ${isScrolled ? 'text-gray-300 p-1.5' : 'text-gray-300 hover:text-white p-2'}`}
+								className={`lg:hidden transition-all duration-300 ${isScrolled ? 'text-gray-300 p-1.5' : 'text-gray-300 p-2'}`}
 								onClick={() => setIsSearchOpen(!isSearchOpen)}
 							>
 								<SearchIcon className={`transition-all duration-300 ${isScrolled ? 'h-4 w-4' : 'h-5 w-5'}`} />
@@ -228,11 +228,11 @@ const HeaderContent: React.FC<{ company: CompanyDto | null }> = ({ company }) =>
 
 							{/* Quick Actions */}
 							<div className="hidden lg:flex items-center gap-4">
-								<a href={`tel:${company?.phone || '+77777188878'}`} className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors text-sm font-medium">
+								<a href={`tel:+77472164664`} className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors text-sm font-medium">
 									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
 										<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
 									</svg>
-									{company?.phone || '+7 777 718 8878'}
+									+7 747 216 4664
 								</a>
 								<a href={`mailto:${company?.email || 'info@industrial-furniture.kz'}`} className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors text-sm font-medium">
 									<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -263,7 +263,7 @@ const HeaderContent: React.FC<{ company: CompanyDto | null }> = ({ company }) =>
 
 							{/* B2B Button Mobile */}
 							<a
-								href="https://wa.me/77777188878?text=Здравствуйте!%20Хочу%20сделать%20оптовые%20заказы%20промышленного%20оборудования"
+								href="https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20сделать%20оптовые%20заказы%20промышленного%20оборудования"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="mx-4 mt-4 mb-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-4 py-3 rounded-lg font-semibold text-center"
@@ -287,8 +287,8 @@ const HeaderContent: React.FC<{ company: CompanyDto | null }> = ({ company }) =>
 									<svg className="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
 										<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
 									</svg>
-									<a href={`tel:${company?.phone || '+77777188878'}`} className="text-white font-medium">
-										{company?.phone || '+7 777 718 8878'}
+									<a href="tel:+77472164664" className="text-white font-medium">
+										+7 747 216 4664
 									</a>
 								</div>
 								<div className="mb-3 flex items-center gap-2">
@@ -366,9 +366,9 @@ export const Layout: React.FC = () => {
 									кафе, баров и других заведений общественного питания с 2015 года
 								</p>
 								<div className="flex gap-3">
-									<a href="https://wa.me/77777188878" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center text-white hover:bg-green-600 transition-all shadow-lg">
+									<a href="https://wa.me/77472164664" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center text-white hover:bg-green-600 transition-all shadow-lg">
 										<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-											<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.149-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+											<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.198.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 011.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
 										</svg>
 									</a>
 									<a href="https://www.instagram.com/restart_market.kz" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 rounded-lg flex items-center justify-center text-white hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 transition-all shadow-lg">
@@ -382,117 +382,116 @@ export const Layout: React.FC = () => {
 										</svg>
 									</a>
 								</div>
-							</div>
 
-							{/* Products */}
-							<div>
-								<h3 className="text-white font-bold uppercase tracking-wide mb-6 text-sm">Продукция</h3>
-								<ul className="space-y-3">
-									<li><Link to="/categories" className="text-gray-400 hover:text-emerald-400 transition-colors">Промышленные аппараты</Link></li>
-									<li><Link to="/categories" className="text-gray-400 hover:text-emerald-400 transition-colors">Кухонные стеллажи</Link></li>
-									<li><Link to="/categories" className="text-gray-400 hover:text-emerald-400 transition-colors">Льдогенераторы</Link></li>
-									<li><Link to="/categories" className="text-gray-400 hover:text-emerald-400 transition-colors">Охладители бокалов</Link></li>
-									<li><Link to="/categories" className="text-gray-400 hover:text-emerald-400 transition-colors">Инструментальные шкафы</Link></li>
-									<li><Link to="/categories" className="text-gray-400 hover:text-emerald-400 transition-colors">Термоблендеры</Link></li>
-								</ul>
-							</div>
-
-							{/* Services */}
-							<div>
-								<h3 className="text-white font-bold uppercase tracking-wide mb-6 text-sm">Новости</h3>
-								<ul className="space-y-3">
-									<li><Link to="/news" className="text-gray-400 hover:text-emerald-400 transition-colors">Последние новости</Link></li>
-									<li><Link to="/news" className="text-gray-400 hover:text-emerald-400 transition-colors">Статьи и обзоры</Link></li>
-									<li><Link to="/news" className="text-gray-400 hover:text-emerald-400 transition-colors">Пресс-релизы</Link></li>
-									<li><Link to="/news" className="text-gray-400 hover:text-emerald-400 transition-colors">Мероприятия</Link></li>
-									<li><Link to="/news" className="text-gray-400 hover:text-emerald-400 transition-colors">Архив новостей</Link></li>
-									<li><Link to="/news" className="text-gray-400 hover:text-emerald-400 transition-colors">Новые аппараты</Link></li>
-								</ul>
-							</div>
-
-							{/* Contacts */}
-							<div>
-								<h3 className="text-white font-bold uppercase tracking-wide mb-6 text-sm">Контакты</h3>
-								<div className="space-y-4">
-									<div className="flex items-start gap-3">
-										<svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-											<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-										</svg>
-										<div>
-											<p className="text-gray-400">Телефон</p>
-											<a href={company?.phone || '+7 777 718 8878'} className="text-white font-medium hover:text-emerald-400 transition-colors">
-												{company?.phone || '+7 777 718 8878'}</a>
-										</div>
-									</div>
-									<div className="flex items-start gap-3">
-										<svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-											<path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-											<path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-										</svg>
-										<div>
-											<p className="text-gray-400">Email</p>
-											<a href={`mailto:${company?.email || 'info@industrial-furniture.kz'}`} className="text-white font-medium hover:text-emerald-400 transition-colors">
-												{company?.email || 'info@industrial-furniture.kz'}
-											</a>
-										</div>
-									</div>
-									<div className="flex items-start gap-3">
-										<svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-											<path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-										</svg>
-										<div>
-											<p className="text-gray-400">Адрес</p>
-											<p className="text-white">{company?.address || 'г. Алматы, ул. Толе би, д. 187, Торговый дом «Тумар», 2-й этаж.'}</p>
-										</div>
-									</div>
-									<div className="flex items-start gap-3">
-										<svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-											<path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-										</svg>
-										<div>
-											<p className="text-gray-400">Режим работы</p>
-											<p className="text-white">{company?.workingHours || 'Пн-Пт: 9:00-18:00'}</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						{/* B2B Section */}
-						<div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl p-8 mb-12">
-							<div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+								{/* Products */}
 								<div>
-									<h3 className="text-2xl font-bold text-white mb-2">Работаем с B2B клиентами</h3>
-									<p className="text-emerald-50">Специальные условия для оптовых покупателей и корпоративных заказов</p>
+									<h3 className="text-white font-bold uppercase tracking-wide mb-6 text-sm">Продукция</h3>
+									<ul className="space-y-3">
+										<li><Link to="/categories" className="text-gray-400 hover:text-emerald-400 transition-colors">Промышленные аппараты</Link></li>
+										<li><Link to="/categories" className="text-gray-400 hover:text-emerald-400 transition-colors">Кухонные стеллажи</Link></li>
+										<li><Link to="/categories" className="text-gray-400 hover:text-emerald-400 transition-colors">Льдогенераторы</Link></li>
+										<li><Link to="/categories" className="text-gray-400 hover:text-emerald-400 transition-colors">Охладители бокалов</Link></li>
+										<li><Link to="/categories" className="text-gray-400 hover:text-emerald-400 transition-colors">Инструментальные шкафы</Link></li>
+										<li><Link to="/categories" className="text-gray-400 hover:text-emerald-400 transition-colors">Термоблендеры</Link></li>
+									</ul>
 								</div>
-								<div className="flex flex-col sm:flex-row gap-3">
-									<a
-										href="https://wa.me/77777188878?text=Здравствуйте!%20Хочу%20сделать%20оптовые%20заказы%20промышленного%20оборудования"
-										target="_blank"
-										rel="noopener noreferrer"
-										className="bg-white text-emerald-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-center"
-									>
-										WhatsApp
-									</a>
-									<a
-										href="tel:+77777188878"
-										className="bg-emerald-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-800 transition-colors text-center"
-									>
-										Позвонить
-									</a>
+
+								{/* Services */}
+								<div>
+									<h3 className="text-white font-bold uppercase tracking-wide mb-6 text-sm">Новости</h3>
+									<ul className="space-y-3">
+										<li><Link to="/news" className="text-gray-400 hover:text-emerald-400 transition-colors">Последние новости</Link></li>
+										<li><Link to="/news" className="text-gray-400 hover:text-emerald-400 transition-colors">Статьи и обзоры</Link></li>
+										<li><Link to="/news" className="text-gray-400 hover:text-emerald-400 transition-colors">Пресс-релизы</Link></li>
+										<li><Link to="/news" className="text-gray-400 hover:text-emerald-400 transition-colors">Мероприятия</Link></li>
+										<li><Link to="/news" className="text-gray-400 hover:text-emerald-400 transition-colors">Архив новостей</Link></li>
+										<li><Link to="/news" className="text-gray-400 hover:text-emerald-400 transition-colors">Новые аппараты</Link></li>
+									</ul>
+								</div>
+
+								{/* Contacts */}
+								<div>
+									<h3 className="text-white font-bold uppercase tracking-wide mb-6 text-sm">Контакты</h3>
+									<div className="space-y-4">
+										<div className="flex items-start gap-3">
+											<svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+												<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+											</svg>
+											<div>
+												<p className="text-gray-400">Телефон</p>
+												<a href="tel:+77472164664" className="text-white font-medium hover:text-emerald-400 transition-colors">
+													+7 747 216 4664</a>
+											</div>
+										</div>
+										<div className="flex items-start gap-3">
+											<svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12H8m8 4H8m8-8H8m12 16H4a2 2 0 01-2-2V6a2 2 0 012-2h16a2 2 0 012 2v16a2 2 0 01-2 2z" />
+											</svg>
+											<div>
+												<p className="text-gray-400">Email</p>
+												<a href={`mailto:${company?.email || 'info@industrial-furniture.kz'}`} className="text-white font-medium hover:text-emerald-400 transition-colors">
+													{company?.email || 'info@industrial-furniture.kz'}
+												</a>
+											</div>
+										</div>
+										<div className="flex items-start gap-3">
+											<svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+												<path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+											</svg>
+											<div>
+												<p className="text-gray-400">Адрес</p>
+												<p className="text-white">{company?.address || 'г. Алматы, ул. Толе би, д. 187, Торговый дом «Тумар», 2-й этаж.'}</p>
+											</div>
+										</div>
+										<div className="flex items-start gap-3">
+											<svg className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+												<path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+											</svg>
+											<div>
+												<p className="text-gray-400">Режим работы</p>
+												<p className="text-white">{company?.workingHours || 'Пн-Пт: 9:00-18:00'}</p>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
 
-						{/* Bottom Footer */}
-						<div className="border-t border-slate-700 pt-8">
-							<div className="flex flex-col md:flex-row justify-between items-center gap-4">
-								<div className="text-gray-400 text-sm">
-									© {currentYear} RichArt. Все права защищены.
+							{/* B2B Section */}
+							<div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl p-8 mb-12">
+								<div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+									<div>
+										<h3 className="text-2xl font-bold text-white mb-2">Работаем с B2B клиентами</h3>
+										<p className="text-emerald-50">Специальные условия для оптовых покупателей и корпоративных заказов</p>
+									</div>
+									<div className="flex flex-col sm:flex-row gap-3">
+										<a
+											href="https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20сделать%20оптовые%20заказы%20промышленного%20оборудования"
+											target="_blank"
+											rel="noopener noreferrer"
+											className="bg-white text-emerald-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-center"
+										>
+											WhatsApp
+										</a>
+										<a
+											href="tel:+77472164664"
+											className="bg-emerald-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-800 transition-colors text-center"
+										>
+											Позвонить
+										</a>
+									</div>
 								</div>
-								<div className="flex flex-wrap gap-6 text-sm">
-									<a className="text-gray-400 hover:text-emerald-400 transition-colors">Политика конфиденциальности</a>
-									<a href="/contacts#/contacts" className="text-gray-400 hover:text-emerald-400 transition-colors">Реквизиты</a>
+							</div>
+
+							{/* Bottom Footer */}
+							<div className="border-t border-slate-700 pt-8">
+								<div className="flex flex-col md:flex-row justify-between items-center gap-4">
+									<div className="text-gray-400 text-sm">
+										&copy; {currentYear} RichArt. Все права защищены.
+									</div>
+									<div className="flex flex-wrap gap-6 text-sm">
+										<a className="text-gray-400 hover:text-emerald-400 transition-colors">Политика конфиденциальности</a>
+										<a href="/contacts#/contacts" className="text-gray-400 hover:text-emerald-400 transition-colors">Реквизиты</a>
+									</div>
 								</div>
 							</div>
 						</div>

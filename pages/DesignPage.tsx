@@ -72,12 +72,12 @@ const DesignPage: React.FC = () => {
 						<div className="flex flex-col sm:flex-row gap-4 justify-center">
 							<Link
 								to="/catalog"
-								className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
+								className="bg-white text-emerald-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
 							>
 								Смотреть каталог
 							</Link>
 							<a
-								href="https://wa.me/77777188878?text=Здравствуйте!%20Хочу%20заказать%20проектирование%20кухни%20под%20ключ"
+								href="https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20заказать%20проектирование%20кухни%20под%20ключ"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="bg-emerald-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-emerald-700 transition-colors"
@@ -218,7 +218,7 @@ const DesignPage: React.FC = () => {
 									<div className="flex items-center gap-2 mb-3">
 										<div className="bg-emerald-100 text-emerald-600 p-2 rounded-lg">
 											<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-												<path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 4a1 1 0 011-1h12a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1V8zm0 8a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z" clipRule="evenodd" />
+												<path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
 											</svg>
 										</div>
 										<h3 className="text-xl font-semibold text-gray-900">План расстановки оборудования</h3>
@@ -309,7 +309,7 @@ const DesignPage: React.FC = () => {
 										<div className="flex items-center gap-3">
 											<div className="bg-purple-100 text-purple-600 p-2 rounded-lg">
 												<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-													<path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+													<path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 4a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1V8zm0 8a1 1 0 011-1h6a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z" />
 												</svg>
 											</div>
 											<span className="text-gray-700 font-medium">Вентиляция и газоснабжение</span>
@@ -356,7 +356,7 @@ const DesignPage: React.FC = () => {
 						</p>
 						<div className="flex flex-col sm:flex-row gap-4 justify-center">
 							<a
-								href="https://wa.me/77777188878?text=Здравствуйте!%20Хочу%20заказать%20проектирование%20кухни"
+								href="https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20заказать%20проектирование%20кухни"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors flex items-center justify-center gap-2"

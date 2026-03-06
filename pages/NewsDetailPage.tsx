@@ -214,7 +214,7 @@ const NewsDetailPage: React.FC = () => {
 								<div className="mt-8 pt-6 border-t border-gray-200">
 									<div className="flex flex-wrap gap-4">
 										<a
-											href={`https://wa.me/77777188878?text=Здравствуйте!%20Хочу%20получить%20коммерческое%20предложение%20на%20${encodeURIComponent(news.name)}`}
+											href={`https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20получить%20коммерческое%20предложение%20на%20${encodeURIComponent(news.name)}`}
 											target="_blank"
 											rel="noopener noreferrer"
 											className="bg-emerald-600 text-white px-6 py-3 rounded-lg hover:bg-emerald-700 transition-colors font-medium flex items-center gap-2"
@@ -226,7 +226,7 @@ const NewsDetailPage: React.FC = () => {
 											Запросить коммерческое предложение
 										</a>
 										<a
-											href={`https://wa.me/77777188878?text=Здравствуйте!%20Хочу%20получить%20консультацию%20по%20оборудованию%20${encodeURIComponent(news.name)}`}
+											href={`https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20получить%20консультацию%20по%20оборудованию%20${encodeURIComponent(news.name)}`}
 											target="_blank"
 											rel="noopener noreferrer"
 											className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center gap-2"
@@ -290,7 +290,7 @@ const NewsDetailPage: React.FC = () => {
 								<h3 className="text-lg font-bold text-gray-900 mb-4">Быстрые действия</h3>
 								<div className="space-y-3">
 									<a
-										href="https://wa.me/77777188878?text=Здравствуйте!%20Хочу%20получить%20консультацию%20по%20оборудованию"
+										href="https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20получить%20консультацию%20по%20оборудованию"
 										target="_blank"
 										rel="noopener noreferrer"
 										className="flex items-center gap-3 w-full bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium"

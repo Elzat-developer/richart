@@ -125,13 +125,13 @@ const ContactsPage: React.FC = () => {
 											<h3 className="text-lg font-semibold text-gray-900 mb-2">Телефон</h3>
 											<div className="space-y-2">
 												<a
-													href={`tel:${company?.phone || '+77777188878'}`}
+													href="tel:+77472164664"
 													className="text-emerald-600 font-medium hover:text-emerald-700 transition-colors flex items-center gap-2"
 												>
-													{company?.phone || '+7 777 718 8878'}
+													+7 747 216 4664
 												</a>
 												<a
-													href="https://wa.me/77777188878"
+													href="https://wa.me/77472164664"
 													target="_blank"
 													rel="noopener noreferrer"
 													className="text-blue-600 font-medium hover:text-blue-700 transition-colors flex items-center gap-2"
@@ -272,7 +272,7 @@ const ContactsPage: React.FC = () => {
 
 				<div className="flex flex-col sm:flex-row gap-4 justify-center">
 					<a
-						href="https://wa.me/77777188878?text=Здравствуйте!%20У%20меня%20есть%20вопрос%20по%20сотрудничеству"
+						href="https://wa.me/77472164664?text=Здравствуйте!%20У%20меня%20есть%20вопрос%20по%20сотрудничеству"
 						target="_blank"
 						rel="noopener noreferrer"
 						className="bg-emerald-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2"

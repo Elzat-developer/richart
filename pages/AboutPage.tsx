@@ -112,13 +112,13 @@ const AboutPage: React.FC = () => {
 							</p>
 							<div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
 								<a
-									href={`tel:${company.phone.replace(/\s+/g, '')}`}
+									href={`tel:+77472164664`}
 									className="inline-flex items-center justify-center gap-2 bg-emerald-600 text-white px-8 py-3 rounded-lg hover:bg-emerald-700 transition-all transform hover:scale-105 font-semibold shadow-lg"
 								>
 									<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
 										<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
 									</svg>
-									{company.phone}
+									+7 747 216 4664
 								</a>
 								<Link
 									to="/catalog"
@@ -235,7 +235,7 @@ const AboutPage: React.FC = () => {
 									<div className="text-center">
 										<div className="w-20 h-20 bg-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
 											<svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
-												<path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
+												<path d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" />
 												<path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
 											</svg>
 										</div>
@@ -339,10 +339,10 @@ const AboutPage: React.FC = () => {
 											</div>
 										</div>
 										<a
-											href={`tel:${company.phone.replace(/\s+/g, '')}`}
+											href={`tel:+77472164664`}
 											className="text-emerald-600 font-bold text-lg hover:text-emerald-700 transition-colors"
 										>
-											{company.phone}
+											+7 747 216 4664
 										</a>
 									</div>
 
@@ -398,12 +398,12 @@ const AboutPage: React.FC = () => {
 											</div>
 										</div>
 										<a
-											href="https://wa.me/77777188878"
+											href={`https://wa.me/77472164664`}
 											target="_blank"
 											rel="noopener noreferrer"
 											className="text-green-600 font-bold text-lg hover:text-green-700 transition-colors"
 										>
-											{company.phone}
+											+7 747 216 4664
 										</a>
 									</div>
 								</div>
@@ -451,7 +451,7 @@ const AboutPage: React.FC = () => {
 
 									{/* Кнопка связи */}
 									<a
-										href="https://wa.me/77777188878?text=Здравствуйте!%20Хочу%20получить%20реквизиты%20для%20оплаты"
+										href={`https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20получить%20реквизиты%20для%20оплаты`}
 										target="_blank"
 										rel="noopener noreferrer"
 										className="w-full mt-6 inline-flex items-center justify-center gap-2 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-all transform hover:scale-105 font-semibold shadow-lg"
@@ -481,7 +481,7 @@ const AboutPage: React.FC = () => {
 
 						<div className="flex flex-col sm:flex-row gap-4 justify-center">
 							<a
-								href={`tel:${company.phone.replace(/\s+/g, '')}`}
+								href="tel:+77472164664"
 								className="inline-flex items-center justify-center gap-2 bg-white text-emerald-600 px-8 py-4 rounded-lg hover:bg-gray-100 transition-all transform hover:scale-105 font-bold text-lg shadow-xl"
 							>
 								<svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -490,7 +490,7 @@ const AboutPage: React.FC = () => {
 								Позвонить сейчас
 							</a>
 							<a
-								href={`https://wa.me/77777188878?text=Здравствуйте!%20Я%20заинтересован%20в%20сотрудничестве%20с%20вашей%20компанией.%20Прошу%20предоставить%20дополнительную%20информацию%20о%20ваших%20продуктах%20и%20услугах.`}
+								href={`https://wa.me/77472164664?text=Здравствуйте!%20Я%20заинтересован%20в%20сотрудничестве%20с%20вашей%20компанией.%20Прошу%20предоставить%20дополнительную%20информацию%20о%20ваших%20продуктах%20и%20услугах.`}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="inline-flex items-center justify-center gap-2 bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-all transform hover:scale-105 font-bold text-lg shadow-xl"
