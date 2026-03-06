@@ -128,7 +128,7 @@ const ContactsPage: React.FC = () => {
 													href="tel:+77472164664"
 													className="text-emerald-600 font-medium hover:text-emerald-700 transition-colors flex items-center gap-2"
 												>
-													+7 747 216 4664
+													{company?.phone || '+7 747 216 4664'}
 												</a>
 												<a
 													href="https://wa.me/77472164664"
@@ -178,7 +178,7 @@ const ContactsPage: React.FC = () => {
 										<div>
 											<h3 className="text-lg font-semibold text-gray-900 mb-2">Режим работы</h3>
 											<p className="text-gray-600 leading-relaxed">
-												{company?.workingHours || 'Пн-Пт: 9:00 - 18:00'}
+												Пн-Пт: {company?.jobStartAndEndDate || '9:00 - 18:00'}
 											</p>
 										</div>
 									</div>
@@ -228,7 +228,7 @@ const ContactsPage: React.FC = () => {
 										<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
 											<path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
 										</svg>
-										{company?.companyName || 'RESTArt'}
+										{company?.name || 'RichART'}
 									</div>
 									<p className="text-gray-600">
 										{company?.address || 'Загрузка адреса...'}

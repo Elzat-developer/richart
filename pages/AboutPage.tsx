@@ -6,8 +6,8 @@ import { ApiService } from '../services/api';
 
 // Функция для получения корректного URL изображения
 const getImageUrl = (url: string): string => {
-		return buildUrl(url);
-	};
+	return buildUrl(url);
+};
 
 const AboutPage: React.FC = () => {
 	const [company, setCompany] = useState<CompanyDto | null>(null);
@@ -97,7 +97,7 @@ const AboutPage: React.FC = () => {
 									<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
 										<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
 									</svg>
-									+7 747 216 4664
+									{company?.phone || '+7 747 216 4664'}
 								</a>
 								<Link
 									to="/catalog"
@@ -321,7 +321,7 @@ const AboutPage: React.FC = () => {
 											href={`tel:+77472164664`}
 											className="text-emerald-600 font-bold text-lg hover:text-emerald-700 transition-colors"
 										>
-											+7 747 216 4664
+											{company?.phone || '+7 747 216 4664'}
 										</a>
 									</div>
 
@@ -382,7 +382,7 @@ const AboutPage: React.FC = () => {
 											rel="noopener noreferrer"
 											className="text-green-600 font-bold text-lg hover:text-green-700 transition-colors"
 										>
-											+7 747 216 4664
+											{company?.phone || '+7 747 216 4664'}
 										</a>
 									</div>
 								</div>

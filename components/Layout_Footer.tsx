@@ -122,7 +122,7 @@ const Footer: React.FC<FooterProps> = ({ company, getImageUrl }) => {
 								</svg>
 								<div>
 									<p className="text-gray-400">Режим работы</p>
-									<p className="text-white">{company?.workingHours || 'Пн-Пт: 9:00-18:00'}</p>
+									<p className="text-white">{company?.jobStartAndEndDate || 'Пн-Пт: 9:00-18:00'}</p>
 								</div>
 							</div>
 						</div>
