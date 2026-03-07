@@ -76,32 +76,29 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 
 				<div className="container mx-auto px-4">
 					{/* Main Header */}
-					<div className={`transition-all duration-300 ${isScrolled ? 'py-2' : 'py-4'} flex items-center justify-between`}>
+					<div className="transition-all duration-300 py-2 flex items-center justify-between">
 						{/* Logo */}
-						<Link to="/" className={`transition-all duration-300 ${isScrolled ? 'flex flex-col items-center gap-1' : 'flex flex-col items-center gap-2'}`}>
-							<div className={`flex items-center gap-3 transition-all duration-300 ${isScrolled ? 'scale-90' : 'scale-100'}`}>
+						<Link to="/" className="flex flex-col items-center gap-1">
+							<div className="flex items-center gap-3">
 								{company?.logoUrl ? (
 									<img
 										src={getImageUrl(company.logoUrl)}
 										alt={company.name || 'Rest Art'}
-										className={`transition-all duration-300 rounded-lg object-contain ${isScrolled ? 'w-8 h-8' : 'w-43 h-36'}`}
+										className="transition-all duration-300 rounded-lg object-contain w-8 h-8"
 										onError={(e) => {
 											const target = e.target as HTMLImageElement;
 											target.src = 'https://picsum.photos/64/64?error=logo-failed';
 										}}
 									/>
 								) : (
-									<div className={`bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center font-bold text-white font-display shadow-lg transition-all duration-300 ${isScrolled ? 'w-8 h-8 text-xs' : 'w-26 h-16'}`}>
+									<div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center font-bold text-white font-display shadow-lg w-8 h-8 text-xs">
 										I
 									</div>
 								)}
 							</div>
-							{!isScrolled && (
-								<p className="text-xs text-gray-400">Промышленное оборудование с 2015 года</p>
-							)}
 						</Link>
 						{/* Search Bar - Desktop */}
-						<div className={`hidden lg:flex transition-all duration-300 ${isScrolled ? 'flex-1 max-w-xl mx-4' : 'flex-1 max-w-2xl mx-8'}`}>
+						<div className="hidden lg:flex flex-1 max-w-xl mx-4 transition-all duration-300">
 							<div className="relative w-full">
 								<input
 									type="text"

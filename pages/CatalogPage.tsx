@@ -84,13 +84,13 @@ export const CatalogPage: React.FC = () => {
 					</div>
 
 					{loading ? (
-						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 animate-pulse">
+						<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 animate-pulse">
 							{[...Array(6)].map((_, i) => (
 								<div key={i} className="bg-gray-200 h-96 w-full"></div>
 							))}
 						</div>
 					) : products.length > 0 ? (
-						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+						<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
 							{products.map(product => (
 								<ProductCard key={product.productId} product={product} />
 							))}
