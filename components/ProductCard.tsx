@@ -61,24 +61,24 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 			</div>
 
 			{/* Контент с B2B стилем */}
-			<div className="p-6 flex flex-col flex-grow">
+			<div className="p-4 sm:p-6 flex flex-col flex-grow">
 				{/* Название товара */}
-				<Link to={`/product/${product.productId}`} className="block mb-4 flex-grow">
-					<h3 className="text-lg font-semibold text-slate-800 leading-tight group-hover:text-emerald-600 transition-colors mb-2">
+				<Link to={`/product/${product.productId}`} className="block mb-2 sm:mb-4 flex-grow">
+					<h3 className="text-sm sm:text-lg font-semibold text-slate-800 leading-tight group-hover:text-emerald-600 transition-colors mb-1 sm:mb-2">
 						{product.productName}
 					</h3>
-					<div className="text-sm text-slate-500">
+					<div className="text-xs sm:text-sm text-slate-500">
 						{product.material}
 					</div>
 				</Link>
 
 				{/* B2B информация о цене */}
-				<div className="flex items-center justify-between border-t border-slate-100 pt-4 mt-auto">
+				<div className="flex items-center justify-between border-t border-slate-100 pt-2 sm:pt-4 mt-auto">
 					<div className="flex-1">
 						<div className="text-xs text-slate-500 uppercase tracking-wide font-medium mb-1">
-							Цена за единицу
+							Цена
 						</div>
-						<div className="text-xl font-bold text-slate-900">
+						<div className="text-sm sm:text-xl font-bold text-slate-900">
 							{(product as any).productPrice || (product as any).price ?
 								`${new Intl.NumberFormat('ru-KZ').format((product as any).productPrice || (product as any).price)} ₸` :
 								'По запросу'
@@ -87,22 +87,24 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 					</div>
 
 					{/* B2B кнопка действий */}
-					<div className="flex flex-col gap-2 ml-4">
+					<div className="flex flex-col gap-1 sm:gap-2 ml-2 sm:ml-4">
 						<button
 							onClick={handleAddToCart}
 							disabled={isAdding}
-							className="bg-emerald-600 text-white hover:bg-emerald-700 disabled:bg-emerald-400 disabled:cursor-not-allowed px-4 py-2 rounded-md transition-colors flex items-center justify-center text-sm font-medium"
+							className="bg-emerald-600 text-white hover:bg-emerald-700 disabled:bg-emerald-400 disabled:cursor-not-allowed px-2 sm:px-4 py-1.5 sm:py-2 rounded-md transition-colors flex items-center justify-center text-xs sm:text-sm font-medium"
 							title="Добавить в корзину"
 						>
 							{isAdding ? (
 								<>
-									<div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-									<span>Добавление...</span>
+									<div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1 sm:mr-2"></div>
+									<span className="hidden sm:inline">Добавление...</span>
+									<span className="sm:hidden">...</span>
 								</>
 							) : (
 								<>
-									<ShoppingCartIcon size={16} />
-									<span className="ml-2">В корзину</span>
+									<ShoppingCartIcon size={12} className="sm:w-4 sm:h-4" />
+									<span className="ml-1 sm:ml-2 hidden sm:inline">В корзину</span>
+									<span className="sm:hidden">В корз.</span>
 								</>
 							)}
 						</button>
