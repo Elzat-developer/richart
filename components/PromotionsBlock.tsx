@@ -113,7 +113,7 @@ export const PromotionsBlock: React.FC = () => {
 					<img
 						src={getImageUrl({ photoURL: currentPromotion.urlPhoto })}
 						alt={`Акция ${currentPromotion.promotion_id}`}
-						className="w-full h-full object-cover"
+						className="w-full h-full object-contain"
 						onLoad={() => {
 							console.log('✅ Promotion image loaded successfully!');
 						}}
