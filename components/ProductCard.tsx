@@ -52,8 +52,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 						}}
 					/>
 					{/* Профессиональный бейдж */}
-					<div className="absolute top-3 left-3">
-						<span className="bg-emerald-600 text-white text-xs px-3 py-1 rounded-md font-semibold">
+					<div className="absolute top-2 sm:top-3 left-2 sm:left-3">
+						<span className="bg-emerald-600 text-white text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-md font-semibold">
 							АРТИКУЛ: {product.productId}
 						</span>
 					</div>
