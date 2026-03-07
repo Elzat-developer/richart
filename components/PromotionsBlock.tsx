@@ -106,7 +106,7 @@ export const PromotionsBlock: React.FC = () => {
 	console.log('🖼️ Image URL:', getImageUrl({ photoURL: currentPromotion.urlPhoto }));
 
 	return (
-		<section className="relative w-full aspect-video md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden bg-black">
+		<section className="relative w-full aspect-video md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden">
 			{/* Background фото акции */}
 			<div className="absolute inset-0">
 				{currentPromotion && currentPromotion.urlPhoto ? (
@@ -135,9 +135,6 @@ export const PromotionsBlock: React.FC = () => {
 						</div>
 					</div>
 				)}
-
-				{/* Затемнение для лучшей читаемости */}
-				<div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/25"></div>
 			</div>
 
 			{/* Контент поверх фото */}
