@@ -129,7 +129,7 @@ export const CategoriesBlock: React.FC = () => {
 					{/* Контейнер с категориями */}
 					<div
 						ref={scrollContainerRef}
-						className="flex gap-8 overflow-x-auto scrollbar-hide scroll-smooth px-12"
+						className="flex gap-3 sm:gap-6 md:gap-8 overflow-x-auto scrollbar-hide scroll-smooth px-4 sm:px-6 md:px-12"
 					>
 						{categories.map((category) => {
 							const categoryAny = category as any;
@@ -139,11 +139,11 @@ export const CategoriesBlock: React.FC = () => {
 								<Link
 									key={categoryAny.categoryId || category.categoryId}
 									to={`/catalog?categoryId=${categoryAny.categoryId || category.categoryId}`}
-									className="flex-shrink-0 group relative shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-x-110 hover:z-10 flex flex-col"
-									style={{ backgroundColor: 'rgb(245,243,241)', width: '250px', height: '288px' }}
+									className="flex-shrink-0 group relative shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-x-110 hover:z-10 flex flex-col w-32 sm:w-40 md:w-48 lg:w-60"
+									style={{ backgroundColor: 'rgb(245,243,241)' }}
 								>
 									{/* Фото категории */}
-									<div className="flex-1 overflow-hidden p-5 flex items-center justify-center" style={{ backgroundColor: 'rgb(245,243,241)' }}>
+									<div className="flex-1 overflow-hidden p-3 sm:p-4 flex items-center justify-center" style={{ backgroundColor: 'rgb(245,243,241)' }}>
 										<img
 											src={getCategoryImageUrl(photoUrl)}
 											alt={categoryAny.categoryName || category.categoryName}
@@ -155,8 +155,8 @@ export const CategoriesBlock: React.FC = () => {
 									</div>
 
 									{/* Название категории под изображением */}
-									<div className="p-3 text-center" style={{ backgroundColor: 'rgb(245,243,241)' }}>
-										<h3 className="text-sm font-bold text-black">
+									<div className="p-2 sm:p-3 text-center" style={{ backgroundColor: 'rgb(245,243,241)' }}>
+										<h3 className="text-xs sm:text-sm font-bold text-black">
 											{categoryAny.categoryName || category.categoryName}
 										</h3>
 									</div>
