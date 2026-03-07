@@ -90,7 +90,7 @@ export const PromotionsBlock: React.FC = () => {
 
 	if (loading) {
 		return (
-			<section className="relative w-full aspect-video md:aspect-[4/3] lg:aspect-[16/9] overflow-hidden">
+			<section className="relative w-full aspect-video md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden">
 				<div className="absolute inset-0 bg-gray-200 animate-pulse"></div>
 			</section>
 		);
@@ -106,7 +106,7 @@ export const PromotionsBlock: React.FC = () => {
 	console.log('🖼️ Image URL:', getImageUrl({ photoURL: currentPromotion.urlPhoto }));
 
 	return (
-		<section className="relative w-full aspect-video md:aspect-[4/3] lg:aspect-[16/9] overflow-hidden bg-black">
+		<section className="relative w-full aspect-video md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden bg-black">
 			{/* Background фото акции */}
 			<div className="absolute inset-0">
 				{currentPromotion && currentPromotion.urlPhoto ? (
