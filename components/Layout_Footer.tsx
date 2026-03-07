@@ -162,8 +162,8 @@ const Footer: React.FC<FooterProps> = ({ company, getImageUrl }) => {
 							&copy; {currentYear} RichArt. Все права защищены.
 						</div>
 						<div className="flex flex-wrap gap-6 text-sm">
-							<a href="/privacy" className="text-gray-400 hover:text-emerald-400 transition-colors">Политика конфиденциальности</a>
-							<a href="/contacts#/contacts" className="text-gray-400 hover:text-emerald-400 transition-colors">Реквизиты</a>
+							<Link to="/privacy" className="text-gray-400 hover:text-emerald-400 transition-colors">Политика конфиденциальности</Link>
+							<Link to="/contacts#/contacts" className="text-gray-400 hover:text-emerald-400 transition-colors">Реквизиты</Link>
 						</div>
 					</div>
 				</div>

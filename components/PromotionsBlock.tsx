@@ -90,7 +90,7 @@ export const PromotionsBlock: React.FC = () => {
 
 	if (loading) {
 		return (
-			<section className="relative h-96 overflow-hidden">
+			<section className="relative w-full aspect-video md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden">
 				<div className="absolute inset-0 bg-gray-200 animate-pulse"></div>
 			</section>
 		);
@@ -106,7 +106,7 @@ export const PromotionsBlock: React.FC = () => {
 	console.log('🖼️ Image URL:', getImageUrl({ photoURL: currentPromotion.urlPhoto }));
 
 	return (
-		<section className="relative h-96 md:h-[570px] overflow-hidden bg-black pb-16">
+		<section className="relative w-full aspect-video md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden bg-black">
 			{/* Background фото акции */}
 			<div className="absolute inset-0">
 				{currentPromotion && currentPromotion.urlPhoto ? (
@@ -146,10 +146,10 @@ export const PromotionsBlock: React.FC = () => {
 				{promotions.length > 1 && (
 					<button
 						onClick={goToPrevious}
-						className="absolute left-4 bg-white/80 backdrop-blur-sm hover:bg-white/90 text-black p-3 transition-colors shadow-lg"
+						className="absolute left-2 sm:left-4 bg-white/80 backdrop-blur-sm hover:bg-white/90 text-black p-2 sm:p-3 transition-colors shadow-lg rounded-lg"
 						aria-label="Предыдущая акция"
 					>
-						<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
 						</svg>
 					</button>
@@ -159,25 +159,25 @@ export const PromotionsBlock: React.FC = () => {
 				{promotions.length > 1 && (
 					<button
 						onClick={goToNext}
-						className="absolute right-4 bg-white/80 backdrop-blur-sm hover:bg-white/90 text-black p-3 transition-colors shadow-lg"
+						className="absolute right-2 sm:right-4 bg-white/80 backdrop-blur-sm hover:bg-white/90 text-black p-2 sm:p-3 transition-colors shadow-lg rounded-lg"
 						aria-label="Следующая акция"
 					>
-						<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 						</svg>
 					</button>
 				)}
 
-				{/* Индикаторы слайдов внизу по центру - вынесены за пределы фото */}
+				{/* Индикаторы слайдов - внутри блока, адаптивные */}
 				{promotions.length > 1 && (
-					<div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
+					<div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 bg-white/90 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-lg">
 						{promotions.map((_, index) => (
 							<button
 								key={index}
 								onClick={() => goToSlide(index)}
 								className={`transition-all duration-300 ${index === currentIndex
-									? 'w-8 h-2 bg-gray-800 shadow-lg'
-									: 'w-2 h-2 bg-gray-400 hover:bg-gray-500'
+									? 'w-6 h-2 sm:w-8 sm:h-2 bg-gray-800 shadow-lg'
+									: 'w-2 h-2 sm:w-2 sm:h-2 bg-gray-400 hover:bg-gray-500'
 									} rounded-full`}
 								aria-label={`Перейти к акции ${index + 1}`}
 							/>
