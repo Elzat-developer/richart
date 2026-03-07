@@ -108,32 +108,34 @@ export const PromotionsBlock: React.FC = () => {
 	return (
 		<section className="relative w-full aspect-video md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden">
 			{/* Background фото акции */}
-			{currentPromotion && currentPromotion.urlPhoto ? (
-				<img
-					src={getImageUrl({ photoURL: currentPromotion.urlPhoto })}
-					alt={`Акция ${currentPromotion.promotion_id}`}
-					className="w-full h-full object-contain"
-					onLoad={() => {
-						console.log('✅ Promotion image loaded successfully!');
-					}}
-					onError={(e) => {
-						console.error('❌ Failed to load promotion image:', {
-							originalUrl: currentPromotion.urlPhoto,
-							generatedUrl: getImageUrl({ photoURL: currentPromotion.urlPhoto }),
-							naturalWidth: (e.target as HTMLImageElement).naturalWidth,
-							naturalHeight: (e.target as HTMLImageElement).naturalHeight
-						});
-					}}
-				/>
-			) : (
-				<div className="w-full h-full bg-gray-300 flex items-center justify-center">
-					<div className="text-center text-gray-600">
-						<div className="text-4xl mb-2">🏷️</div>
-						<div>Нет изображения акции</div>
-						<div className="text-sm mt-2">URL: {currentPromotion?.urlPhoto || 'undefined'}</div>
+			<div className="absolute inset-0">
+				{currentPromotion && currentPromotion.urlPhoto ? (
+					<img
+						src={getImageUrl({ photoURL: currentPromotion.urlPhoto })}
+						alt={`Акция ${currentPromotion.promotion_id}`}
+						className="w-full h-full object-contain"
+						onLoad={() => {
+							console.log('✅ Promotion image loaded successfully!');
+						}}
+						onError={(e) => {
+							console.error('❌ Failed to load promotion image:', {
+								originalUrl: currentPromotion.urlPhoto,
+								generatedUrl: getImageUrl({ photoURL: currentPromotion.urlPhoto }),
+								naturalWidth: (e.target as HTMLImageElement).naturalWidth,
+								naturalHeight: (e.target as HTMLImageElement).naturalHeight
+							});
+						}}
+					/>
+				) : (
+					<div className="w-full h-full bg-gray-300 flex items-center justify-center">
+						<div className="text-center text-gray-600">
+							<div className="text-4xl mb-2">🏷️</div>
+							<div>Нет изображения акции</div>
+							<div className="text-sm mt-2">URL: {currentPromotion?.urlPhoto || 'undefined'}</div>
+						</div>
 					</div>
-				</div>
-			)}
+				)}
+			</div>
 
 			{/* Контент поверх фото */}
 			<div className="relative z-10 h-full flex items-center justify-center">
