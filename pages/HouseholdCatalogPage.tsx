@@ -22,6 +22,13 @@ export const HouseholdCatalogPage: React.FC = () => {
 	}, [showMobileFilter]);
 
 	useEffect(() => {
+		window.dispatchEvent(new CustomEvent('mobile-filters', { detail: { open: showMobileFilter } }));
+		return () => {
+			window.dispatchEvent(new CustomEvent('mobile-filters', { detail: { open: false } }));
+		};
+	}, [showMobileFilter]);
+
+	useEffect(() => {
 		const fetchCatalog = async () => {
 			setLoading(true);
 			try {

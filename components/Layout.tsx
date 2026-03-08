@@ -16,7 +16,7 @@ const getImageUrl = (url: string): string => {
 	return buildUrl(url);
 };
 
-const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean; setIsMenuOpen: (open: boolean) => void }> = ({ company, isMenuOpen, setIsMenuOpen }) => {
+const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean; setIsMenuOpen: (open: boolean) => void; hideOnMobile?: boolean }> = ({ company, isMenuOpen, setIsMenuOpen, hideOnMobile }) => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
@@ -43,7 +43,7 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 
 	return (
 		<>
-			<header className="sticky top-0 z-40 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white shadow-xl border-b border-slate-700 backdrop-blur-sm">
+			<header className={`sticky top-0 z-40 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white shadow-xl border-b border-slate-700 backdrop-blur-sm ${hideOnMobile ? 'hidden md:block' : ''}`}>
 				{/* Top Info Bar */}
 				<div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-2">
 					<div className="container mx-auto px-4">
@@ -84,14 +84,14 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 									<img
 										src={getImageUrl(company.logoUrl)}
 										alt={company.name || 'Rest Art'}
-										className={`transition-all duration-300 rounded-lg object-contain ${isScrolled ? 'w-8 h-8' : 'w-43 h-36'}`}
+										className={`transition-all duration-300 rounded-lg object-contain ${isScrolled ? 'w-8 h-8' : 'w-12 h-12'}`}
 										onError={(e) => {
 											const target = e.target as HTMLImageElement;
 											target.src = 'https://picsum.photos/64/64?error=logo-failed';
 										}}
 									/>
 								) : (
-									<div className={`bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center font-bold text-white font-display shadow-lg transition-all duration-300 ${isScrolled ? 'w-8 h-8 text-xs' : 'w-26 h-16'}`}>
+									<div className={`bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center font-bold text-white font-display shadow-lg transition-all duration-300 ${isScrolled ? 'w-8 h-8 text-xs' : 'w-12 h-12 text-sm'}`}>
 										I
 									</div>
 								)}
@@ -231,12 +231,22 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 
 const LayoutContent: React.FC<{ company: CompanyDto | null }> = ({ company }) => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [hideHeaderMobile, setHideHeaderMobile] = useState(false);
 	const { cart } = useCart();
 	const cartCount = cart?.items?.length || 0;
 
+	useEffect(() => {
+		const handler = (e: Event) => {
+			const custom = e as CustomEvent<{ open?: boolean }>;
+			setHideHeaderMobile(!!custom.detail?.open);
+		};
+		window.addEventListener('mobile-filters', handler as EventListener);
+		return () => window.removeEventListener('mobile-filters', handler as EventListener);
+	}, []);
+
 	return (
 		<div className="flex flex-col min-h-screen bg-industrial-50">
-			<HeaderContent company={company} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+			<HeaderContent company={company} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} hideOnMobile={hideHeaderMobile} />
 			<MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} company={company} cartCount={cartCount} />
 			<main className="flex-grow relative z-30">
 				<Outlet />
