@@ -58,7 +58,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ className, onClose
 		setMaxPrice('');
 	};
 	return (
-		<aside className={`bg-white border border-industrial-200 p-6 ${className}`}>
+		<aside className={`bg-white border border-industrial-200 p-6 flex flex-col h-full ${className}`}>
 			<div className="sticky top-0 z-20 bg-white -mx-6 px-6 pt-4 pb-4 border-b border-industrial-100">
 				<div className="flex items-center justify-between">
 					<h2 className="text-lg font-bold font-display uppercase tracking-wide">Фильтры</h2>
@@ -82,93 +82,97 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ className, onClose
 				</div>
 			</div>
 
-			{/* Category Filter */}
-			<div className="mb-8">
-				<h3 className="text-sm font-bold uppercase mb-4 text-industrial-500">Категории</h3>
-				<div className="space-y-2">
-					<label className="flex items-center gap-3 cursor-pointer group">
-						<input
-							type="radio"
-							name="category"
-							checked={!currentCategory}
-							onChange={() => updateParam('categoryId', null)}
-							className="w-4 h-4 text-industrial-accent border-gray-300 focus:ring-industrial-accent"
-						/>
-						<span className={`text-sm ${!currentCategory ? 'text-industrial-900 font-medium' : 'text-gray-600 group-hover:text-industrial-900'}`}>
-							Все категории
-						</span>
-					</label>
-					{categories.map(cat => (
-						<label key={cat.categoryId} className="flex items-center gap-3 cursor-pointer group">
+			<div className="flex-1 overflow-y-auto pt-6 pb-28">
+				{/* Category Filter */}
+				<div className="mb-8">
+					<h3 className="text-sm font-bold uppercase mb-4 text-industrial-500">Категории</h3>
+					<div className="space-y-2">
+						<label className="flex items-center gap-3 cursor-pointer group">
 							<input
 								type="radio"
 								name="category"
-								checked={currentCategory === cat.categoryId?.toString()}
-								onChange={() => updateParam('categoryId', cat.categoryId?.toString() || '')}
+								checked={!currentCategory}
+								onChange={() => updateParam('categoryId', null)}
 								className="w-4 h-4 text-industrial-accent border-gray-300 focus:ring-industrial-accent"
 							/>
-							<span className={`text-sm ${currentCategory === cat.categoryId?.toString() ? 'text-industrial-900 font-medium' : 'text-gray-600 group-hover:text-industrial-900'}`}>
-								{cat.categoryName}
+							<span className={`text-sm ${!currentCategory ? 'text-industrial-900 font-medium' : 'text-gray-600 group-hover:text-industrial-900'}`}>
+								Все категории
 							</span>
 						</label>
-					))}
+						{categories.map((cat) => (
+							<label key={cat.categoryId} className="flex items-center gap-3 cursor-pointer group">
+								<input
+									type="radio"
+									name="category"
+									checked={currentCategory === cat.categoryId?.toString()}
+									onChange={() => updateParam('categoryId', cat.categoryId?.toString() || '')}
+									className="w-4 h-4 text-industrial-accent border-gray-300 focus:ring-industrial-accent"
+								/>
+								<span
+									className={`text-sm ${currentCategory === cat.categoryId?.toString() ? 'text-industrial-900 font-medium' : 'text-gray-600 group-hover:text-industrial-900'}`}
+								>
+									{cat.categoryName}
+								</span>
+							</label>
+						))}
+					</div>
 				</div>
-			</div>
 
-			{/* Price Range Filter */}
-			<div className="mb-8">
-				<h3 className="text-sm font-bold uppercase mb-4 text-industrial-500">Ценовой диапазон (₸)</h3>
-				<div className="flex items-center gap-2 mb-3">
-					<input
-						type="number"
-						placeholder="Мин"
-						value={minPrice}
-						onChange={(e) => setMinPrice(e.target.value)}
-						className="w-full border border-gray-300 px-3 py-2 text-sm focus:border-industrial-accent focus:outline-none"
-					/>
-					<span className="text-gray-400">-</span>
-					<input
-						type="number"
-						placeholder="Макс"
-						value={maxPrice}
-						onChange={(e) => setMaxPrice(e.target.value)}
-						className="w-full border border-gray-300 px-3 py-2 text-sm focus:border-industrial-accent focus:outline-none"
-					/>
-				</div>
-				<button
-					onClick={handlePriceApply}
-					className="w-full bg-industrial-900 text-white text-xs font-bold uppercase py-2 hover:bg-industrial-700 transition-colors"
-				>
-					Применить цену
-				</button>
-			</div>
-
-			{/* Material Filter */}
-			<div>
-				<h3 className="text-sm font-bold uppercase mb-4 text-industrial-500">Материал</h3>
-				<div className="space-y-2">
-					<label className="flex items-center gap-3 cursor-pointer">
+				{/* Price Range Filter */}
+				<div className="mb-8">
+					<h3 className="text-sm font-bold uppercase mb-4 text-industrial-500">Ценовой диапазон (₸)</h3>
+					<div className="flex items-center gap-2 mb-3">
 						<input
-							type="radio"
-							name="material"
-							checked={!currentMaterial}
-							onChange={() => updateParam('material', null)}
-							className="w-4 h-4 text-industrial-accent focus:ring-industrial-accent"
+							type="number"
+							placeholder="Мин"
+							value={minPrice}
+							onChange={(e) => setMinPrice(e.target.value)}
+							className="w-full border border-gray-300 px-3 py-2 text-sm focus:border-industrial-accent focus:outline-none"
 						/>
-						<span className="text-sm text-gray-600">Любой</span>
-					</label>
-					{materials.map(mat => (
-						<label key={mat} className="flex items-center gap-3 cursor-pointer">
+						<span className="text-gray-400">-</span>
+						<input
+							type="number"
+							placeholder="Макс"
+							value={maxPrice}
+							onChange={(e) => setMaxPrice(e.target.value)}
+							className="w-full border border-gray-300 px-3 py-2 text-sm focus:border-industrial-accent focus:outline-none"
+						/>
+					</div>
+					<button
+						onClick={handlePriceApply}
+						className="w-full bg-industrial-900 text-white text-xs font-bold uppercase py-2 hover:bg-industrial-700 transition-colors"
+					>
+						Применить цену
+					</button>
+				</div>
+
+				{/* Material Filter */}
+				<div>
+					<h3 className="text-sm font-bold uppercase mb-4 text-industrial-500">Материал</h3>
+					<div className="space-y-2">
+						<label className="flex items-center gap-3 cursor-pointer">
 							<input
 								type="radio"
 								name="material"
-								checked={currentMaterial === mat}
-								onChange={() => updateParam('material', mat)}
+								checked={!currentMaterial}
+								onChange={() => updateParam('material', null)}
 								className="w-4 h-4 text-industrial-accent focus:ring-industrial-accent"
 							/>
-							<span className="text-sm text-gray-600">{mat}</span>
+							<span className="text-sm text-gray-600">Любой</span>
 						</label>
-					))}
+						{materials.map(mat => (
+							<label key={mat} className="flex items-center gap-3 cursor-pointer">
+								<input
+									type="radio"
+									name="material"
+									checked={currentMaterial === mat}
+									onChange={() => updateParam('material', mat)}
+									className="w-4 h-4 text-industrial-accent focus:ring-industrial-accent"
+								/>
+								<span className="text-sm text-gray-600">{mat}</span>
+							</label>
+						))}
+					</div>
 				</div>
 			</div>
 
