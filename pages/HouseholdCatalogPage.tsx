@@ -57,7 +57,7 @@ export const HouseholdCatalogPage: React.FC = () => {
 
 				{/* Sidebar */}
 				<div className={`
-          fixed inset-0 z-50 md:z-0 transform transition-transform duration-300 ease-in-out md:relative md:transform-none md:w-64 md:block
+          fixed top-0 left-0 bottom-0 z-50 transform transition-transform duration-300 ease-in-out md:relative md:transform-none md:w-64 md:block
           ${showMobileFilter ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}>
 					<HouseholdFilterSidebar
@@ -67,16 +67,10 @@ export const HouseholdCatalogPage: React.FC = () => {
 					/>
 				</div>
 
-				{/* Overlay for mobile sidebar */}
-				{showMobileFilter && (
-					<div
-						className="fixed inset-0 bg-black/50 z-40 md:hidden"
-						onClick={() => setShowMobileFilter(false)}
-					></div>
-				)}
+				{/* No overlay needed - content shifts instead of being covered */}
 
 				{/* Product Grid */}
-				<div className="flex-1">
+				<div className={`flex-1 ${showMobileFilter ? 'ml-64' : ''}`}>
 					<div className="mb-6 flex items-center justify-between">
 						<h1 className="text-2xl font-bold font-display uppercase text-industrial-900">
 							Бытовые товары <span className="text-gray-400 text-lg font-normal ml-2">({products.length} товаров)</span>
