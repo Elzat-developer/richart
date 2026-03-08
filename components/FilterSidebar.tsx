@@ -68,7 +68,12 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ className, onClose
 					Сбросить
 				</button>
 				{onCloseMobile && (
-					<button onClick={onCloseMobile} className="md:hidden text-gray-500">Закрыть</button>
+					<button
+						onClick={onCloseMobile}
+						className="md:hidden fixed top-4 right-4 z-50 bg-industrial-900 text-white px-4 py-2 rounded-lg hover:bg-industrial-800 transition-colors"
+					>
+						✕
+					</button>
 				)}
 			</div>
 
