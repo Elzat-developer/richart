@@ -13,6 +13,15 @@ export const CatalogPage: React.FC = () => {
 	const [searchParams] = useSearchParams();
 
 	useEffect(() => {
+		if (!showMobileFilter) return;
+		const prevOverflow = document.body.style.overflow;
+		document.body.style.overflow = 'hidden';
+		return () => {
+			document.body.style.overflow = prevOverflow;
+		};
+	}, [showMobileFilter]);
+
+	useEffect(() => {
 		const fetchCatalog = async () => {
 			setLoading(true);
 			try {
@@ -63,7 +72,7 @@ export const CatalogPage: React.FC = () => {
 
 				{/* Sidebar (Mobile Overlay) */}
 				{showMobileFilter && (
-					<div className="fixed inset-0 z-50 md:hidden">
+					<div className="fixed inset-0 z-[9999] md:hidden">
 						<div
 							className="absolute inset-0 bg-black/50"
 							onClick={() => setShowMobileFilter(false)}

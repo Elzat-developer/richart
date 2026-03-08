@@ -171,6 +171,25 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ className, onClose
 					))}
 				</div>
 			</div>
+
+			{onCloseMobile && (
+				<div className="md:hidden sticky bottom-0 z-20 bg-white -mx-6 px-6 py-4 border-t border-industrial-100 mt-6">
+					<div className="flex items-center justify-between gap-3">
+						<button
+							onClick={resetFilters}
+							className="flex-1 border border-industrial-300 py-3 font-bold uppercase text-xs"
+						>
+							Сбросить
+						</button>
+						<button
+							onClick={onCloseMobile}
+							className="flex-1 bg-industrial-900 text-white py-3 font-bold uppercase text-xs"
+						>
+							Закрыть
+						</button>
+					</div>
+				</div>
+			)}
 		</aside>
 	);
 };
