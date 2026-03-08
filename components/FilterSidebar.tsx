@@ -59,22 +59,27 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ className, onClose
 	};
 	return (
 		<aside className={`bg-white border border-industrial-200 p-6 ${className}`}>
-			<div className="flex items-center justify-between mb-6">
-				<h2 className="text-lg font-bold font-display uppercase tracking-wide">Фильтры</h2>
-				<button
-					onClick={resetFilters}
-					className="text-xs text-industrial-accent underline uppercase"
-				>
-					Сбросить
-				</button>
-				{onCloseMobile && (
-					<button
-						onClick={onCloseMobile}
-						className="md:hidden fixed top-4 right-4 z-50 bg-industrial-900 text-white px-4 py-2 rounded-lg hover:bg-industrial-800 transition-colors"
-					>
-						✕
-					</button>
-				)}
+			<div className="sticky top-0 z-20 bg-white -mx-6 px-6 pt-4 pb-4 border-b border-industrial-100">
+				<div className="flex items-center justify-between">
+					<h2 className="text-lg font-bold font-display uppercase tracking-wide">Фильтры</h2>
+					<div className="flex items-center gap-3">
+						<button
+							onClick={resetFilters}
+							className="text-xs text-industrial-accent underline uppercase"
+						>
+							Сбросить
+						</button>
+						{onCloseMobile && (
+							<button
+								onClick={onCloseMobile}
+								className="md:hidden text-industrial-900 text-2xl leading-none"
+								aria-label="Закрыть фильтры"
+							>
+								×
+							</button>
+						)}
+					</div>
+				</div>
 			</div>
 
 			{/* Category Filter */}

@@ -55,22 +55,30 @@ export const HouseholdCatalogPage: React.FC = () => {
 					<FilterIcon size={16} /> Фильтры
 				</button>
 
-				{/* Sidebar */}
-				<div className={`
-          fixed top-0 left-0 bottom-0 z-50 transform transition-transform duration-300 ease-in-out md:relative md:transform-none md:w-64 md:block
-          ${showMobileFilter ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-        `}>
-					<HouseholdFilterSidebar
-						className="h-full md:h-auto overflow-y-auto"
-						onCloseMobile={() => setShowMobileFilter(false)}
-						categoryType="household"
-					/>
+				{/* Sidebar (Desktop) */}
+				<div className="hidden md:block md:w-64">
+					<HouseholdFilterSidebar className="md:h-auto" categoryType="household" />
 				</div>
 
-				{/* No overlay needed - content shifts instead of being covered */}
+				{/* Sidebar (Mobile Overlay) */}
+				{showMobileFilter && (
+					<div className="fixed inset-0 z-50 md:hidden">
+						<div
+							className="absolute inset-0 bg-black/50"
+							onClick={() => setShowMobileFilter(false)}
+						></div>
+						<div className="absolute inset-0 bg-white">
+							<HouseholdFilterSidebar
+								className="h-full overflow-y-auto"
+								onCloseMobile={() => setShowMobileFilter(false)}
+								categoryType="household"
+							/>
+						</div>
+					</div>
+				)}
 
 				{/* Product Grid */}
-				<div className={`flex-1 ${showMobileFilter ? 'ml-64' : ''}`}>
+				<div className="flex-1">
 					<div className="mb-6 flex items-center justify-between">
 						<h1 className="text-2xl font-bold font-display uppercase text-industrial-900">
 							Бытовые товары <span className="text-gray-400 text-lg font-normal ml-2">({products.length} товаров)</span>
@@ -78,13 +86,13 @@ export const HouseholdCatalogPage: React.FC = () => {
 					</div>
 
 					{loading ? (
-						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 animate-pulse">
+						<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 animate-pulse">
 							{[...Array(6)].map((_, i) => (
 								<div key={i} className="bg-gray-200 h-96 w-full"></div>
 							))}
 						</div>
 					) : products.length > 0 ? (
-						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+						<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
 							{products.map(product => (
 								<ProductCard key={product.productId} product={product} />
 							))}
