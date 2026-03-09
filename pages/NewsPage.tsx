@@ -48,6 +48,18 @@ const NewsPage: React.FC = () => {
 		}
 	};
 
+	const formatDateMobile = (dateString: string) => {
+		try {
+			const date = new Date(dateString);
+			return date.toLocaleDateString('ru-RU', {
+				day: 'numeric',
+				month: 'long'
+			});
+		} catch {
+			return dateString;
+		}
+	};
+
 	const getImageUrl = (newsPhotoUrl: string): string => {
 		if (!newsPhotoUrl) return 'https://picsum.photos/400/225?error=no-url';
 
@@ -228,12 +240,12 @@ const NewsPage: React.FC = () => {
 											/>
 
 											{/* Date overlay */}
-											<div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-emerald-600 text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium whitespace-nowrap max-w-[70%] truncate">
-												{formatDate(item.createDateNews)}
+											<div className="absolute top-2 right-2 bg-emerald-600 text-white px-1 py-0.5 rounded-full text-[5px] font-medium whitespace-nowrap max-w-[70%] truncate sm:hidden">
+												{formatDateMobile(item.createDateNews)}
 											</div>
 
 											{/* Equipment badge */}
-											<div className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-blue-600 text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-medium whitespace-nowrap">
+											<div className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-blue-600 text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[5px] sm:text-xs font-medium whitespace-nowrap">
 												Оборудование
 											</div>
 										</div>
