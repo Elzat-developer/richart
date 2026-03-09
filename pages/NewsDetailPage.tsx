@@ -255,14 +255,16 @@ const NewsDetailPage: React.FC = () => {
 							{/* Main Image */}
 							{news.newsPhotoUrl && (
 								<div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-									<img
-										src={getImageUrl(news.newsPhotoUrl)}
-										alt={news.name}
-										className="w-full h-auto object-cover"
-										onError={(e) => {
-											(e.target as HTMLImageElement).src = 'https://picsum.photos/400/300?error=load-failed';
-										}}
-									/>
+									<div className="aspect-[16/9] bg-gray-100">
+										<img
+											src={getImageUrl(news.newsPhotoUrl)}
+											alt={news.name}
+											className="w-full h-full object-contain"
+											onError={(e) => {
+												(e.target as HTMLImageElement).src = 'https://picsum.photos/400/300?error=load-failed';
+											}}
+										/>
+									</div>
 								</div>
 							)}
 

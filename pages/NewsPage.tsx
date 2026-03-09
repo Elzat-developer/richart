@@ -209,7 +209,7 @@ const NewsPage: React.FC = () => {
 							</div>
 
 							{/* News Grid */}
-							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+							<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
 								{currentNews.map((item) => (
 									<Link
 										key={item.newsId}
@@ -217,11 +217,11 @@ const NewsPage: React.FC = () => {
 										className="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100"
 									>
 										{/* Image */}
-										<div className="relative h-40 bg-gray-100 overflow-hidden">
+										<div className="relative aspect-[16/9] bg-gray-100 overflow-hidden">
 											<img
 												src={getImageUrl(item.newsPhotoUrl)}
 												alt={item.name}
-												className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+												className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
 												onError={(e) => {
 													(e.target as HTMLImageElement).src = 'https://picsum.photos/400/225?error=load-failed';
 												}}
