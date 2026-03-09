@@ -345,7 +345,7 @@ export const AdminApiService = {
 	},
 
 	// --- Получение данных (используем admin эндпоинты) ---
-	getCategories: async (categoryType: 'industrial' | 'household' = 'industrial', active: boolean = true): Promise<void[]> => {
+	getCategories: async (categoryType: 'industrial' | 'household' = 'industrial', active: boolean = true): Promise<any[]> => {
 		const response = await adminApiClient.get(`/get_categories?categoryType=${categoryType}&active=${active}`);
 		console.log('📦 Admin categories response:', response.data);
 		return response.data;

@@ -285,26 +285,26 @@ export const AdminProductsPage: React.FC = () => {
 			{/* Navigation */}
 			<AdminNavigation />
 
-			<div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+			<div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 				{/* Page Header with Actions */}
 				<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 space-y-3 sm:space-y-0">
 					<h1 className="text-xl sm:text-2xl font-bold text-gray-900">Управление товарами</h1>
-					<div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+					<div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
 						<button
 							onClick={loadData}
-							className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+							className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
 						>
 							🔄 Обновить
 						</button>
 						<Link
 							to="/admin/import"
-							className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors"
+							className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors"
 						>
 							Импорт Zip
 						</Link>
 						<Link
 							to="/admin/products/new"
-							className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
+							className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
 						>
 							<PlusIcon className="h-4 w-4 mr-2" />
 							Добавить товар
@@ -534,7 +534,7 @@ export const AdminProductsPage: React.FC = () => {
 							<>
 								{viewMode === 'grid' ? (
 									/* Grid View */
-									<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+									<div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
 										{currentProducts.map((product) => (
 											<div key={product.productId} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
 												{/* Product Image - кликабельный */}
@@ -819,141 +819,140 @@ export const AdminProductsPage: React.FC = () => {
 							</>
 						)
 					}
-				</div >
+				</div>
 
 				{/* Product Modal */}
-				{
-					showProductModal && selectedProduct && (
-						<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-							<div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-								{/* Modal Header */}
-								<div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-									<h2 className="text-xl font-semibold text-gray-900">Подробная информация о товаре</h2>
-									<button
-										onClick={handleCloseModal}
-										className="text-gray-400 hover:text-gray-600 transition-colors"
-									>
-										<svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-										</svg>
-									</button>
+				{showProductModal && selectedProduct && (
+					<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+						<div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+							{/* Modal Header */}
+							<div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+								<h2 className="text-xl font-semibold text-gray-900">Подробная информация о товаре</h2>
+								<button
+									onClick={handleCloseModal}
+									className="text-gray-400 hover:text-gray-600 transition-colors"
+								>
+									<svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+									</svg>
+								</button>
+							</div>
+
+							{/* Modal Content */}
+							<div className="p-6">
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+									{/* Product Image */}
+									<div className="aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden">
+										<img
+											src={getImageUrl(selectedProduct.photoDto)}
+											alt={selectedProduct.productName}
+											className="w-full h-full object-contain p-4"
+											onError={(e) => {
+												(e.target as HTMLImageElement).src = 'https://picsum.photos/400/300?error=load-failed&id=' + selectedProduct.productId;
+											}}
+										/>
+									</div>
+
+									{/* Product Info */}
+									<div className="space-y-4">
+										<div>
+											<h3 className="text-2xl font-bold text-gray-900 mb-2">{selectedProduct.productName}</h3>
+											<span className="text-sm font-mono text-gray-500 bg-gray-100 px-3 py-1 rounded">
+												Артикул: {selectedProduct.tag}
+											</span>
+										</div>
+
+										<div className="space-y-3">
+											<div>
+												<span className="text-sm font-medium text-gray-700">Категория:</span>
+												<p className="text-gray-900">{getCategoryName(selectedProduct.categoryId)}</p>
+											</div>
+
+											<div>
+												<span className="text-sm font-medium text-gray-700">Материал:</span>
+												<p className="text-gray-900">{selectedProduct.material || 'Не указан'}</p>
+											</div>
+
+											<div>
+												<span className="text-sm font-medium text-gray-700">Дата создания:</span>
+												<p className="text-gray-900">{formatDate(selectedProduct.createdAt)}</p>
+											</div>
+
+											<div>
+												<span className="text-sm font-medium text-gray-700">Дата обновления:</span>
+												<p className="text-gray-900">
+													{!selectedProduct.updatedAt ||
+														new Date(selectedProduct.updatedAt).getTime() === new Date(selectedProduct.createdAt).getTime()
+														? 'Не изменялось'
+														: formatDate(selectedProduct.updatedAt)
+													}
+												</p>
+											</div>
+										</div>
+									</div>
 								</div>
 
-								{/* Modal Content */}
-								<div className="p-6">
-									<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-										{/* Product Image */}
-										<div className="aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden">
-											<img
-												src={getImageUrl(selectedProduct.photoDto)}
-												alt={selectedProduct.productName}
-												className="w-full h-full object-contain p-4"
-												onError={(e) => {
-													(e.target as HTMLImageElement).src = 'https://picsum.photos/400/300?error=load-failed&id=' + selectedProduct.productId;
-												}}
-											/>
-										</div>
-
-										{/* Product Info */}
-										<div className="space-y-4">
-											<div>
-												<h3 className="text-2xl font-bold text-gray-900 mb-2">{selectedProduct.productName}</h3>
-												<span className="text-sm font-mono text-gray-500 bg-gray-100 px-3 py-1 rounded">
-													Артикул: {selectedProduct.tag}
-												</span>
-											</div>
-
-											<div className="space-y-3">
-												<div>
-													<span className="text-sm font-medium text-gray-700">Категория:</span>
-													<p className="text-gray-900">{getCategoryName(selectedProduct.categoryId)}</p>
-												</div>
-
-												<div>
-													<span className="text-sm font-medium text-gray-700">Материал:</span>
-													<p className="text-gray-900">{selectedProduct.material || 'Не указан'}</p>
-												</div>
-
-												<div>
-													<span className="text-sm font-medium text-gray-700">Дата создания:</span>
-													<p className="text-gray-900">{formatDate(selectedProduct.createdAt)}</p>
-												</div>
-
-												<div>
-													<span className="text-sm font-medium text-gray-700">Дата обновления:</span>
-													<p className="text-gray-900">
-														{!selectedProduct.updatedAt ||
-															new Date(selectedProduct.updatedAt).getTime() === new Date(selectedProduct.createdAt).getTime()
-															? 'Не изменялось'
-															: formatDate(selectedProduct.updatedAt)
-														}
-													</p>
-												</div>
-											</div>
-										</div>
-									</div>
-
-									{/* Modal Actions */}
-									<div className="flex justify-end space-x-3 mt-6 pt-6 border-t border-gray-200">
+								{/* Modal Actions */}
+								<div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-3 mt-6 pt-6 border-t border-gray-200">
+									<Link
+										to={`/admin/products/${selectedProduct.productId}`}
+										onClick={handleCloseModal}
+										className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
+									>
+										<PackageIcon className="h-4 w-4 mr-2" />
+										Полный просмотр
+									</Link>
+									{selectedProduct.productId && (
 										<Link
-											to={`/admin/products/${selectedProduct.productId}`}
-											onClick={handleCloseModal}
-											className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
+											to={`/admin/products/${selectedProduct.productId}/edit`}
+											onClick={() => {
+												console.log('Edit button clicked, productId:', selectedProduct.productId);
+												console.log('Navigating to:', `/admin/products/${selectedProduct.productId}/edit`);
+												handleCloseModal();
+											}}
+											className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
 										>
-											<PackageIcon className="h-4 w-4 mr-2" />
-											Полный просмотр
+											<EditIcon className="h-4 w-4 mr-2" />
+											Редактировать
 										</Link>
-										{selectedProduct.productId && (
-											<Link
-												to={`/admin/products/${selectedProduct.productId}/edit`}
-												onClick={() => {
-													console.log('Edit button clicked, productId:', selectedProduct.productId);
-													console.log('Navigating to:', `/admin/products/${selectedProduct.productId}/edit`);
+									)}
+									{selectedProduct.productId && showArchived && (
+										<button
+											onClick={() => {
+												console.log('Activate button clicked, productId:', selectedProduct.productId);
+												handleActivateProduct(selectedProduct.productId);
+												// Закрываем модальное окно с небольшой задержкой после активации
+												setTimeout(() => {
 													handleCloseModal();
-												}}
-												className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
-											>
-												<EditIcon className="h-4 w-4 mr-2" />
-												Редактировать
-											</Link>
-										)}
-										{selectedProduct.productId && showArchived && (
-											<button
-												onClick={() => {
-													console.log('Activate button clicked, productId:', selectedProduct.productId);
-													handleActivateProduct(selectedProduct.productId);
-													// Закрываем модальное окно с небольшой задержкой после активации
-													setTimeout(() => {
-														handleCloseModal();
-													}, 100);
-												}}
-												className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors"
-											>
-												<CheckIcon className="h-4 w-4 mr-2" />
-												Активировать
-											</button>
-										)}
-										{selectedProduct.productId && (
-											<button
-												onClick={() => {
-													console.log('Delete button clicked, productId:', selectedProduct.productId);
-													handleDeleteProduct(selectedProduct.productId);
-													// Закрываем модальное окно с небольшой задержкой после удаления
-													setTimeout(() => {
-														handleCloseModal();
-													}, 100);
-												}}
-												className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors"
-											>
-												<TrashIcon className="h-4 w-4 mr-2" />
-												Удалить
-											</button>
-										)}
-									</div>
+												}, 100);
+											}}
+											className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors"
+										>
+											<CheckIcon className="h-4 w-4 mr-2" />
+											Активировать
+										</button>
+									)}
+									{selectedProduct.productId && (
+										<button
+											onClick={() => {
+												console.log('Delete button clicked, productId:', selectedProduct.productId);
+												handleDeleteProduct(selectedProduct.productId);
+												// Закрываем модальное окно с небольшой задержкой после удаления
+												setTimeout(() => {
+													handleCloseModal();
+												}, 100);
+											}}
+											className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors"
+										>
+											<TrashIcon className="h-4 w-4 mr-2" />
+											Удалить
+										</button>
+									)}
 								</div>
 							</div>
 						</div>
-					)}
+					</div>
+				)}
 			</div>
 		</div>
 	);
