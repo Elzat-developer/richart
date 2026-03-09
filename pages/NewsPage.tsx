@@ -228,12 +228,12 @@ const NewsPage: React.FC = () => {
 											/>
 
 											{/* Date overlay */}
-											<div className="absolute top-3 right-3 bg-emerald-600 text-white px-2 py-1 rounded-full text-xs font-medium">
+											<div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-emerald-600 text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium whitespace-nowrap max-w-[70%] truncate">
 												{formatDate(item.createDateNews)}
 											</div>
 
 											{/* Equipment badge */}
-											<div className="absolute top-3 left-3 bg-blue-600 text-white px-2 py-1 rounded text-xs font-medium">
+											<div className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-blue-600 text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-medium whitespace-nowrap">
 												Оборудование
 											</div>
 										</div>
