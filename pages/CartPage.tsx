@@ -46,6 +46,7 @@ export const CartPage: React.FC = () => {
 			const response = await ApiService.checkout(formData);
 			// Перенаправляем на WhatsApp с полученной ссылкой
 			window.open(response.whatsappLink || `https://wa.me/77472164664?text=${encodeURIComponent(`New order from ${formData.name}. Phone: ${formData.phone}`)}`, '_blank');
+			window.dispatchEvent(new CustomEvent('mobile-filters', { detail: { open: false } }));
 			setIsCheckoutModalOpen(false);
 		} catch (error) {
 			alert("Оформление заказа не удалось. Попробуйте еще раз.");
@@ -85,7 +86,7 @@ export const CartPage: React.FC = () => {
 					<div className="divide-y divide-gray-100">
 						{cart.items.map(item => (
 							<div key={item.cart_item_id} className="p-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-center hover:bg-gray-50 transition-colors">
-								<div className="col-span-6 flex items-start gap-4">
+								<div className="col-span-1 md:col-span-6 flex items-start gap-4">
 									{/* Фото товара */}
 									{item.photoDto && (
 										<div className="flex-shrink-0 w-20 h-20 bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
@@ -114,7 +115,7 @@ export const CartPage: React.FC = () => {
 
 										{/* Характеристики */}
 										{item.characteristics && (
-											<div className="text-xs text-gray-600 mb-2 line-clamp-2">
+											<div className="text-xs text-gray-600 mb-2 line-clamp-2 break-words max-w-full overflow-hidden">
 												{item.characteristics}
 											</div>
 										)}
@@ -128,7 +129,7 @@ export const CartPage: React.FC = () => {
 									</div>
 								</div>
 
-								<div className="col-span-2 text-center md:text-left">
+								<div className="col-span-1 md:col-span-2 flex flex-col items-start md:block text-left md:text-left">
 									<span className="md:hidden text-xs text-gray-500 uppercase font-medium mb-1 block">Цена:</span>
 									<div className="inline-flex items-center bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
 										<span className="text-base font-semibold text-gray-900 tabular-nums">
@@ -137,8 +138,8 @@ export const CartPage: React.FC = () => {
 									</div>
 								</div>
 
-								<div className="col-span-2 flex justify-center">
-									<span className="md:hidden text-xs text-gray-500 uppercase font-medium mb-2 block text-center">Количество:</span>
+								<div className="col-span-1 md:col-span-2 flex flex-col items-start md:items-center md:justify-center">
+									<span className="md:hidden text-xs text-gray-500 uppercase font-medium mb-2 block">Количество:</span>
 									<div className="flex items-center bg-white border-2 border-gray-200 rounded-lg h-10 shadow-sm">
 										<button
 											onClick={() => updateItemQuantity(item.cart_item_id, Math.max(1, item.quantity - 1))}
@@ -161,9 +162,9 @@ export const CartPage: React.FC = () => {
 									</div>
 								</div>
 
-								<div className="col-span-2 flex items-center justify-between md:justify-end gap-4">
-									<span className="md:hidden text-xs text-gray-500 uppercase font-medium mb-1 block">Сумма:</span>
-									<div className="flex items-center gap-3">
+								<div className="col-span-1 md:col-span-2 flex flex-col md:flex-row md:items-center md:justify-end gap-2 md:gap-4">
+									<span className="md:hidden text-xs text-gray-500 uppercase font-medium block">Сумма:</span>
+									<div className="flex items-center justify-between md:justify-end gap-3 w-full">
 										<div className="text-right">
 											<div className="text-lg font-bold text-gray-900 tabular-nums">
 												{(item.productPrice * item.quantity).toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} ₸
@@ -204,8 +205,9 @@ export const CartPage: React.FC = () => {
 								<div className="flex justify-between items-center">
 									<span className="text-lg font-medium">Общая сумма</span>
 									<div className="text-right">
-										<div className="text-3xl font-bold tabular-nums">
-											{cart.totalPrice.toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} ₸
+										<div className="text-3xl font-bold tabular-nums inline-flex items-baseline gap-1">
+											<span>{cart.totalPrice.toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
+											<span>₸</span>
 										</div>
 									</div>
 								</div>
@@ -213,7 +215,10 @@ export const CartPage: React.FC = () => {
 						</div>
 
 						<button
-							onClick={() => setIsCheckoutModalOpen(true)}
+							onClick={() => {
+								window.dispatchEvent(new CustomEvent('mobile-filters', { detail: { open: true } }));
+								setIsCheckoutModalOpen(true);
+							}}
 							className="w-full bg-white text-emerald-700 hover:bg-emerald-50 font-bold py-4 rounded-xl uppercase tracking-wide transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-3 mb-3"
 						>
 							<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -238,7 +243,10 @@ export const CartPage: React.FC = () => {
 				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
 					<div className="bg-white w-full max-w-lg p-8 relative shadow-2xl animate-in fade-in zoom-in duration-300 rounded-2xl">
 						<button
-							onClick={() => setIsCheckoutModalOpen(false)}
+							onClick={() => {
+								window.dispatchEvent(new CustomEvent('mobile-filters', { detail: { open: false } }));
+								setIsCheckoutModalOpen(false);
+							}}
 							className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors p-2 hover:bg-gray-100 rounded-lg"
 						>
 							<XIcon />
