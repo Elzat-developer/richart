@@ -189,7 +189,7 @@ export const OrderDetailPage: React.FC = () => {
 						<div className="divide-y divide-gray-100">
 							{order.itemDto.map((item, index) => (
 								<div key={index} className="p-6 hover:bg-gray-50 transition-colors">
-									<div className="flex items-center gap-4">
+									<div className="flex flex-col sm:flex-row sm:items-center gap-4">
 										<div className="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex-shrink-0 overflow-hidden">
 											<img
 												src={getImageUrl(item.productInfo.photo.photoURL)}
@@ -204,12 +204,12 @@ export const OrderDetailPage: React.FC = () => {
 											<h4 className="font-semibold text-gray-900 text-base mb-1">
 												{item.productInfo.productName}
 											</h4>
-											<div className="flex items-center gap-4 text-sm text-gray-600">
-												<span>Артикул: #{item.productInfo.productId}</span>
-												<span>Количество: {item.quantity} шт.</span>
+											<div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs sm:text-sm text-gray-600">
+												<span className="break-words">Артикул: #{item.productInfo.productId}</span>
+												<span className="break-words">Количество: {item.quantity} шт.</span>
 											</div>
 										</div>
-										<div className="text-right">
+										<div className="text-left sm:text-right w-full sm:w-auto">
 											<p className="text-lg font-bold text-gray-900">
 												{(item.productInfo.productPrice * item.quantity).toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} ₸
 											</p>
