@@ -380,10 +380,10 @@ export const ProductDetailPage: React.FC = () => {
 					{/* Tabs Section - Under Photos */}
 					<div className="lg:col-span-2 space-y-6">
 						{/* Tab Buttons */}
-						<div className="flex border-b border-gray-200">
+						<div className="flex flex-wrap sm:flex-nowrap sm:overflow-x-auto border-b border-gray-200">
 							<button
 								onClick={() => setActiveTab('specs')}
-								className={`px-6 py-3 font-medium transition-colors ${activeTab === 'specs'
+								className={`px-4 sm:px-6 py-3 font-medium transition-colors whitespace-nowrap ${activeTab === 'specs'
 									? 'text-industrial-accent border-b-2 border-industrial-accent'
 									: 'text-gray-600 hover:text-gray-900'
 									}`}
@@ -393,7 +393,7 @@ export const ProductDetailPage: React.FC = () => {
 							{product.description && (
 								<button
 									onClick={() => setActiveTab('description')}
-									className={`px-6 py-3 font-medium transition-colors ${activeTab === 'description'
+									className={`px-4 sm:px-6 py-3 font-medium transition-colors whitespace-nowrap ${activeTab === 'description'
 										? 'text-industrial-accent border-b-2 border-industrial-accent'
 										: 'text-gray-600 hover:text-gray-900'
 										}`}
@@ -404,7 +404,7 @@ export const ProductDetailPage: React.FC = () => {
 							{product.techSpecUrl && product.techSpecName && (
 								<button
 									onClick={() => setActiveTab('techSpecs')}
-									className={`px-6 py-3 font-medium transition-colors ${activeTab === 'techSpecs'
+									className={`px-4 sm:px-6 py-3 font-medium transition-colors whitespace-nowrap ${activeTab === 'techSpecs'
 										? 'text-industrial-accent border-b-2 border-industrial-accent'
 										: 'text-gray-600 hover:text-gray-900'
 										}`}
@@ -416,68 +416,68 @@ export const ProductDetailPage: React.FC = () => {
 
 						{/* Tab Content */}
 						{activeTab === 'specs' && (
-							<div className="bg-white rounded-lg p-6 border border-gray-200">
+							<div className="bg-white rounded-lg p-6 border border-gray-200 max-w-full overflow-hidden">
 								<h3 className="text-lg font-semibold text-gray-900 mb-4">Характеристики</h3>
 								<div className="space-y-3">
 									{/* Базовые характеристики */}
 									{product.material && typeof product.material === 'string' && product.material.trim() !== '' && (
-										<div className="flex justify-between py-2 border-b border-gray-100">
+										<div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-6">
 											<span className="text-gray-600">Материал:</span>
-											<span className="font-medium">{product.material}</span>
+											<span className="font-medium break-words">{product.material}</span>
 										</div>
 									)}
 									{product.dimensions && typeof product.dimensions === 'string' && product.dimensions.trim() !== '' && (
-										<div className="flex justify-between py-2 border-b border-gray-100">
+										<div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-6">
 											<span className="text-gray-600">Габариты:</span>
-											<span className="font-medium">{product.dimensions}</span>
+											<span className="font-medium break-words">{product.dimensions}</span>
 										</div>
 									)}
 									{product.weight && typeof product.weight === 'number' && product.weight > 0 && (
-										<div className="flex justify-between py-2 border-b border-gray-100">
+										<div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-6">
 											<span className="text-gray-600">Вес:</span>
-											<span className="font-medium">{product.weight} кг</span>
+											<span className="font-medium break-words">{product.weight} кг</span>
 										</div>
 									)}
 
 									{/* Дополнительные размеры */}
 									{product.width && typeof product.width === 'number' && product.width > 0 && (
-										<div className="flex justify-between py-2 border-b border-gray-100">
+										<div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-6">
 											<span className="text-gray-600">Ширина:</span>
-											<span className="font-medium">{product.width} мм</span>
+											<span className="font-medium break-words">{product.width} мм</span>
 										</div>
 									)}
 									{product.depth && typeof product.depth === 'number' && product.depth > 0 && (
-										<div className="flex justify-between py-2 border-b border-gray-100">
+										<div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-6">
 											<span className="text-gray-600">Глубина:</span>
-											<span className="font-medium">{product.depth} мм</span>
+											<span className="font-medium break-words">{product.depth} мм</span>
 										</div>
 									)}
 									{product.height && typeof product.height === 'number' && product.height > 0 && (
-										<div className="flex justify-between py-2 border-b border-gray-100">
+										<div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-6">
 											<span className="text-gray-600">Высота:</span>
-											<span className="font-medium">{product.height} мм</span>
+											<span className="font-medium break-words">{product.height} мм</span>
 										</div>
 									)}
 
 									{/* Электрические характеристики */}
 									{product.power && typeof product.power === 'string' && product.power.trim() !== '' && (
-										<div className="flex justify-between py-2 border-b border-gray-100">
+										<div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-6">
 											<span className="text-gray-600">Мощность:</span>
-											<span className="font-medium">{product.power} kW</span>
+											<span className="font-medium break-words">{product.power} kW</span>
 										</div>
 									)}
 									{product.voltage && typeof product.voltage === 'string' && product.voltage.trim() !== '' && (
-										<div className="flex justify-between py-2 border-b border-gray-100">
+										<div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-6">
 											<span className="text-gray-600">Напряжение:</span>
-											<span className="font-medium">{product.voltage} В</span>
+											<span className="font-medium break-words">{product.voltage} В</span>
 										</div>
 									)}
 
 									{/* Страна производства */}
 									{product.country && typeof product.country === 'string' && product.country.trim() !== '' && (
-										<div className="flex justify-between py-2 border-b border-gray-100">
+										<div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-6">
 											<span className="text-gray-600">Страна:</span>
-											<span className="font-medium">{product.country}</span>
+											<span className="font-medium break-words">{product.country}</span>
 										</div>
 									)}
 
@@ -487,18 +487,18 @@ export const ProductDetailPage: React.FC = () => {
 											{Object.entries(product.specifications)
 												.filter(([_, value]) => value && typeof value === 'string' && value.trim() !== '')
 												.map(([key, value]) => (
-													<div key={key} className="flex justify-between py-2 border-b border-gray-100">
+													<div key={key} className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-6">
 														<span className="text-gray-600 capitalize">{key}:</span>
-														<span className="font-medium">{value}</span>
+														<span className="font-medium break-words">{value}</span>
 													</div>
 												))}
 										</>
 									)}
 
 									{/* Стандартные характеристики */}
-									<div className="flex justify-between py-2 border-b border-gray-100">
+									<div className="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-gray-100 gap-1 sm:gap-6">
 										<span className="text-gray-600">Артикул:</span>
-										<span className="font-medium">{product.tag}</span>
+										<span className="font-medium break-words">{product.tag}</span>
 									</div>
 									<div className="flex justify-between py-2">
 										<span className="text-gray-600">В наличии:</span>
@@ -509,11 +509,11 @@ export const ProductDetailPage: React.FC = () => {
 						)}
 
 						{activeTab === 'techSpecs' && product.techSpecUrl && product.techSpecName && (
-							<div className="bg-white rounded-lg p-6 border border-gray-200">
+							<div className="bg-white rounded-lg p-6 border border-gray-200 max-w-full overflow-hidden">
 								<h3 className="text-lg font-semibold text-gray-900 mb-4">
 									Технические спецификации
 								</h3>
-								<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-blue-50 border border-blue-200 rounded-lg p-4">
+								<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-full overflow-hidden">
 									<div className="flex items-center mb-3 sm:mb-0">
 										<span className="text-3xl mr-3">{getFileIcon(product.techSpecName, product.techSpecType)}</span>
 										<div>
@@ -537,9 +537,9 @@ export const ProductDetailPage: React.FC = () => {
 						)}
 
 						{activeTab === 'description' && product.description && (
-							<div className="bg-white rounded-lg p-6 border border-gray-200">
+							<div className="bg-white rounded-lg p-6 border border-gray-200 max-w-full overflow-hidden">
 								<h3 className="text-lg font-semibold text-gray-900 mb-4">Описание</h3>
-								<p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+								<p className="text-gray-700 leading-relaxed whitespace-pre-wrap break-words">
 									{product.description}
 								</p>
 							</div>
@@ -577,7 +577,7 @@ export const ProductDetailPage: React.FC = () => {
 							))}
 						</div>
 					) : (
-						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+						<div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
 							{similarProducts.map((similarProduct) => (
 								<ProductCard
 									key={similarProduct.productId}
