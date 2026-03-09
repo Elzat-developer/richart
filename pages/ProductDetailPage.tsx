@@ -261,7 +261,7 @@ export const ProductDetailPage: React.FC = () => {
 									<img
 										src={getImageUrl(photo.photoURL)}
 										alt={`${product.productName} ${index + 1}`}
-										className="w-full h-40 object-cover"
+										className="w-full h-24 sm:h-32 object-contain bg-white"
 									/>
 								</button>
 							))}
