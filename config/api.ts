@@ -22,7 +22,8 @@ export const getApiUrl = (endpoint: string) => {
 };
 
 // Универсальная функция для построения URL
-export const buildUrl = (path: string): string => {
+export const buildUrl = (path: unknown): string => {
+	if (typeof path !== 'string') return '';
 	if (!path) return '';
 
 	// Если URL уже полный (начинается с http), возвращаем как есть

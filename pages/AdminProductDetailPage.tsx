@@ -127,11 +127,13 @@ export const AdminProductDetailPage: React.FC = () => {
 		}
 	};
 
-	const getImageUrl = (url: string): string => {
-		return buildUrl(url);
+	const getImageUrl = (photoOrUrl: GetPhotoDto | string | null | undefined): string => {
+		if (!photoOrUrl) return '';
+		if (typeof photoOrUrl === 'string') return buildUrl(photoOrUrl);
+		return buildUrl(photoOrUrl.photoURL);
 	};
 
-	const getTechSpecUrl = (url: string): string => {
+	const getTechSpecUrl = (url: string | null | undefined): string => {
 		return buildUrl(url);
 	};
 
