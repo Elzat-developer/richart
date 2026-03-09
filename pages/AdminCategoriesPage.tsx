@@ -238,13 +238,13 @@ export const AdminCategoriesPage: React.FC = () => {
 			{/* Navigation */}
 			<AdminNavigation />
 
-			<div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+			<div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 				{/* Page Header with Actions */}
-				<div className="flex justify-between items-center mb-6">
+				<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
 					<h1 className="text-2xl font-bold text-gray-900">Управление категориями</h1>
 					<button
 						onClick={() => setShowCreateForm(true)}
-						className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
+						className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
 					>
 						<PlusIcon className="h-4 w-4 mr-2" />
 						Добавить категорию
@@ -517,7 +517,7 @@ export const AdminCategoriesPage: React.FC = () => {
 						<>
 							{viewMode === 'grid' ? (
 								/* Categories Grid */
-								<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+								<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
 									{currentCategories.map((category) => (
 										<div key={category.categoryId} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
 											{/* Фото категории */}
@@ -585,99 +585,101 @@ export const AdminCategoriesPage: React.FC = () => {
 								</div>
 							) : (
 								/* Categories Table */
-								<div className="bg-white shadow-lg overflow-hidden rounded-lg">
-									<table className="min-w-full divide-y divide-gray-200">
-										<thead className="bg-gray-50">
-											<tr>
-												<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-													Фото
-												</th>
-												<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-													ID
-												</th>
-												<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-													Название
-												</th>
-												<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-													Тип
-												</th>
-												<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-													Описание
-												</th>
-												<th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-													Действия
-												</th>
-											</tr>
-										</thead>
-										<tbody className="bg-white divide-y divide-gray-200">
-											{currentCategories.map((category) => (
-												<tr key={category.categoryId} className="hover:bg-gray-50 transition-colors">
-													<td className="px-6 py-4 whitespace-nowrap">
-														<div className="h-12 w-12 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
-															<img
-																src={getCategoryPhotoUrl(category.photoUrl || '')}
-																alt={category.categoryName}
-																className="max-w-full max-h-full object-contain"
-																onError={(e) => {
-																	(e.target as HTMLImageElement).src = `https://picsum.photos/48/48?error=${category.categoryId}`;
-																}}
-															/>
-														</div>
-													</td>
-													<td className="px-6 py-4 whitespace-nowrap">
-														<div className="text-sm font-mono text-gray-900">
-															{category.categoryId}
-														</div>
-													</td>
-													<td className="px-6 py-4 whitespace-nowrap">
-														<div className="text-sm font-medium text-gray-900">
-															{category.categoryName}
-														</div>
-													</td>
-													<td className="px-6 py-4 whitespace-nowrap">
-														<span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${category.categoryType === 'industrial'
-															? 'bg-industrial-100 text-industrial-accent'
-															: 'bg-blue-100 text-blue-800'
-															}`}>
-															{category.categoryType === 'industrial' ? 'Промышленная' : 'Бытовая'}
-														</span>
-													</td>
-													<td className="px-6 py-4">
-														<div className="text-sm text-gray-900 max-w-xs truncate">
-															{category.description}
-														</div>
-													</td>
-													<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-														<div className="flex items-center justify-end space-x-2">
-															<button
-																onClick={() => handleEdit(category)}
-																className="text-industrial-accent hover:text-industrial-900"
-																title="Редактировать"
-															>
-																<EditIcon className="h-4 w-4" />
-															</button>
-															{showArchived && (
-																<button
-																	onClick={() => handleActivateCategory(category.categoryId)}
-																	className="text-green-600 hover:text-green-900"
-																	title="Активировать категорию"
-																>
-																	<CheckIcon className="h-4 w-4" />
-																</button>
-															)}
-															<button
-																onClick={() => handleDelete(category.categoryId)}
-																className="text-red-600 hover:text-red-900"
-																title="Удалить"
-															>
-																<TrashIcon className="h-4 w-4" />
-															</button>
-														</div>
-													</td>
+								<div className="bg-white shadow-lg rounded-lg">
+									<div className="overflow-x-auto">
+										<table className="min-w-max w-max divide-y divide-gray-200">
+											<thead className="bg-gray-50">
+												<tr>
+													<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+														Фото
+													</th>
+													<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+														ID
+													</th>
+													<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+														Название
+													</th>
+													<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+														Тип
+													</th>
+													<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+														Описание
+													</th>
+													<th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+														Действия
+													</th>
 												</tr>
-											))}
-										</tbody>
-									</table>
+											</thead>
+											<tbody className="bg-white divide-y divide-gray-200">
+												{currentCategories.map((category) => (
+													<tr key={category.categoryId} className="hover:bg-gray-50 transition-colors">
+														<td className="px-6 py-4 whitespace-nowrap">
+															<div className="h-12 w-12 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+																<img
+																	src={getCategoryPhotoUrl(category.photoUrl || '')}
+																	alt={category.categoryName}
+																	className="max-w-full max-h-full object-contain"
+																	onError={(e) => {
+																		(e.target as HTMLImageElement).src = `https://picsum.photos/48/48?error=${category.categoryId}`;
+																	}}
+																/>
+															</div>
+														</td>
+														<td className="px-6 py-4 whitespace-nowrap">
+															<div className="text-sm font-mono text-gray-900">
+																{category.categoryId}
+															</div>
+														</td>
+														<td className="px-6 py-4 whitespace-nowrap">
+															<div className="text-sm font-medium text-gray-900">
+																{category.categoryName}
+															</div>
+														</td>
+														<td className="px-6 py-4 whitespace-nowrap">
+															<span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${category.categoryType === 'industrial'
+																? 'bg-industrial-100 text-industrial-accent'
+																: 'bg-blue-100 text-blue-800'
+																}`}>
+																{category.categoryType === 'industrial' ? 'Промышленная' : 'Бытовая'}
+															</span>
+														</td>
+														<td className="px-6 py-4">
+															<div className="text-sm text-gray-900 max-w-xs truncate">
+																{category.description}
+															</div>
+														</td>
+														<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+															<div className="flex items-center justify-end space-x-2">
+																<button
+																	onClick={() => handleEdit(category)}
+																	className="text-industrial-accent hover:text-industrial-900"
+																	title="Редактировать"
+																>
+																	<EditIcon className="h-4 w-4" />
+																</button>
+																{showArchived && (
+																	<button
+																		onClick={() => handleActivateCategory(category.categoryId)}
+																		className="text-green-600 hover:text-green-900"
+																		title="Активировать категорию"
+																	>
+																		<CheckIcon className="h-4 w-4" />
+																	</button>
+																)}
+																<button
+																	onClick={() => handleDelete(category.categoryId)}
+																	className="text-red-600 hover:text-red-900"
+																	title="Удалить"
+																>
+																	<TrashIcon className="h-4 w-4" />
+																</button>
+															</div>
+														</td>
+													</tr>
+												))}
+											</tbody>
+										</table>
+									</div>
 								</div>
 							)}
 
