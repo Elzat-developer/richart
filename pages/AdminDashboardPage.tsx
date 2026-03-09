@@ -158,7 +158,7 @@ export const AdminDashboardPage: React.FC = () => {
 			{/* Navigation */}
 			<AdminNavigation />
 
-			<div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+			<div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 				{/* Welcome Section */}
 				<div className="mb-8">
 					<div className="bg-white rounded-lg shadow p-6">
