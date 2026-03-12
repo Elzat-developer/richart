@@ -252,10 +252,10 @@ export const AdminCategoriesPage: React.FC = () => {
 				</div>
 
 				{/* Filters and View Controls */}
-				<div className="bg-white shadow rounded-lg p-4 mb-6">
-					<div className="flex flex-wrap items-center justify-between gap-4">
+				<div className="bg-white shadow rounded-lg p-3 sm:p-4 mb-6">
+					<div className="flex flex-col gap-4">
 						{/* Category Type Filter */}
-						<div className="flex items-center space-x-4">
+						<div className="flex flex-col sm:flex-row sm:items-center gap-3">
 							<div className="flex items-center space-x-2">
 								<FilterIcon className="h-4 w-4 text-gray-500" />
 								<span className="text-sm font-medium text-gray-700">Тип:</span>
@@ -283,7 +283,7 @@ export const AdminCategoriesPage: React.FC = () => {
 						</div>
 
 						{/* Active/Archived Filter */}
-						<div className="flex items-center space-x-2">
+						<div className="flex flex-col sm:flex-row sm:items-center gap-3">
 							<span className="text-sm font-medium text-gray-700">Статус:</span>
 							<div className="flex bg-gray-100 rounded-lg p-1">
 								<button
@@ -308,7 +308,7 @@ export const AdminCategoriesPage: React.FC = () => {
 						</div>
 
 						{/* View Mode Toggle */}
-						<div className="flex items-center space-x-2">
+						<div className="flex flex-col sm:flex-row sm:items-center gap-3">
 							<span className="text-sm font-medium text-gray-700">Вид:</span>
 							<div className="flex bg-gray-100 rounded-lg p-1">
 								<button
@@ -517,11 +517,11 @@ export const AdminCategoriesPage: React.FC = () => {
 						<>
 							{viewMode === 'grid' ? (
 								/* Categories Grid */
-								<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-6 lg:gap-8">
+								<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
 									{currentCategories.map((category) => (
 										<div key={category.categoryId} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
 											{/* Фото категории */}
-											<div className="h-64 overflow-hidden bg-gray-100 flex items-center justify-center">
+											<div className="h-48 sm:h-64 overflow-hidden bg-gray-100 flex items-center justify-center">
 												<img
 													src={getCategoryPhotoUrl(category.photoUrl || '')}
 													alt={category.categoryName}
@@ -532,9 +532,9 @@ export const AdminCategoriesPage: React.FC = () => {
 												/>
 											</div>
 
-											<div className="p-6">
-												<div className="flex items-center justify-between mb-4">
-													<span className="text-sm font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded">
+											<div className="p-4 sm:p-6">
+												<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+													<span className="text-xs sm:text-sm font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded">
 														ID: {category.categoryId}
 													</span>
 													<span className="text-xs font-medium text-industrial-accent bg-industrial-100 px-2 py-1 rounded">
@@ -542,41 +542,41 @@ export const AdminCategoriesPage: React.FC = () => {
 													</span>
 												</div>
 
-												<h3 className="text-xl font-bold text-gray-900 mb-3">
+												<h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">
 													{category.categoryName}
 												</h3>
 
-												<p className="text-gray-600 text-sm mb-6 line-clamp-3 leading-relaxed">
+												<p className="text-gray-600 text-xs sm:text-sm mb-4 sm:mb-6 line-clamp-3 leading-relaxed">
 													{category.description}
 												</p>
 
 												<div className="flex flex-col sm:flex-row sm:justify-between gap-3 pt-4 border-t border-gray-200">
-													<div className="flex flex-col sm:flex-row gap-2">
+													<div className="flex flex-row gap-2 justify-center sm:justify-start">
 														<button
 															onClick={() => handleEdit(category)}
-															className="inline-flex items-center justify-center px-4 py-2 text-industrial-accent hover:text-industrial-900 hover:bg-industrial-50 text-sm font-medium rounded-lg transition-colors"
+															className="inline-flex items-center justify-center px-3 py-2 text-industrial-accent hover:text-industrial-900 hover:bg-industrial-50 text-sm font-medium rounded-lg transition-colors"
 														>
 															<EditIcon className="h-4 w-4" />
-															<span className="ml-2 hidden sm:inline">Редактировать</span>
+															<span className="ml-1">Редактировать</span>
 														</button>
 														{showArchived && (
 															<button
 																onClick={() => handleActivateCategory(category.categoryId)}
-																className="inline-flex items-center justify-center px-4 py-2 text-green-600 hover:text-green-900 hover:bg-green-50 text-sm font-medium rounded-lg transition-colors"
+																className="inline-flex items-center justify-center px-3 py-2 text-green-600 hover:text-green-900 hover:bg-green-50 text-sm font-medium rounded-lg transition-colors"
 																title="Активировать категорию"
 															>
 																<CheckIcon className="h-4 w-4" />
-																<span className="ml-2 hidden sm:inline">Активировать</span>
+																<span className="ml-1">Активировать</span>
 															</button>
 														)}
 													</div>
 
 													<button
 														onClick={() => handleDelete(category.categoryId)}
-														className="inline-flex items-center justify-center px-4 py-2 text-red-600 hover:text-red-900 hover:bg-red-50 text-sm font-medium rounded-lg transition-colors"
+														className="inline-flex items-center justify-center px-3 py-2 text-red-600 hover:text-red-900 hover:bg-red-50 text-sm font-medium rounded-lg transition-colors"
 													>
 														<TrashIcon className="h-4 w-4" />
-														<span className="ml-2 hidden sm:inline">Удалить</span>
+														<span className="ml-1">Удалить</span>
 													</button>
 												</div>
 											</div>

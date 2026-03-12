@@ -288,8 +288,8 @@ const AdminCompanyPage: React.FC = () => {
 					</div>
 
 					{/* Logo Upload */}
-					<div className="bg-white shadow rounded-lg p-6">
-						<h2 className="text-lg font-medium text-gray-900 mb-6">Логотип компании</h2>
+					<div className="bg-white shadow rounded-lg p-4 sm:p-6">
+						<h2 className="text-lg font-medium text-gray-900 mb-4 sm:mb-6">Логотип компании</h2>
 
 						<div className="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-4 sm:space-y-0">
 							<div className="flex-shrink-0 self-center sm:self-auto">
@@ -297,7 +297,7 @@ const AdminCompanyPage: React.FC = () => {
 									<img
 										src={logoPreview}
 										alt="Логотип"
-										className="h-32 w-32 sm:h-40 sm:w-40 object-cover rounded-lg border"
+										className="h-32 w-32 sm:h-40 sm:w-40 object-contain rounded-lg border"
 										onError={(e) => {
 											const target = e.target as HTMLImageElement;
 											target.src = 'https://picsum.photos/80/80?error=logo-failed';
