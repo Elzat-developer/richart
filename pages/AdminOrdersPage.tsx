@@ -617,15 +617,15 @@ export const AdminOrdersPage: React.FC = () => {
 				{/* Modal - Полные детали заказа */}
 				{showDetailModal && (
 					<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-						<div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-							<div className="flex justify-between items-center p-6 border-b border-gray-200">
-								<h3 className="text-xl font-bold text-gray-900">Детали заказа</h3>
-								<button onClick={closeDetailModal} className="text-gray-400 hover:text-gray-500">
+						<div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto flex flex-col">
+							<div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-200 flex-shrink-0">
+								<h3 className="text-lg sm:text-xl font-bold text-gray-900">Детали заказа</h3>
+								<button onClick={closeDetailModal} className="text-gray-400 hover:text-gray-500 p-1">
 									<XIcon className="h-6 w-6" />
 								</button>
 							</div>
 
-							<div className="p-6">
+							<div className="flex-1 p-4 sm:p-6 overflow-y-auto">
 								{loadingDetail ? (
 									<div className="flex items-center justify-center py-12">
 										<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -731,11 +731,11 @@ export const AdminOrdersPage: React.FC = () => {
 										</div>
 
 										{/* Кнопки действий */}
-										<div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+										<div className="flex flex-col sm:flex-row sm:justify-end gap-3 pt-4 border-t border-gray-200">
 											{selectedOrder && (
 												<button
 													onClick={() => loadCustomerOrders(selectedOrder.customerName, selectedOrder.customerPhone)}
-													className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+													className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-6 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
 												>
 													<ShoppingBagIcon className="h-4 w-4 mr-2" />
 													Все заказы клиента
@@ -745,7 +745,7 @@ export const AdminOrdersPage: React.FC = () => {
 											{selectedOrder && (
 												<button
 													onClick={handleRepeatOrder}
-													className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+													className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-6 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
 												>
 													<PhoneIcon className="h-4 w-4 mr-2" />
 													Предложить оплатить заказ
@@ -759,7 +759,7 @@ export const AdminOrdersPage: React.FC = () => {
 														closeDetailModal();
 													}}
 													disabled={updatingOrderId === selectedOrder.orderId}
-													className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+													className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-6 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
 												>
 													<CheckIcon className="h-4 w-4 mr-2" />
 													Отметить оплаченным
@@ -773,7 +773,7 @@ export const AdminOrdersPage: React.FC = () => {
 														closeDetailModal();
 													}}
 													disabled={updatingOrderId === selectedOrder.orderId}
-													className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed"
+													className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-6 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed"
 												>
 													<XIcon className="h-4 w-4 mr-2" />
 													Отметить не оплаченным
@@ -785,7 +785,7 @@ export const AdminOrdersPage: React.FC = () => {
 													handleDeleteOrder(selectedOrder.orderId);
 													closeDetailModal();
 												}}
-												className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+												className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-6 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
 											>
 												<TrashIcon className="h-4 w-4 mr-2" />
 												Удалить заказ
