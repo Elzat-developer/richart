@@ -291,29 +291,29 @@ const AdminCompanyPage: React.FC = () => {
 					<div className="bg-white shadow rounded-lg p-6">
 						<h2 className="text-lg font-medium text-gray-900 mb-6">Логотип компании</h2>
 
-						<div className="flex items-center space-x-6">
-							<div className="flex-shrink-0">
+						<div className="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-4 sm:space-y-0">
+							<div className="flex-shrink-0 self-center sm:self-auto">
 								{logoPreview ? (
 									<img
 										src={logoPreview}
 										alt="Логотип"
-										className="h-40 w-22 object-cover rounded-lg border"
+										className="h-32 w-32 sm:h-40 sm:w-40 object-cover rounded-lg border"
 										onError={(e) => {
 											const target = e.target as HTMLImageElement;
 											target.src = 'https://picsum.photos/80/80?error=logo-failed';
 										}}
 									/>
 								) : (
-									<div className="h-20 w-20 bg-gray-200 rounded-lg flex items-center justify-center">
-										<svg className="h-8 w-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+									<div className="h-20 w-20 sm:h-32 sm:w-32 bg-gray-200 rounded-lg flex items-center justify-center">
+										<svg className="h-8 w-8 sm:h-12 sm:w-12 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
 											<path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
 										</svg>
 									</div>
 								)}
 							</div>
 
-							<div className="flex-1">
-								<label htmlFor="logoUrl" className="block text-sm font-medium text-gray-700">
+							<div className="flex-1 text-center sm:text-left">
+								<label htmlFor="logoUrl" className="block text-sm font-medium text-gray-700 mb-2">
 									Загрузить новый логотип
 								</label>
 								<input
@@ -324,26 +324,29 @@ const AdminCompanyPage: React.FC = () => {
 									onChange={handleFileChange}
 									className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
 								/>
-								<p className="mt-1 text-sm text-gray-500">
+								<p className="mt-2 text-sm text-gray-500">
 									PNG, JPG, GIF до 10MB
+								</p>
+								<p className="mt-1 text-xs text-gray-400">
+									Рекомендуемый размер: 200x200px
 								</p>
 							</div>
 						</div>
 					</div>
 
 					{/* Actions */}
-					<div className="flex justify-end space-x-4">
+					<div className="flex flex-col sm:flex-row sm:justify-end gap-3 sm:space-x-4 space-y-3 sm:space-y-0">
 						<button
 							type="button"
 							onClick={() => navigate('/admin/dashboard')}
-							className="px-6 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+							className="w-full sm:w-auto px-6 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
 						>
 							Отмена
 						</button>
 						<button
 							type="submit"
 							disabled={saving}
-							className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50"
+							className="w-full sm:w-auto px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50"
 						>
 							{saving ? 'Сохранение...' : 'Сохранить изменения'}
 						</button>
