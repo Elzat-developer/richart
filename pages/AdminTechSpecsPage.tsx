@@ -396,16 +396,16 @@ export const AdminTechSpecsPage: React.FC = () => {
 			{/* Navigation */}
 			<AdminNavigation />
 
-			<div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 				{/* Page Header with Actions */}
-				<div className="flex justify-between items-center mb-6">
-					<h1 className="text-2xl font-bold text-gray-900">Технические спецификации</h1>
+				<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+					<h1 className="text-xl sm:text-2xl font-bold text-gray-900">Технические спецификации</h1>
 					<button
 						onClick={() => {
 							resetForm();
 							setShowCreateForm(true);
 						}}
-						className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
+						className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
 					>
 						<PlusIcon className="h-4 w-4 mr-2" />
 						Добавить спецификацию
@@ -773,7 +773,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 							<div className="bg-white shadow-lg overflow-hidden rounded-lg">
 								{/* Заголовок таблицы с поиском */}
 								<div className="border-b border-gray-200 p-4 bg-gray-50">
-									<div className="flex items-center justify-between">
+									<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 										<div className="text-sm text-gray-700">
 											Всего тех. спецификаций: {filteredTechSpecs.length}
 											{techSpecTotalPages > 1 && (
@@ -812,8 +812,8 @@ export const AdminTechSpecsPage: React.FC = () => {
 									</div>
 								</div>
 
-								{/* Таблица тех. спецификаций */}
-								<div className="overflow-x-auto">
+								{/* Таблица тех. спецификаций для десктопа */}
+								<div className="hidden lg:block overflow-x-auto">
 									<table className="min-w-full divide-y divide-gray-200">
 										<thead className="bg-gray-50">
 											<tr>
@@ -883,18 +883,88 @@ export const AdminTechSpecsPage: React.FC = () => {
 									</table>
 								</div>
 
+								{/* Карточный вид для мобильных */}
+								<div className="lg:hidden space-y-4 p-4">
+									{currentTechSpecsList.length === 0 ? (
+										<div className="text-center py-8">
+											<FileSpreadsheetIcon className="mx-auto h-12 w-12 text-gray-400" />
+											<p className="mt-2 text-sm text-gray-500">
+												{techSpecSearchTerm ? 'Технические спецификации не найдены' : 'Нет технических спецификаций'}
+											</p>
+										</div>
+									) : (
+										currentTechSpecsList.map((techSpec) => (
+											<div key={techSpec.techSpecId} className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+												<div className="p-4">
+													{/* Заголовок карточки */}
+													<div className="flex justify-between items-start mb-3">
+														<div className="flex-1">
+															<h3 className="text-base font-semibold text-gray-900 mb-1">{techSpec.fileName}</h3>
+															<p className="text-xs text-gray-500">ID: {techSpec.techSpecId}</p>
+														</div>
+														<div className="flex space-x-1">
+															<button
+																onClick={() => handleEdit(techSpec)}
+																className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+																title="Редактировать"
+															>
+																<EditIcon className="h-4 w-4" />
+															</button>
+															<button
+																onClick={() => handleDelete(techSpec.techSpecId)}
+																className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+																title="Удалить"
+															>
+																<TrashIcon className="h-4 w-4" />
+															</button>
+														</div>
+													</div>
+
+													{/* Информация о товаре */}
+													<div className="mb-3">
+														<div className="text-sm text-gray-600 mb-1">
+															<span className="font-medium">Товар:</span>
+														</div>
+														<div className="text-sm text-gray-900 bg-gray-50 rounded p-2">
+															{getProductName(techSpec.product_id)}
+														</div>
+													</div>
+
+													{/* Файл */}
+													<div className="flex items-center justify-between">
+														<div className="flex-1">
+															{techSpec.fileUrl ? (
+																<button
+																	onClick={() => handleDownloadFile(techSpec.fileUrl, techSpec.fileName)}
+																	className="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+																>
+																	📄 Скачать файл
+																</button>
+															) : (
+																<div className="w-full text-center py-2 bg-gray-100 text-gray-500 rounded-lg text-sm">
+																	Нет файла
+																</div>
+															)}
+														</div>
+													</div>
+												</div>
+											</div>
+										))
+									)}
+								</div>
+
 								{/* Пагинация */}
 								{techSpecTotalPages > 1 && (
 									<div className="border-t border-gray-200 p-4 bg-gray-50">
-										<div className="flex items-center justify-between">
-											<div className="text-sm text-gray-600">
+										<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+											<div className="text-sm text-gray-600 text-center sm:text-left">
 												Показано {techSpecStartIndex + 1}-{Math.min(techSpecEndIndex, filteredTechSpecs.length)} из {filteredTechSpecs.length}
 											</div>
-											<div className="flex items-center space-x-1">
+											<div className="flex items-center justify-center sm:justify-end space-x-1 overflow-x-auto">
 												<button
 													onClick={() => setCurrentPage(1)}
 													disabled={currentPage === 1}
-													className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+													className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 													title="Первая страница"
 												>
 													««
@@ -902,7 +972,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 												<button
 													onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
 													disabled={currentPage === 1}
-													className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+													className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 													title="Предыдущая страница"
 												>
 													«
@@ -911,11 +981,11 @@ export const AdminTechSpecsPage: React.FC = () => {
 												{getPageNumbers().map((pageNum, index) => (
 													<span key={index}>
 														{pageNum === '...' ? (
-															<span className="px-3 py-2 text-gray-500">...</span>
+															<span className="px-3 py-2 text-gray-500 flex-shrink-0">...</span>
 														) : (
 															<button
 																onClick={() => setCurrentPage(pageNum as number)}
-																className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${currentPage === pageNum
+																className={`px-3 py-2 text-sm font-medium rounded-md transition-colors flex-shrink-0 ${currentPage === pageNum
 																	? 'bg-blue-600 text-white'
 																	: 'text-gray-700 hover:bg-gray-100'
 																	}`}
@@ -929,7 +999,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 												<button
 													onClick={() => setCurrentPage(prev => Math.min(techSpecTotalPages, prev + 1))}
 													disabled={currentPage === techSpecTotalPages}
-													className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+													className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 													title="Следующая страница"
 												>
 													»
@@ -937,7 +1007,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 												<button
 													onClick={() => setCurrentPage(techSpecTotalPages)}
 													disabled={currentPage === techSpecTotalPages}
-													className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+													className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 													title="Последняя страница"
 												>
 													»»
@@ -945,7 +1015,6 @@ export const AdminTechSpecsPage: React.FC = () => {
 											</div>
 										</div>
 									</div>
-
 								)}
 
 							</div>
