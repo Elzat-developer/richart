@@ -37,7 +37,7 @@ export const AdminNewsPage: React.FC = () => {
 	const [formData, setFormData] = useState<CreateNewsDto>({
 		name: '',
 		description: '',
-		newsPhotoUrl: undefined
+		newsPhotoUrl: new File([], '') // Временное пустое значение
 	});
 	const [validationErrors, setValidationErrors] = useState<NewsFormErrors>({});
 
@@ -81,11 +81,11 @@ export const AdminNewsPage: React.FC = () => {
 			errors.description = 'Описание новости обязательно';
 		}
 
-		if (!editingNews && !formData.newsPhotoUrl) {
+		if (!editingNews && (!formData.newsPhotoUrl || formData.newsPhotoUrl.size === 0)) {
 			errors.newsPhotoUrl = 'Файл изображения обязателен';
 		}
 
-		if (formData.newsPhotoUrl) {
+		if (formData.newsPhotoUrl && formData.newsPhotoUrl.size > 0) {
 			const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
 			if (!allowedTypes.includes(formData.newsPhotoUrl.type)) {
 				errors.newsPhotoUrl = 'Допустимы только изображения (JPEG, PNG, GIF, WebP)';
@@ -104,7 +104,7 @@ export const AdminNewsPage: React.FC = () => {
 		setFormData({
 			name: '',
 			description: '',
-			newsPhotoUrl: undefined
+			newsPhotoUrl: new File([], '')
 		});
 		setEditingNews(null);
 		setValidationErrors({});
@@ -117,8 +117,23 @@ export const AdminNewsPage: React.FC = () => {
 
 		try {
 			if (editingNews) {
-				await AdminApiService.editNews(editingNews.newsId, formData);
+				// При редактировании проверяем, есть ли новый файл
+				if (formData.newsPhotoUrl.size > 0) {
+					await AdminApiService.editNews(editingNews.newsId, formData);
+				} else {
+					// Если файл не выбран, отправляем только текстовые данные
+					await AdminApiService.editNews(editingNews.newsId, {
+						name: formData.name,
+						description: formData.description,
+						newsPhotoUrl: new File([], 'placeholder')
+					});
+				}
 			} else {
+				// При создании новости файл обязателен
+				if (!formData.newsPhotoUrl || formData.newsPhotoUrl.size === 0) {
+					alert('Файл изображения обязателен');
+					return;
+				}
 				await AdminApiService.createNews(formData);
 			}
 
@@ -256,31 +271,29 @@ export const AdminNewsPage: React.FC = () => {
 		<div className="min-h-screen bg-gray-100">
 			<AdminNavigation />
 
-			<div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-				<div className="flex justify-between items-center mb-6">
-					<h1 className="text-2xl font-bold text-gray-900">Управление новостями</h1>
-					<div className="flex items-center space-x-4">
+			<div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+				<div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
+					<h1 className="text-xl sm:text-2xl font-bold text-gray-900">Управление новостями</h1>
+					<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
 						<div className="flex items-center space-x-2">
 							<span className="text-sm font-medium text-gray-700">Вид:</span>
 							<div className="flex bg-gray-100 rounded-lg p-1">
 								<button
 									onClick={() => setViewMode('grid')}
-									className={`p-1.5 rounded-md transition-colors ${
-										viewMode === 'grid'
-											? 'bg-industrial-accent text-white'
-											: 'text-gray-700 hover:text-gray-900'
-									}`}
+									className={`p-1.5 rounded-md transition-colors ${viewMode === 'grid'
+										? 'bg-industrial-accent text-white'
+										: 'text-gray-700 hover:text-gray-900'
+										}`}
 									title="Карточки"
 								>
 									<GridIcon className="h-4 w-4" />
 								</button>
 								<button
 									onClick={() => setViewMode('table')}
-									className={`p-1.5 rounded-md transition-colors ${
-										viewMode === 'table'
-											? 'bg-industrial-accent text-white'
-											: 'text-gray-700 hover:text-gray-900'
-									}`}
+									className={`p-1.5 rounded-md transition-colors ${viewMode === 'table'
+										? 'bg-industrial-accent text-white'
+										: 'text-gray-700 hover:text-gray-900'
+										}`}
 									title="Таблица"
 								>
 									<TableIcon className="h-4 w-4" />
@@ -289,7 +302,7 @@ export const AdminNewsPage: React.FC = () => {
 						</div>
 						<button
 							onClick={() => setShowCreateForm(true)}
-							className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
+							className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors w-full sm:w-auto"
 						>
 							<PlusIcon className="h-4 w-4 mr-2" />
 							Добавить новость
@@ -343,9 +356,8 @@ export const AdminNewsPage: React.FC = () => {
 										Изображение новости {editingNews && <span className="text-gray-500 font-normal">(необязательно)</span>}
 									</label>
 									<div
-										className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
-											dragActive ? 'border-industrial-accent bg-industrial-50' : 'border-gray-300 hover:border-gray-400'
-										}`}
+										className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-colors ${dragActive ? 'border-industrial-accent bg-industrial-50' : 'border-gray-300 hover:border-gray-400'
+											}`}
 										onDragEnter={handleDrag}
 										onDragLeave={handleLeave}
 										onDragOver={handleDrag}
@@ -358,7 +370,7 @@ export const AdminNewsPage: React.FC = () => {
 											className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
 										/>
 
-										{formData.newsPhotoUrl ? (
+										{formData.newsPhotoUrl.size > 0 ? (
 											<div className="space-y-2">
 												<ImageIcon className="mx-auto h-12 w-12 text-green-500" />
 												<p className="text-sm font-medium text-gray-900">{formData.newsPhotoUrl.name}</p>
@@ -410,7 +422,7 @@ export const AdminNewsPage: React.FC = () => {
 				) : (
 					<div className="space-y-6">
 						<div className="bg-white shadow rounded-lg p-4">
-							<div className="flex items-center justify-between">
+							<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 								<div className="text-sm text-gray-600">
 									Всего новостей: <span className="font-medium text-gray-900">{news.length}</span>
 								</div>
@@ -448,7 +460,7 @@ export const AdminNewsPage: React.FC = () => {
 						</div>
 
 						{viewMode === 'grid' ? (
-							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
 								{currentNews.map((newsItem) => (
 									<div
 										key={newsItem.newsId}
@@ -467,7 +479,7 @@ export const AdminNewsPage: React.FC = () => {
 											<h3 className="text-lg font-bold text-gray-900 mb-2">{newsItem.name}</h3>
 											<p className="text-gray-600 text-sm mb-4 line-clamp-2">{newsItem.description}</p>
 
-											<div className="flex justify-between items-center">
+											<div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
 												<button
 													onClick={(e) => {
 														e.stopPropagation();
@@ -475,11 +487,11 @@ export const AdminNewsPage: React.FC = () => {
 														setFormData({
 															name: newsItem.name,
 															description: newsItem.description,
-															newsPhotoUrl: undefined
+															newsPhotoUrl: new File([], '')
 														});
 														setShowCreateForm(true);
-												}}
-													className="inline-flex items-center px-4 py-2 text-industrial-accent hover:text-industrial-900 hover:bg-industrial-50 rounded-lg transition-colors text-sm font-medium"
+													}}
+													className="inline-flex items-center justify-center px-4 py-2 text-industrial-accent hover:text-industrial-900 hover:bg-industrial-50 rounded-lg transition-colors text-sm font-medium w-full sm:w-auto"
 												>
 													<EditIcon className="h-4 w-4 mr-2" />
 													Редактировать
@@ -490,7 +502,7 @@ export const AdminNewsPage: React.FC = () => {
 														e.stopPropagation();
 														handleDeleteNews(newsItem.newsId);
 													}}
-													className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-lg transition-colors text-sm font-medium"
+													className="inline-flex items-center justify-center px-4 py-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-lg transition-colors text-sm font-medium w-full sm:w-auto"
 												>
 													<TrashIcon className="h-4 w-4 mr-2" />
 													Удалить
@@ -502,86 +514,88 @@ export const AdminNewsPage: React.FC = () => {
 							</div>
 						) : (
 							<div className="bg-white shadow-lg overflow-hidden rounded-lg">
-								<table className="min-w-full divide-y divide-gray-200">
-									<thead className="bg-gray-50">
-										<tr>
-											<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Фото</th>
-											<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Название</th>
-											<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Описание</th>
-											<th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Действия</th>
-										</tr>
-									</thead>
-									<tbody className="bg-white divide-y divide-gray-200">
-										{currentNews.map((newsItem) => (
-											<tr
-												key={newsItem.newsId}
-												className="hover:bg-gray-50 transition-colors cursor-pointer"
-												onClick={() => handleViewNews(newsItem.newsId)}
-											>
-												<td className="px-6 py-4 whitespace-nowrap">
-													<div className="h-16 w-24 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
-														<img
-															src={getImageUrl(newsItem.newsPhotoUrl)}
-															alt={newsItem.name}
-															className="max-h-full max-w-full object-contain"
-														/>
-													</div>
-												</td>
-												<td className="px-6 py-4">
-													<div className="text-sm font-medium text-gray-900">{newsItem.name}</div>
-												</td>
-												<td className="px-6 py-4">
-													<div className="text-sm text-gray-900 max-w-xs truncate">{newsItem.description}</div>
-												</td>
-												<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-													<div className="flex items-center justify-end space-x-2">
-														<button
-															onClick={(e) => {
-																e.stopPropagation();
-																setEditingNews(newsItem);
-																setFormData({
-																	name: newsItem.name,
-																	description: newsItem.description,
-																	newsPhotoUrl: undefined
-																});
-																setShowCreateForm(true);
-															}}
-															className="text-industrial-accent hover:text-industrial-900"
-															title="Редактировать"
-														>
-															<EditIcon className="h-4 w-4" />
-														</button>
-														<button
-															onClick={(e) => {
-																e.stopPropagation();
-																handleDeleteNews(newsItem.newsId);
-															}}
-															className="text-red-600 hover:text-red-900"
-															title="Удалить"
-														>
-															<TrashIcon className="h-4 w-4" />
-														</button>
-													</div>
-												</td>
+								<div className="overflow-x-auto">
+									<table className="min-w-full divide-y divide-gray-200">
+										<thead className="bg-gray-50">
+											<tr>
+												<th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Фото</th>
+												<th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Название</th>
+												<th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Описание</th>
+												<th className="px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Действия</th>
 											</tr>
-										))}
-									</tbody>
-								</table>
+										</thead>
+										<tbody className="bg-white divide-y divide-gray-200">
+											{currentNews.map((newsItem) => (
+												<tr
+													key={newsItem.newsId}
+													className="hover:bg-gray-50 transition-colors cursor-pointer"
+													onClick={() => handleViewNews(newsItem.newsId)}
+												>
+													<td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+														<div className="h-12 w-16 sm:h-16 sm:w-24 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+															<img
+																src={getImageUrl(newsItem.newsPhotoUrl)}
+																alt={newsItem.name}
+																className="max-h-full max-w-full object-contain"
+															/>
+														</div>
+													</td>
+													<td className="px-4 sm:px-6 py-4">
+														<div className="text-sm font-medium text-gray-900 max-w-xs sm:max-w-none truncate">{newsItem.name}</div>
+													</td>
+													<td className="px-4 sm:px-6 py-4">
+														<div className="text-sm text-gray-900 max-w-xs sm:max-w-sm truncate">{newsItem.description}</div>
+													</td>
+													<td className="px-4 sm:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+														<div className="flex items-center justify-end space-x-2">
+															<button
+																onClick={(e) => {
+																	e.stopPropagation();
+																	setEditingNews(newsItem);
+																	setFormData({
+																		name: newsItem.name,
+																		description: newsItem.description,
+																		newsPhotoUrl: new File([], '')
+																	});
+																	setShowCreateForm(true);
+																}}
+																className="text-industrial-accent hover:text-industrial-900 p-1"
+																title="Редактировать"
+															>
+																<EditIcon className="h-4 w-4" />
+															</button>
+															<button
+																onClick={(e) => {
+																	e.stopPropagation();
+																	handleDeleteNews(newsItem.newsId);
+																}}
+																className="text-red-600 hover:text-red-900 p-1"
+																title="Удалить"
+															>
+																<TrashIcon className="h-4 w-4" />
+															</button>
+														</div>
+													</td>
+												</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
 							</div>
 						)}
 
 						{totalPages > 1 && (
 							<div className="bg-white shadow rounded-lg p-4">
-								<div className="flex items-center justify-between">
-									<div className="text-sm text-gray-700">
+								<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+									<div className="text-sm text-gray-700 text-center sm:text-left">
 										Показано {startIndex + 1}-{Math.min(endIndex, news.length)} из {news.length} новостей
 									</div>
 
-									<div className="flex items-center space-x-1">
+									<div className="flex items-center justify-center sm:justify-end space-x-1 overflow-x-auto">
 										<button
 											onClick={() => setCurrentPage(1)}
 											disabled={currentPage === 1}
-											className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
+											className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 										>
 											<ChevronLeftIcon className="h-4 w-4" />
 											<ChevronLeftIcon className="h-4 w-4 -mr-2" />
@@ -590,15 +604,14 @@ export const AdminNewsPage: React.FC = () => {
 										{getPageNumbers().map((page, index) => (
 											<span key={index}>
 												{typeof page === 'string' ? (
-													<span className="px-3 py-2 text-gray-500">...</span>
+													<span className="px-3 py-2 text-gray-500 flex-shrink-0">...</span>
 												) : (
 													<button
 														onClick={() => setCurrentPage(page as number)}
-														className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-															currentPage === page
-																? 'bg-industrial-accent text-white'
-																: 'text-gray-700 hover:bg-gray-100'
-														}`}
+														className={`px-3 py-2 text-sm font-medium rounded-md transition-colors flex-shrink-0 ${currentPage === page
+															? 'bg-industrial-accent text-white'
+															: 'text-gray-700 hover:bg-gray-100'
+															}`}
 													>
 														{page}
 													</button>
@@ -609,7 +622,7 @@ export const AdminNewsPage: React.FC = () => {
 										<button
 											onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
 											disabled={currentPage === totalPages}
-											className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
+											className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 										>
 											<ChevronRightIcon className="h-4 w-4" />
 										</button>
@@ -617,7 +630,7 @@ export const AdminNewsPage: React.FC = () => {
 										<button
 											onClick={() => setCurrentPage(totalPages)}
 											disabled={currentPage === totalPages}
-											className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
+											className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 										>
 											<ChevronRightIcon className="h-4 w-4" />
 											<ChevronRightIcon className="h-4 w-4 -ml-2" />
@@ -695,7 +708,7 @@ export const AdminNewsPage: React.FC = () => {
 													setFormData({
 														name: selectedNews.name,
 														description: selectedNews.description,
-														newsPhotoUrl: undefined
+														newsPhotoUrl: new File([], '')
 													});
 													setShowCreateForm(true);
 													closeDetailModal();

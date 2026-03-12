@@ -356,7 +356,7 @@ export interface OrderItemProductDTOS {
 export interface CreateNewsDto {
 	name: string;
 	description: string;
-	newsPhotoUrl?: File;
+	newsPhotoUrl: File;
 }
 
 export interface NewsFormErrors {
