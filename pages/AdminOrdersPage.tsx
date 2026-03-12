@@ -131,7 +131,10 @@ export const AdminOrdersPage: React.FC = () => {
 		try {
 			setLoadingCustomerOrders(true);
 			// Используем API для получения истории заказов клиента
-			const response = await fetch(`buildUrl('/api/v1/user/get_user_phone_orders_history/${encodeURIComponent(customerPhone)}')`);
+			const response = await fetch(buildUrl(`/api/v1/user/get_user_phone_orders_history/${encodeURIComponent(customerPhone)}`));
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
 			const data = await response.json();
 			setCustomerOrders(data || []);
 			setSelectedCustomerInfo({ name: customerName, phone: customerPhone });
@@ -159,7 +162,10 @@ export const AdminOrdersPage: React.FC = () => {
 		try {
 			setLoadingCustomerSearch(true);
 			// Используем API для получения истории заказов клиента
-			const response = await fetch(`buildUrl('/api/v1/user/get_user_phone_orders_history/${encodeURIComponent(customerPhone.trim())}')`);
+			const response = await fetch(buildUrl(`/api/v1/user/get_user_phone_orders_history/${encodeURIComponent(customerPhone.trim())}`));
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
 			const data = await response.json();
 			setCustomerOrdersSearch(data || []);
 		} catch (error) {
