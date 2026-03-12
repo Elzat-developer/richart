@@ -519,64 +519,75 @@ export const AdminCategoriesPage: React.FC = () => {
 								/* Categories Grid */
 								<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
 									{currentCategories.map((category) => (
-										<div key={category.categoryId} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-											{/* Фото категории */}
-											<div className="h-48 sm:h-64 overflow-hidden bg-gray-100 flex items-center justify-center">
+										<div key={category.categoryId} className="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-gray-100">
+											{/* Фото категории с градиентом */}
+											<div className="relative h-56 sm:h-64 overflow-hidden bg-gradient-to-br from-industrial-50 to-blue-50">
+												<div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 												<img
 													src={getCategoryPhotoUrl(category.photoUrl || '')}
 													alt={category.categoryName}
-													className="max-w-full max-h-full object-contain"
+													className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
 													onError={(e) => {
 														(e.target as HTMLImageElement).src = `https://picsum.photos/400/300?error=${category.categoryId}`;
 													}}
 												/>
+												{/* Бейдж типа категории */}
+												<div className="absolute top-3 right-3">
+													<span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${category.categoryType === 'industrial'
+															? 'bg-industrial-600/90 text-white'
+															: 'bg-blue-600/90 text-white'
+														}`}>
+														{category.categoryType === 'industrial' ? '🏭 Промышленная' : '🏠 Бытовая'}
+													</span>
+												</div>
 											</div>
 
-											<div className="p-4 sm:p-6">
-												<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-													<span className="text-xs sm:text-sm font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded">
+											<div className="p-5 sm:p-6">
+												{/* ID категории */}
+												<div className="flex items-center justify-between mb-3">
+													<span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-mono bg-gray-100 text-gray-600 border border-gray-200">
+														<span className="w-2 h-2 bg-industrial-accent rounded-full mr-2"></span>
 														ID: {category.categoryId}
-													</span>
-													<span className="text-xs font-medium text-industrial-accent bg-industrial-100 px-2 py-1 rounded">
-														{category.categoryType === 'industrial' ? 'Промышленная' : 'Бытовая'}
 													</span>
 												</div>
 
-												<h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">
+												{/* Название категории */}
+												<h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-industrial-accent transition-colors duration-300">
 													{category.categoryName}
 												</h3>
 
-												<p className="text-gray-600 text-xs sm:text-sm mb-4 sm:mb-6 line-clamp-3 leading-relaxed">
+												{/* Описание */}
+												<p className="text-gray-600 text-sm mb-5 line-clamp-2 leading-relaxed">
 													{category.description}
 												</p>
 
-												<div className="flex flex-col sm:flex-row sm:justify-between gap-3 pt-4 border-t border-gray-200">
-													<div className="flex flex-row gap-2 justify-center sm:justify-start">
+												{/* Кнопки действий */}
+												<div className="space-y-3">
+													<div className="flex gap-2">
 														<button
 															onClick={() => handleEdit(category)}
-															className="inline-flex items-center justify-center px-3 py-2 text-industrial-accent hover:text-industrial-900 hover:bg-industrial-50 text-sm font-medium rounded-lg transition-colors"
+															className="flex-1 inline-flex items-center justify-center px-4 py-2.5 bg-industrial-accent text-white text-sm font-medium rounded-xl hover:bg-orange-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
 														>
-															<EditIcon className="h-4 w-4" />
-															<span className="ml-1">Редактировать</span>
+															<EditIcon className="h-4 w-4 mr-2" />
+															Редактировать
 														</button>
 														{showArchived && (
 															<button
 																onClick={() => handleActivateCategory(category.categoryId)}
-																className="inline-flex items-center justify-center px-3 py-2 text-green-600 hover:text-green-900 hover:bg-green-50 text-sm font-medium rounded-lg transition-colors"
+																className="inline-flex items-center justify-center px-3 py-2.5 bg-green-500 text-white text-sm font-medium rounded-xl hover:bg-green-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
 																title="Активировать категорию"
 															>
 																<CheckIcon className="h-4 w-4" />
-																<span className="ml-1">Активировать</span>
 															</button>
 														)}
 													</div>
 
 													<button
 														onClick={() => handleDelete(category.categoryId)}
-														className="inline-flex items-center justify-center px-3 py-2 text-red-600 hover:text-red-900 hover:bg-red-50 text-sm font-medium rounded-lg transition-colors"
+														className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-red-50 text-red-600 text-sm font-medium rounded-xl hover:bg-red-100 transition-all duration-300 border border-red-200"
 													>
-														<TrashIcon className="h-4 w-4" />
-														<span className="ml-1">Удалить</span>
+														<TrashIcon className="h-4 w-4 mr-2" />
+														Удалить категорию
 													</button>
 												</div>
 											</div>

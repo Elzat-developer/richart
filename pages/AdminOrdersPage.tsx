@@ -292,7 +292,7 @@ export const AdminOrdersPage: React.FC = () => {
 									value={customerPhone}
 									onChange={(e) => setCustomerPhone(e.target.value)}
 									placeholder="Введите номер телефона клиента"
-									className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full"
+									className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full lg:w-96"
 									onKeyPress={(e) => e.key === 'Enter' && searchCustomerOrders()}
 								/>
 								<button
