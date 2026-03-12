@@ -550,33 +550,33 @@ export const AdminCategoriesPage: React.FC = () => {
 													{category.description}
 												</p>
 
-												<div className="flex justify-between items-center pt-4 border-t border-gray-200">
-													<div className="flex space-x-2">
+												<div className="flex flex-col sm:flex-row sm:justify-between gap-3 pt-4 border-t border-gray-200">
+													<div className="flex flex-col sm:flex-row gap-2">
 														<button
 															onClick={() => handleEdit(category)}
-															className="inline-flex items-center px-4 py-2 text-industrial-accent hover:text-industrial-900 hover:bg-industrial-50 text-sm font-medium rounded-lg transition-colors"
+															className="inline-flex items-center justify-center px-4 py-2 text-industrial-accent hover:text-industrial-900 hover:bg-industrial-50 text-sm font-medium rounded-lg transition-colors"
 														>
-															<EditIcon className="h-4 w-4 mr-2" />
-															Редактировать
+															<EditIcon className="h-4 w-4" />
+															<span className="ml-2 hidden sm:inline">Редактировать</span>
 														</button>
 														{showArchived && (
 															<button
 																onClick={() => handleActivateCategory(category.categoryId)}
-																className="inline-flex items-center px-4 py-2 text-green-600 hover:text-green-900 hover:bg-green-50 text-sm font-medium rounded-lg transition-colors"
+																className="inline-flex items-center justify-center px-4 py-2 text-green-600 hover:text-green-900 hover:bg-green-50 text-sm font-medium rounded-lg transition-colors"
 																title="Активировать категорию"
 															>
-																<CheckIcon className="h-4 w-4 mr-2" />
-																Активировать
+																<CheckIcon className="h-4 w-4" />
+																<span className="ml-2 hidden sm:inline">Активировать</span>
 															</button>
 														)}
 													</div>
 
 													<button
 														onClick={() => handleDelete(category.categoryId)}
-														className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-900 hover:bg-red-50 text-sm font-medium rounded-lg transition-colors"
+														className="inline-flex items-center justify-center px-4 py-2 text-red-600 hover:text-red-900 hover:bg-red-50 text-sm font-medium rounded-lg transition-colors"
 													>
-														<TrashIcon className="h-4 w-4 mr-1" />
-														Удалить
+														<TrashIcon className="h-4 w-4" />
+														<span className="ml-2 hidden sm:inline">Удалить</span>
 													</button>
 												</div>
 											</div>

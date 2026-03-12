@@ -185,11 +185,11 @@ export const AdminImportPage: React.FC = () => {
 			{/* Navigation */}
 			<AdminNavigation />
 
-			<div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 				{/* Page Header */}
 				<div className="mb-6">
-					<h1 className="text-2xl font-bold text-gray-900">📦 Управление импортом</h1>
-					<p className="mt-2 text-gray-600">
+					<h1 className="text-xl sm:text-2xl font-bold text-gray-900">📦 Управление импортом</h1>
+					<p className="mt-2 text-gray-600 text-sm sm:text-base">
 						{activeTab === 'import'
 							? 'Загрузите ZIP архив, содержащий Excel-файл с данными и папку с фотографиями. Система автоматически создаст товары, сожмет изображения и заполнит все характеристики.'
 							: 'Просмотрите историю всех импортов товаров с детальной информацией о результатах.'
@@ -198,7 +198,7 @@ export const AdminImportPage: React.FC = () => {
 
 					{/* Tab Switcher */}
 					<div className="mt-6 border-b border-gray-200">
-						<nav className="-mb-px flex space-x-8">
+						<nav className="-mb-px flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-8">
 							<button
 								onClick={() => setActiveTab('import')}
 								className={`py-2 px-1 border-b-2 font-medium text-sm ${activeTab === 'import'
@@ -225,12 +225,12 @@ export const AdminImportPage: React.FC = () => {
 				{activeTab === 'import' && (
 					<>
 						{/* Instructions */}
-						<div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-							<div className="flex">
-								<div className="flex-shrink-0">
+						<div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4 mb-6">
+							<div className="flex flex-col sm:flex-row">
+								<div className="flex-shrink-0 mb-3 sm:mb-0">
 									<FileSpreadsheetIcon className="h-5 w-5 text-blue-400" />
 								</div>
-								<div className="ml-3">
+								<div className="sm:ml-3">
 									<h3 className="text-sm font-medium text-blue-800">
 										📂 Структура архива
 									</h3>
@@ -554,12 +554,12 @@ export const AdminImportPage: React.FC = () => {
 						</div>
 
 						{/* Important Warning */}
-						<div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-							<div className="flex">
-								<div className="flex-shrink-0">
+						<div className="bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4 mb-6">
+							<div className="flex flex-col sm:flex-row">
+								<div className="flex-shrink-0 mb-3 sm:mb-0">
 									<XCircleIcon className="h-5 w-5 text-red-400" />
 								</div>
-								<div className="ml-3">
+								<div className="sm:ml-3">
 									<h3 className="text-sm font-medium text-red-800">
 										⚠️ Внимание: Строгое соответствие структуре обязательно!
 									</h3>
@@ -576,7 +576,7 @@ export const AdminImportPage: React.FC = () => {
 								{!importResult ? (
 									<div>
 										<div
-											className={`relative border-2 border-dashed rounded-lg p-6 text-center ${dragActive
+											className={`relative border-2 border-dashed rounded-lg p-4 sm:p-6 text-center ${dragActive
 												? 'border-industrial-accent bg-industrial-accent/5'
 												: 'border-gray-300'
 												}`}
@@ -592,16 +592,16 @@ export const AdminImportPage: React.FC = () => {
 												className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
 											/>
 
-											<div className="space-y-4">
+											<div className="space-y-3 sm:space-y-4">
 												<div className="mx-auto h-12 w-12 text-gray-400">
 													<FileSpreadsheetIcon className="h-full w-full" />
 												</div>
 
 												<div>
-													<p className="text-lg font-medium text-gray-900">
+													<p className="text-base sm:text-lg font-medium text-gray-900">
 														{file ? file.name : 'Перетащите ZIP архив сюда или нажмите для выбора'}
 													</p>
-													<p className="text-sm text-gray-500">
+													<p className="text-xs sm:text-sm text-gray-500">
 														Поддерживаются ZIP архивы до 50MB
 													</p>
 												</div>
@@ -609,11 +609,11 @@ export const AdminImportPage: React.FC = () => {
 										</div>
 
 										{file && (
-											<div className="mt-6 flex justify-center space-x-4">
+											<div className="mt-6 flex flex-col sm:flex-row justify-center gap-3 sm:space-x-4">
 												<button
 													onClick={handleImport}
 													disabled={importing}
-													className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
+													className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
 												>
 													{importing ? (
 														<>
@@ -630,8 +630,7 @@ export const AdminImportPage: React.FC = () => {
 
 												<button
 													onClick={handleReset}
-													disabled={importing}
-													className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-industrial-accent disabled:opacity-50"
+													className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-industrial-accent"
 												>
 													Сбросить
 												</button>
@@ -707,181 +706,186 @@ export const AdminImportPage: React.FC = () => {
 							</div>
 						</div>
 					</>
-				)}
+				)
+				}
 
 				{/* History Tab Content */}
-				{activeTab === 'history' && (
-					<div className="bg-white shadow overflow-hidden sm:rounded-lg">
-						<div className="px-4 py-5 sm:p-6">
-							<div className="flex items-center justify-between mb-4">
-								<h3 className="text-lg font-medium text-gray-900">📋 История импортов</h3>
-								<button
-									onClick={loadImportHistories}
-									disabled={loadingHistory}
-									className="inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
-								>
-									{loadingHistory ? (
-										<div className="animate-spin h-4 w-4 border-2 border-gray-300 border-t-industrial-accent rounded-full mr-2"></div>
-									) : (
-										<PackageIcon className="h-4 w-4 mr-2" />
-									)}
-									Обновить
-								</button>
-							</div>
+				{
+					activeTab === 'history' && (
+						<div className="bg-white shadow overflow-hidden sm:rounded-lg">
+							<div className="px-4 py-5 sm:p-6">
+								<div className="flex items-center justify-between mb-4">
+									<h3 className="text-lg font-medium text-gray-900">📋 История импортов</h3>
+									<button
+										onClick={loadImportHistories}
+										disabled={loadingHistory}
+										className="inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+									>
+										{loadingHistory ? (
+											<div className="animate-spin h-4 w-4 border-2 border-gray-300 border-t-industrial-accent rounded-full mr-2"></div>
+										) : (
+											<PackageIcon className="h-4 w-4 mr-2" />
+										)}
+										Обновить
+									</button>
+								</div>
 
-							{loadingHistory && importHistories.length === 0 ? (
-								<div className="text-center py-8">
-									<div className="animate-spin h-8 w-8 border-2 border-gray-300 border-t-industrial-accent rounded-full mx-auto mb-4"></div>
-									<p className="text-gray-500">Загрузка истории...</p>
-								</div>
-							) : importHistories.length === 0 ? (
-								<div className="text-center py-8">
-									<PackageIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-									<p className="text-gray-500">История импортов пуста</p>
-								</div>
-							) : (
-								<div className="overflow-x-auto">
-									<table className="min-w-full divide-y divide-gray-200">
-										<thead className="bg-gray-50">
-											<tr>
-												<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-												<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Файл</th>
-												<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Статус</th>
-												<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Дата</th>
-												<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Действия</th>
-											</tr>
-										</thead>
-										<tbody className="bg-white divide-y divide-gray-200">
-											{importHistories.map((history) => (
-												<tr key={history.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => handleHistoryClick(history.id)}>
-													<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">#{history.id}</td>
-													<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{history.fileName}</td>
-													<td className="px-6 py-4 whitespace-nowrap">
-														<span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${history.importStatus === ImportStatus.SUCCESS
-															? 'bg-green-100 text-green-800'
-															: history.importStatus === ImportStatus.FAILED
-																? 'bg-red-100 text-red-800'
-																: history.importStatus === ImportStatus.PARTIAL
-																	? 'bg-yellow-100 text-yellow-800'
-																	: 'bg-blue-100 text-blue-800'
-															}`}>
-															{history.importStatus === ImportStatus.SUCCESS && <CheckCircleIcon className="h-3 w-3 mr-1" />}
-															{history.importStatus === ImportStatus.FAILED && <XCircleIcon className="h-3 w-3 mr-1" />}
-															{history.importStatus === ImportStatus.PARTIAL && <ExclamationTriangleIcon className="h-3 w-3 mr-1" />}
-															{history.importStatus === ImportStatus.SUCCESS ? 'Успешно' :
-																history.importStatus === ImportStatus.FAILED ? 'Ошибка' :
-																	history.importStatus === ImportStatus.PARTIAL ? 'Частично' : 'В процессе'}
-														</span>
-													</td>
-													<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-														{new Date(history.createdAt).toLocaleString('ru-RU')}
-													</td>
-													<td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-														<button
-															onClick={(e) => {
-																e.stopPropagation();
-																handleHistoryClick(history.id);
-															}}
-															className="text-industrial-accent hover:text-orange-700"
-														>
-															Подробнее
-														</button>
-														<button
-															onClick={(e) => {
-																e.stopPropagation();
-																handleDeleteHistory(history.id);
-															}}
-															className="text-red-600 hover:text-red-800 inline-flex items-center"
-														>
-															<XIcon className="h-4 w-4 mr-1" />
-															Удалить
-														</button>
-													</td>
+								{loadingHistory && importHistories.length === 0 ? (
+									<div className="text-center py-8">
+										<div className="animate-spin h-8 w-8 border-2 border-gray-300 border-t-industrial-accent rounded-full mx-auto mb-4"></div>
+										<p className="text-gray-500">Загрузка истории...</p>
+									</div>
+								) : importHistories.length === 0 ? (
+									<div className="text-center py-8">
+										<PackageIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+										<p className="text-gray-500">История импортов пуста</p>
+									</div>
+								) : (
+									<div className="overflow-x-auto">
+										<table className="min-w-full divide-y divide-gray-200">
+											<thead className="bg-gray-50">
+												<tr>
+													<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+													<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Файл</th>
+													<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Статус</th>
+													<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Дата</th>
+													<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Действия</th>
 												</tr>
-											))}
-										</tbody>
-									</table>
-								</div>
-							)}
-						</div>
-					</div>
-				)}
-
-				{/* History Detail Modal */}
-				{showHistoryModal && selectedHistory && (
-					<div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-						<div className="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
-							<div className="flex items-center justify-between mb-4">
-								<h3 className="text-lg font-medium text-gray-900">Детали импорта #{selectedHistory.id}</h3>
-								<button
-									onClick={() => setShowHistoryModal(false)}
-									className="text-gray-400 hover:text-gray-600"
-								>
-									<XIcon className="h-6 w-6" />
-								</button>
-							</div>
-
-							<div className="space-y-4">
-								<div className="grid grid-cols-2 gap-4">
-									<div>
-										<p className="text-sm text-gray-500">Файл</p>
-										<p className="font-medium">{selectedHistory.fileName}</p>
-									</div>
-									<div>
-										<p className="text-sm text-gray-500">Статус</p>
-										<span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${selectedHistory.importStatus === ImportStatus.SUCCESS
-											? 'bg-green-100 text-green-800'
-											: selectedHistory.importStatus === ImportStatus.FAILED
-												? 'bg-red-100 text-red-800'
-												: selectedHistory.importStatus === ImportStatus.PARTIAL
-													? 'bg-yellow-100 text-yellow-800'
-													: 'bg-blue-100 text-blue-800'
-											}`}>
-											{selectedHistory.importStatus === ImportStatus.SUCCESS && <CheckCircleIcon className="h-3 w-3 mr-1" />}
-											{selectedHistory.importStatus === ImportStatus.FAILED && <XCircleIcon className="h-3 w-3 mr-1" />}
-											{selectedHistory.importStatus === ImportStatus.PARTIAL && <ExclamationTriangleIcon className="h-3 w-3 mr-1" />}
-											{selectedHistory.importStatus === ImportStatus.SUCCESS ? 'Успешно' :
-												selectedHistory.importStatus === ImportStatus.FAILED ? 'Ошибка' :
-													selectedHistory.importStatus === ImportStatus.PARTIAL ? 'Частично' : 'В процессе'}
-										</span>
-									</div>
-									<div>
-										<p className="text-sm text-gray-500">Успешно</p>
-										<p className="font-medium text-green-600">{selectedHistory.successCount}</p>
-									</div>
-									<div>
-										<p className="text-sm text-gray-500">Ошибок</p>
-										<p className="font-medium text-red-600">{selectedHistory.errorCount}</p>
-									</div>
-								</div>
-
-								<div>
-									<p className="text-sm text-gray-500 mb-2">Дата импорта</p>
-									<p className="font-medium">{new Date(selectedHistory.createdAt).toLocaleString('ru-RU')}</p>
-								</div>
-
-								{selectedHistory.errorsLog && (
-									<div>
-										<p className="text-sm text-gray-500 mb-2">Лог ошибок</p>
-										<div className="bg-red-50 border border-red-200 rounded p-3 max-h-40 overflow-y-auto">
-											<pre className="text-xs text-red-700 whitespace-pre-wrap">{selectedHistory.errorsLog}</pre>
-										</div>
+											</thead>
+											<tbody className="bg-white divide-y divide-gray-200">
+												{importHistories.map((history) => (
+													<tr key={history.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => handleHistoryClick(history.id)}>
+														<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">#{history.id}</td>
+														<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{history.fileName}</td>
+														<td className="px-6 py-4 whitespace-nowrap">
+															<span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${history.importStatus === ImportStatus.SUCCESS
+																? 'bg-green-100 text-green-800'
+																: history.importStatus === ImportStatus.FAILED
+																	? 'bg-red-100 text-red-800'
+																	: history.importStatus === ImportStatus.PARTIAL
+																		? 'bg-yellow-100 text-yellow-800'
+																		: 'bg-blue-100 text-blue-800'
+																}`}>
+																{history.importStatus === ImportStatus.SUCCESS && <CheckCircleIcon className="h-3 w-3 mr-1" />}
+																{history.importStatus === ImportStatus.FAILED && <XCircleIcon className="h-3 w-3 mr-1" />}
+																{history.importStatus === ImportStatus.PARTIAL && <ExclamationTriangleIcon className="h-3 w-3 mr-1" />}
+																{history.importStatus === ImportStatus.SUCCESS ? 'Успешно' :
+																	history.importStatus === ImportStatus.FAILED ? 'Ошибка' :
+																		history.importStatus === ImportStatus.PARTIAL ? 'Частично' : 'В процессе'}
+															</span>
+														</td>
+														<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+															{new Date(history.createdAt).toLocaleString('ru-RU')}
+														</td>
+														<td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+															<button
+																onClick={(e) => {
+																	e.stopPropagation();
+																	handleHistoryClick(history.id);
+																}}
+																className="text-industrial-accent hover:text-orange-700"
+															>
+																Подробнее
+															</button>
+															<button
+																onClick={(e) => {
+																	e.stopPropagation();
+																	handleDeleteHistory(history.id);
+																}}
+																className="text-red-600 hover:text-red-800 inline-flex items-center"
+															>
+																<XIcon className="h-4 w-4 mr-1" />
+																Удалить
+															</button>
+														</td>
+													</tr>
+												))}
+											</tbody>
+										</table>
 									</div>
 								)}
 							</div>
+						</div>
+					)
+				}
 
-							<div className="mt-6 flex justify-end">
-								<button
-									onClick={() => setShowHistoryModal(false)}
-									className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-								>
-									Закрыть
-								</button>
+				{/* History Detail Modal */}
+				{
+					showHistoryModal && selectedHistory && (
+						<div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+							<div className="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+								<div className="flex items-center justify-between mb-4">
+									<h3 className="text-lg font-medium text-gray-900">Детали импорта #{selectedHistory.id}</h3>
+									<button
+										onClick={() => setShowHistoryModal(false)}
+										className="text-gray-400 hover:text-gray-600"
+									>
+										<XIcon className="h-6 w-6" />
+									</button>
+								</div>
+
+								<div className="space-y-4">
+									<div className="grid grid-cols-2 gap-4">
+										<div>
+											<p className="text-sm text-gray-500">Файл</p>
+											<p className="font-medium">{selectedHistory.fileName}</p>
+										</div>
+										<div>
+											<p className="text-sm text-gray-500">Статус</p>
+											<span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${selectedHistory.importStatus === ImportStatus.SUCCESS
+												? 'bg-green-100 text-green-800'
+												: selectedHistory.importStatus === ImportStatus.FAILED
+													? 'bg-red-100 text-red-800'
+													: selectedHistory.importStatus === ImportStatus.PARTIAL
+														? 'bg-yellow-100 text-yellow-800'
+														: 'bg-blue-100 text-blue-800'
+												}`}>
+												{selectedHistory.importStatus === ImportStatus.SUCCESS && <CheckCircleIcon className="h-3 w-3 mr-1" />}
+												{selectedHistory.importStatus === ImportStatus.FAILED && <XCircleIcon className="h-3 w-3 mr-1" />}
+												{selectedHistory.importStatus === ImportStatus.PARTIAL && <ExclamationTriangleIcon className="h-3 w-3 mr-1" />}
+												{selectedHistory.importStatus === ImportStatus.SUCCESS ? 'Успешно' :
+													selectedHistory.importStatus === ImportStatus.FAILED ? 'Ошибка' :
+														selectedHistory.importStatus === ImportStatus.PARTIAL ? 'Частично' : 'В процессе'}
+											</span>
+										</div>
+										<div>
+											<p className="text-sm text-gray-500">Успешно</p>
+											<p className="font-medium text-green-600">{selectedHistory.successCount}</p>
+										</div>
+										<div>
+											<p className="text-sm text-gray-500">Ошибок</p>
+											<p className="font-medium text-red-600">{selectedHistory.errorCount}</p>
+										</div>
+									</div>
+
+									<div>
+										<p className="text-sm text-gray-500 mb-2">Дата импорта</p>
+										<p className="font-medium">{new Date(selectedHistory.createdAt).toLocaleString('ru-RU')}</p>
+									</div>
+
+									{selectedHistory.errorsLog && (
+										<div>
+											<p className="text-sm text-gray-500 mb-2">Лог ошибок</p>
+											<div className="bg-red-50 border border-red-200 rounded p-3 max-h-40 overflow-y-auto">
+												<pre className="text-xs text-red-700 whitespace-pre-wrap">{selectedHistory.errorsLog}</pre>
+											</div>
+										</div>
+									)}
+								</div>
+
+								<div className="mt-6 flex justify-end">
+									<button
+										onClick={() => setShowHistoryModal(false)}
+										className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+									>
+										Закрыть
+									</button>
+								</div>
 							</div>
 						</div>
-					</div>
-				)}
-			</div>
-		</div>
+					)
+				}
+			</div >
+		</div >
 	);
 };

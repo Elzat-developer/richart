@@ -146,11 +146,11 @@ const AdminCompanyPage: React.FC = () => {
 			{/* Header */}
 
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="flex justify-between items-center py-4">
-					<h1 className="text-2xl font-bold text-gray-900">Редактирование компании</h1>
+				<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 py-4">
+					<h1 className="text-xl sm:text-2xl font-bold text-gray-900">Редактирование компании</h1>
 					<button
 						onClick={() => navigate('/admin/dashboard')}
-						className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
+						className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
 					>
 						← Назад к панели управления
 					</button>

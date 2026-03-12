@@ -592,8 +592,8 @@ export const AdminProductsPage: React.FC = () => {
 															to={`/admin/products/${product.productId}`}
 															className="inline-flex items-center text-industrial-accent hover:text-industrial-900 text-sm font-medium"
 														>
-															<PackageIcon className="h-4 w-4 mr-1" />
-															Просмотр
+															<PackageIcon className="h-4 w-4" />
+															<span className="hidden sm:inline ml-1">Просмотр</span>
 														</Link>
 
 														<div className="flex space-x-2">
