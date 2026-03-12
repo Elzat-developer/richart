@@ -517,77 +517,80 @@ export const AdminCategoriesPage: React.FC = () => {
 						<>
 							{viewMode === 'grid' ? (
 								/* Categories Grid */
-								<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
+								<div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-6 lg:gap-8">
 									{currentCategories.map((category) => (
-										<div key={category.categoryId} className="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-gray-100">
+										<div key={category.categoryId} className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 overflow-hidden border border-gray-100">
 											{/* Фото категории с градиентом */}
-											<div className="relative h-56 sm:h-64 overflow-hidden bg-gradient-to-br from-industrial-50 to-blue-50">
+											<div className="relative h-32 sm:h-56 sm:h-64 overflow-hidden bg-gradient-to-br from-industrial-50 to-blue-50">
 												<div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 												<img
 													src={getCategoryPhotoUrl(category.photoUrl || '')}
 													alt={category.categoryName}
-													className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+													className="w-full h-full object-contain sm:object-cover group-hover:scale-110 transition-transform duration-500"
 													onError={(e) => {
 														(e.target as HTMLImageElement).src = `https://picsum.photos/400/300?error=${category.categoryId}`;
 													}}
 												/>
 												{/* Бейдж типа категории */}
-												<div className="absolute top-3 right-3">
-													<span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${category.categoryType === 'industrial'
+												<div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+													<span className={`inline-flex items-center px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs font-medium backdrop-blur-sm ${category.categoryType === 'industrial'
 															? 'bg-industrial-600/90 text-white'
 															: 'bg-blue-600/90 text-white'
 														}`}>
-														{category.categoryType === 'industrial' ? '🏭 Промышленная' : '🏠 Бытовая'}
+														<span className="hidden sm:inline">{category.categoryType === 'industrial' ? '🏭 Промышленная' : '🏠 Бытовая'}</span>
+														<span className="sm:hidden">{category.categoryType === 'industrial' ? '🏭' : '🏠'}</span>
 													</span>
 												</div>
 											</div>
 
-											<div className="p-5 sm:p-6">
+											<div className="p-3 sm:p-5 sm:p-6">
 												{/* ID категории */}
-												<div className="flex items-center justify-between mb-3">
-													<span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-mono bg-gray-100 text-gray-600 border border-gray-200">
-														<span className="w-2 h-2 bg-industrial-accent rounded-full mr-2"></span>
+												<div className="flex items-center justify-between mb-2 sm:mb-3">
+													<span className="inline-flex items-center px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-xs font-mono bg-gray-100 text-gray-600 border border-gray-200">
+														<span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-industrial-accent rounded-full mr-1 sm:mr-2"></span>
 														ID: {category.categoryId}
 													</span>
 												</div>
 
 												{/* Название категории */}
-												<h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-industrial-accent transition-colors duration-300">
+												<h3 className="text-sm sm:text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 line-clamp-2 group-hover:text-industrial-accent transition-colors duration-300">
 													{category.categoryName}
 												</h3>
 
 												{/* Описание */}
-												<p className="text-gray-600 text-sm mb-5 line-clamp-2 leading-relaxed">
+												<p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-5 line-clamp-2 leading-relaxed hidden sm:block">
 													{category.description}
 												</p>
 
 												{/* Кнопки действий */}
-												<div className="space-y-3">
-													<div className="flex gap-2">
+												<div className="space-y-2 sm:space-y-3">
+													<div className="flex gap-1 sm:gap-2">
 														<button
 															onClick={() => handleEdit(category)}
-															className="flex-1 inline-flex items-center justify-center px-4 py-2.5 bg-industrial-accent text-white text-sm font-medium rounded-xl hover:bg-orange-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+															className="flex-1 inline-flex items-center justify-center px-2 sm:px-4 py-1.5 sm:py-2.5 bg-industrial-accent text-white text-xs sm:text-sm font-medium rounded-lg sm:rounded-xl hover:bg-orange-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
 														>
-															<EditIcon className="h-4 w-4 mr-2" />
-															Редактировать
+															<EditIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+															<span className="hidden xs:inline sm:inline">Редактировать</span>
+															<span className="xs:hidden sm:hidden">✏️</span>
 														</button>
 														{showArchived && (
 															<button
 																onClick={() => handleActivateCategory(category.categoryId)}
-																className="inline-flex items-center justify-center px-3 py-2.5 bg-green-500 text-white text-sm font-medium rounded-xl hover:bg-green-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+																className="inline-flex items-center justify-center px-1.5 sm:px-3 py-1.5 sm:py-2.5 bg-green-500 text-white text-xs sm:text-sm font-medium rounded-lg sm:rounded-xl hover:bg-green-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
 																title="Активировать категорию"
 															>
-																<CheckIcon className="h-4 w-4" />
+																<CheckIcon className="h-3 w-3 sm:h-4 sm:w-4" />
 															</button>
 														)}
 													</div>
 
 													<button
 														onClick={() => handleDelete(category.categoryId)}
-														className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-red-50 text-red-600 text-sm font-medium rounded-xl hover:bg-red-100 transition-all duration-300 border border-red-200"
+														className="w-full inline-flex items-center justify-center px-2 sm:px-4 py-1.5 sm:py-2.5 bg-red-50 text-red-600 text-xs sm:text-sm font-medium rounded-lg sm:rounded-xl hover:bg-red-100 transition-all duration-300 border border-red-200"
 													>
-														<TrashIcon className="h-4 w-4 mr-2" />
-														Удалить категорию
+														<TrashIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+														<span className="hidden sm:inline">Удалить категорию</span>
+														<span className="sm:hidden">🗑️</span>
 													</button>
 												</div>
 											</div>
@@ -598,7 +601,7 @@ export const AdminCategoriesPage: React.FC = () => {
 								/* Categories Table */
 								<div className="bg-white shadow-lg rounded-lg">
 									<div className="overflow-x-auto">
-										<table className="min-w-max w-max divide-y divide-gray-200">
+										<table className="min-w-full divide-y divide-gray-200">
 											<thead className="bg-gray-50">
 												<tr>
 													<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
