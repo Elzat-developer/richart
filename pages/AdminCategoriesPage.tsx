@@ -517,7 +517,7 @@ export const AdminCategoriesPage: React.FC = () => {
 						<>
 							{viewMode === 'grid' ? (
 								/* Categories Grid */
-								<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
+								<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-6 lg:gap-8">
 									{currentCategories.map((category) => (
 										<div key={category.categoryId} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
 											{/* Фото категории */}

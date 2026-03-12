@@ -192,12 +192,12 @@ export const AdminPromotionsPage: React.FC = () => {
 		<div className="min-h-screen bg-gray-100">
 			<AdminNavigation />
 
-			<div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-				<div className="flex justify-between items-center mb-6">
-					<h1 className="text-2xl font-bold text-gray-900">Управление акциями</h1>
+			<div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+				<div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
+					<h1 className="text-xl sm:text-2xl font-bold text-gray-900">Управление акциями</h1>
 					<button
 						onClick={() => setShowCreateForm(true)}
-						className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
+						className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors w-full sm:w-auto"
 					>
 						<PlusIcon className="h-4 w-4 mr-2" />
 						Добавить акцию
@@ -311,11 +311,11 @@ export const AdminPromotionsPage: React.FC = () => {
 					<div className="space-y-6">
 						{/* Stats and pagination info */}
 						<div className="bg-white shadow rounded-lg p-4">
-							<div className="flex items-center justify-between">
+							<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 								<div className="text-sm text-gray-700">
 									Всего акций: {promotions.length}
 									{totalPages > 1 && (
-										<span className="ml-4">
+										<span className="block sm:inline sm:ml-4">
 											Страница {currentPage} из {totalPages}
 										</span>
 									)}
@@ -343,7 +343,7 @@ export const AdminPromotionsPage: React.FC = () => {
 						</div>
 
 						{/* Promotions Grid */}
-						<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
 							{currentPromotions.map((promotion) => (
 								<div key={promotion.promotion_id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
 									<div className="aspect-[16/9] bg-gray-100 overflow-hidden">
@@ -359,13 +359,13 @@ export const AdminPromotionsPage: React.FC = () => {
 									</div>
 
 									<div className="p-4">
-										<div className="flex justify-between items-center">
+										<div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
 											<button
 												onClick={() => {
 													setEditingPromotion(promotion);
 													setShowCreateForm(true);
 												}}
-												className="inline-flex items-center px-4 py-2 text-industrial-accent hover:text-industrial-900 hover:bg-orange-50 rounded-lg transition-colors text-sm font-medium"
+												className="inline-flex items-center justify-center px-4 py-2 text-industrial-accent hover:text-industrial-900 hover:bg-orange-50 rounded-lg transition-colors text-sm font-medium w-full sm:w-auto"
 											>
 												<EditIcon className="h-4 w-4 mr-2" />
 												Изменить
@@ -373,7 +373,7 @@ export const AdminPromotionsPage: React.FC = () => {
 
 											<button
 												onClick={() => handleDeletePromotion(promotion.promotion_id)}
-												className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-lg transition-colors text-sm font-medium"
+												className="inline-flex items-center justify-center px-4 py-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-lg transition-colors text-sm font-medium w-full sm:w-auto"
 											>
 												<TrashIcon className="h-4 w-4 mr-2" />
 												Удалить
@@ -387,16 +387,16 @@ export const AdminPromotionsPage: React.FC = () => {
 						{/* Pagination */}
 						{totalPages > 1 && (
 							<div className="bg-white shadow rounded-lg p-4">
-								<div className="flex items-center justify-between">
-									<div className="text-sm text-gray-700">
+								<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+									<div className="text-sm text-gray-700 text-center sm:text-left">
 										Показано {startIndex + 1}-{Math.min(endIndex, promotions.length)} из {promotions.length} акций
 									</div>
 
-									<div className="flex items-center space-x-1">
+									<div className="flex items-center justify-center sm:justify-end space-x-1 overflow-x-auto">
 										<button
 											onClick={() => setCurrentPage(1)}
 											disabled={currentPage === 1}
-											className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
+											className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 										>
 											<ChevronLeftIcon className="h-4 w-4" />
 											<ChevronLeftIcon className="h-4 w-4 -ml-2" />
@@ -405,7 +405,7 @@ export const AdminPromotionsPage: React.FC = () => {
 										<button
 											onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
 											disabled={currentPage === 1}
-											className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
+											className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 										>
 											<ChevronLeftIcon className="h-4 w-4" />
 										</button>
@@ -413,11 +413,11 @@ export const AdminPromotionsPage: React.FC = () => {
 										{getPageNumbers().map((page, index) => (
 											<span key={index}>
 												{page === '...' ? (
-													<span className="px-3 py-2 text-gray-500">...</span>
+													<span className="px-3 py-2 text-gray-500 flex-shrink-0">...</span>
 												) : (
 													<button
 														onClick={() => setCurrentPage(page as number)}
-														className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${currentPage === page
+														className={`px-3 py-2 text-sm font-medium rounded-md transition-colors flex-shrink-0 ${currentPage === page
 															? 'bg-industrial-accent text-white'
 															: 'text-gray-700 hover:bg-gray-100'
 															}`}
@@ -431,7 +431,7 @@ export const AdminPromotionsPage: React.FC = () => {
 										<button
 											onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
 											disabled={currentPage === totalPages}
-											className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
+											className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 										>
 											<ChevronRightIcon className="h-4 w-4" />
 										</button>
@@ -439,7 +439,7 @@ export const AdminPromotionsPage: React.FC = () => {
 										<button
 											onClick={() => setCurrentPage(totalPages)}
 											disabled={currentPage === totalPages}
-											className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
+											className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 										>
 											<ChevronRightIcon className="h-4 w-4" />
 											<ChevronRightIcon className="h-4 w-4 -ml-2" />
