@@ -237,15 +237,15 @@ export const AdminOrdersPage: React.FC = () => {
 		<div className="min-h-screen bg-gray-100">
 			<AdminNavigation />
 
-			<div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-				<div className="flex justify-between items-center mb-6">
-					<h1 className="text-2xl font-bold text-gray-900">Управление заказами</h1>
-					<div className="flex items-center space-x-4">
-						<span className="text-sm text-gray-600">Всего: {orders.length}</span>
+			<div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+				<div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
+					<h1 className="text-xl sm:text-2xl font-bold text-gray-900">Управление заказами</h1>
+					<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+						<span className="text-sm text-gray-600 self-center sm:self-auto">Всего: {orders.length}</span>
 						<select
 							value={itemsPerPage}
 							onChange={(e) => { setItemsPerPage(Number(e.target.value)); setCurrentPage(1); }}
-							className="text-sm border border-gray-300 rounded-md px-3 py-1"
+							className="text-sm border border-gray-300 rounded-md px-3 py-2 w-full sm:w-auto"
 						>
 							{[10, 15, 20, 50].map(val => <option key={val} value={val}>{val}</option>)}
 						</select>
@@ -254,13 +254,13 @@ export const AdminOrdersPage: React.FC = () => {
 
 				{/* Переключатель режима поиска */}
 				<div className="bg-white shadow rounded-lg p-4 mb-6">
-					<div className="flex items-center justify-between">
-						<div className="flex items-center space-x-4">
+					<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+						<div className="flex flex-col sm:flex-row sm:items-center gap-4">
 							<h2 className="text-lg font-semibold text-gray-900">Режим просмотра:</h2>
-							<div className="flex items-center space-x-2">
+							<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
 								<button
 									onClick={() => setSearchMode('all')}
-									className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${searchMode === 'all'
+									className={`px-4 py-2 rounded-md text-sm font-medium transition-colors w-full sm:w-auto ${searchMode === 'all'
 										? 'bg-blue-600 text-white'
 										: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
 										}`}
@@ -269,7 +269,7 @@ export const AdminOrdersPage: React.FC = () => {
 								</button>
 								<button
 									onClick={() => setSearchMode('customer')}
-									className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${searchMode === 'customer'
+									className={`px-4 py-2 rounded-md text-sm font-medium transition-colors w-full sm:w-auto ${searchMode === 'customer'
 										? 'bg-blue-600 text-white'
 										: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
 										}`}
@@ -280,19 +280,19 @@ export const AdminOrdersPage: React.FC = () => {
 						</div>
 
 						{searchMode === 'customer' && (
-							<div className="flex items-center space-x-2">
+							<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full lg:w-auto">
 								<input
 									type="tel"
 									value={customerPhone}
 									onChange={(e) => setCustomerPhone(e.target.value)}
 									placeholder="Введите номер телефона клиента"
-									className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+									className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full"
 									onKeyPress={(e) => e.key === 'Enter' && searchCustomerOrders()}
 								/>
 								<button
 									onClick={searchCustomerOrders}
 									disabled={loadingCustomerSearch}
-									className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+									className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
 								>
 									{loadingCustomerSearch ? (
 										<div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
@@ -314,76 +314,149 @@ export const AdminOrdersPage: React.FC = () => {
 						</div>
 					) : (
 						<>
-							<div className="bg-white shadow-lg overflow-hidden rounded-lg">
-								<table className="min-w-full divide-y divide-gray-200">
-									<thead className="bg-gray-50">
-										<tr>
-											<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">№ Заказа</th>
-											<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Клиент</th>
-											<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Дата</th>
-											<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Сумма</th>
-											<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Статус</th>
-											<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Действия</th>
-										</tr>
-									</thead>
-									<tbody className="bg-white divide-y divide-gray-200">
-										{currentOrders.map((order) => (
-											<tr key={order.orderId} className="hover:bg-gray-50 cursor-pointer" onClick={() => handleViewOrder(order.orderId)}>
-												<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">#{order.orderNumber}</td>
-												<td className="px-6 py-4 whitespace-nowrap text-sm">{order.customerName}</td>
-												<td className="px-6 py-4 whitespace-nowrap text-sm">{formatDate(order.orderStartDate)}</td>
-												<td className="px-6 py-4 whitespace-nowrap text-sm font-bold">{formatPrice(order.totalPrice)}</td>
-												<td className="px-6 py-4 whitespace-nowrap">
-													<span className={`px-2 py-1 rounded-full text-xs ${order.paidStatus === 'PAID' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-														{order.paidStatus === 'PAID' ? 'Оплачено' : 'Не оплачено'}
-													</span>
-												</td>
-												<td className="px-6 py-4 whitespace-nowrap text-sm">
-													<div className="flex space-x-2" onClick={(e) => e.stopPropagation()}>
-														<button
-															onClick={() => loadCustomerOrders(order.customerName, order.customerPhone)}
-															className="text-purple-600 hover:text-purple-900"
-															title="Все заказы клиента"
-														>
-															<ShoppingBagIcon className="h-4 w-4" />
-														</button>
-														<button
-															onClick={() => handlePaidStatusChange(order.orderId, order.paidStatus === 'PAID' ? 'NOTPAY' : 'PAID')}
-															className="text-blue-600 hover:text-blue-900"
-															title="Изменить статус"
-														>
-															{updatingOrderId === order.orderId ? '...' : 'Статус'}
-														</button>
-														<button
-															onClick={() => handleDeleteOrder(order.orderId)}
-															className="text-red-600 hover:text-red-900"
-															title="Удалить заказ"
-														>
-															Удалить
-														</button>
-													</div>
-												</td>
-											</tr>
-										))}
-									</tbody>
-								</table>
+							{/* Карточки для мобильных, таблица для десктопа */}
+							<div className="hidden lg:block">
+								<div className="bg-white shadow-lg overflow-hidden rounded-lg">
+									<div className="overflow-x-auto">
+										<table className="min-w-full divide-y divide-gray-200">
+											<thead className="bg-gray-50">
+												<tr>
+													<th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">№ Заказа</th>
+													<th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Клиент</th>
+													<th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Дата</th>
+													<th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Сумма</th>
+													<th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Статус</th>
+													<th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Действия</th>
+												</tr>
+											</thead>
+											<tbody className="bg-white divide-y divide-gray-200">
+												{currentOrders.map((order) => (
+													<tr key={order.orderId} className="hover:bg-gray-50 cursor-pointer" onClick={() => handleViewOrder(order.orderId)}>
+														<td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">#{order.orderNumber}</td>
+														<td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm">{order.customerName}</td>
+														<td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm">{formatDate(order.orderStartDate)}</td>
+														<td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-bold">{formatPrice(order.totalPrice)}</td>
+														<td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+															<span className={`px-2 py-1 rounded-full text-xs ${order.paidStatus === 'PAID' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+																{order.paidStatus === 'PAID' ? 'Оплачено' : 'Не оплачено'}
+															</span>
+														</td>
+														<td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm">
+															<div className="flex space-x-2" onClick={(e) => e.stopPropagation()}>
+																<button
+																	onClick={() => loadCustomerOrders(order.customerName, order.customerPhone)}
+																	className="text-purple-600 hover:text-purple-900 p-1"
+																	title="Все заказы клиента"
+																>
+																	<ShoppingBagIcon className="h-4 w-4" />
+																</button>
+																<button
+																	onClick={() => handlePaidStatusChange(order.orderId, order.paidStatus === 'PAID' ? 'NOTPAY' : 'PAID')}
+																	className="text-blue-600 hover:text-blue-900 p-1"
+																	title="Изменить статус"
+																>
+																	{updatingOrderId === order.orderId ? '...' : 'Статус'}
+																</button>
+																<button
+																	onClick={() => handleDeleteOrder(order.orderId)}
+																	className="text-red-600 hover:text-red-900 p-1"
+																	title="Удалить заказ"
+																>
+																	<TrashIcon className="h-4 w-4" />
+																</button>
+															</div>
+														</td>
+													</tr>
+												))}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+
+							{/* Карточный вид для мобильных */}
+							<div className="lg:hidden space-y-4">
+								{currentOrders.map((order) => (
+									<div key={order.orderId} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+										<div className="p-4">
+											{/* Заголовок карточки */}
+											<div className="flex justify-between items-start mb-3">
+												<div>
+													<h3 className="text-lg font-semibold text-gray-900">#{order.orderNumber}</h3>
+													<p className="text-sm text-gray-600">{order.customerName}</p>
+												</div>
+												<span className={`px-2 py-1 rounded-full text-xs ${order.paidStatus === 'PAID' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+													{order.paidStatus === 'PAID' ? 'Оплачено' : 'Не оплачено'}
+												</span>
+											</div>
+
+											{/* Информация о заказе */}
+											<div className="space-y-2 mb-4">
+												<div className="flex items-center text-sm text-gray-600">
+													<CalendarIcon className="h-4 w-4 mr-2" />
+													{formatDate(order.orderStartDate)}
+												</div>
+												<div className="flex items-center text-lg font-bold text-gray-900">
+													<CurrencyDollarIcon className="h-5 w-5 mr-2" />
+													{formatPrice(order.totalPrice)}
+												</div>
+											</div>
+
+											{/* Кнопки действий */}
+											<div className="flex flex-col gap-2">
+												<button
+													onClick={() => handleViewOrder(order.orderId)}
+													className="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+												>
+													<EditIcon className="h-4 w-4 mr-2" />
+													Детали заказа
+												</button>
+												<div className="flex gap-2">
+													<button
+														onClick={() => loadCustomerOrders(order.customerName, order.customerPhone)}
+														className="flex-1 inline-flex items-center justify-center px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm"
+														title="Все заказы клиента"
+													>
+														<ShoppingBagIcon className="h-4 w-4" />
+													</button>
+													<button
+														onClick={() => handlePaidStatusChange(order.orderId, order.paidStatus === 'PAID' ? 'NOTPAY' : 'PAID')}
+														className="flex-1 inline-flex items-center justify-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+														title="Изменить статус"
+													>
+														{updatingOrderId === order.orderId ? '...' : 'Статус'}
+													</button>
+													<button
+														onClick={() => handleDeleteOrder(order.orderId)}
+														className="flex-1 inline-flex items-center justify-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm"
+														title="Удалить заказ"
+													>
+														<TrashIcon className="h-4 w-4" />
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								))}
 							</div>
 
 							{/* Пагинация */}
 							{totalPages > 1 && (
-								<div className="mt-4 flex justify-between items-center bg-white p-4 rounded-lg shadow">
-									<span className="text-sm text-gray-700">Страница {currentPage} из {totalPages}</span>
-									<div className="flex space-x-1">
-										{getPageNumbers().map((p, i) => (
-											<button
-												key={i}
-												onClick={() => typeof p === 'number' && setCurrentPage(p)}
-												className={`px-3 py-1 rounded ${currentPage === p ? 'bg-blue-600 text-white' : 'bg-gray-100'}`}
-												disabled={p === '...'}
-											>
-												{p}
-											</button>
-										))}
+								<div className="mt-4 bg-white p-4 rounded-lg shadow">
+									<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+										<span className="text-sm text-gray-700 text-center sm:text-left">Страница {currentPage} из {totalPages}</span>
+										<div className="flex items-center justify-center sm:justify-end space-x-1 overflow-x-auto">
+											{getPageNumbers().map((p, i) => (
+												<button
+													key={i}
+													onClick={() => typeof p === 'number' && setCurrentPage(p)}
+													className={`px-3 py-1 rounded flex-shrink-0 ${currentPage === p ? 'bg-blue-600 text-white' : 'bg-gray-100'}`}
+													disabled={p === '...'}
+												>
+													{p}
+												</button>
+											))}
+										</div>
 									</div>
 								</div>
 							)}
@@ -403,66 +476,135 @@ export const AdminOrdersPage: React.FC = () => {
 							<p className="text-sm text-gray-400 mt-1">Проверьте номер телефона и попробуйте снова</p>
 						</div>
 					) : (
-						<div className="bg-white shadow-lg overflow-hidden rounded-lg">
-							<table className="min-w-full divide-y divide-gray-200">
-								<thead className="bg-gray-50">
-									<tr>
-										<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">№ Заказа</th>
-										<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Дата</th>
-										<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Сумма</th>
-										<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Статус</th>
-										<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Действия</th>
-									</tr>
-								</thead>
-								<tbody className="bg-white divide-y divide-gray-200">
-									{customerOrdersSearch.map((order) => (
-										<tr key={order.orderId} className="hover:bg-gray-50">
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">#{order.orderNumber}</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm">
-												{new Date(order.createOrder).toLocaleDateString('ru-RU', {
-													day: 'numeric',
-													month: 'long',
-													year: 'numeric',
-													hour: '2-digit',
-													minute: '2-digit'
-												})}
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm font-bold">{formatPrice(order.totalPrice)}</td>
-											<td className="px-6 py-4 whitespace-nowrap">
-												<span className={`px-2 py-1 rounded-full text-xs ${order.paidStatus === 'PAID'
-													? 'bg-green-100 text-green-800'
-													: 'bg-yellow-100 text-yellow-800'
-													}`}>
-													{order.paidStatus === 'PAID' ? 'Оплачен' : 'Не оплачен'}
-												</span>
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap text-sm">
-												<div className="flex space-x-2">
-													{order.whatsappLink && (
-														<a
-															href={order.whatsappLink}
-															target="_blank"
-															rel="noopener noreferrer"
-															className="text-green-600 hover:text-green-900"
-															title="WhatsApp"
-														>
-															<PhoneIcon className="h-4 w-4" />
-														</a>
-													)}
-													<button
-														onClick={() => handleViewOrder(order.orderId)}
-														className="text-blue-600 hover:text-blue-900"
-														title="Детали заказа"
-													>
-														Детали
-													</button>
+						<>
+							{/* Таблица для десктопа */}
+							<div className="hidden lg:block">
+								<div className="bg-white shadow-lg overflow-hidden rounded-lg">
+									<div className="overflow-x-auto">
+										<table className="min-w-full divide-y divide-gray-200">
+											<thead className="bg-gray-50">
+												<tr>
+													<th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">№ Заказа</th>
+													<th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Дата</th>
+													<th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Сумма</th>
+													<th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Статус</th>
+													<th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Действия</th>
+												</tr>
+											</thead>
+											<tbody className="bg-white divide-y divide-gray-200">
+												{customerOrdersSearch.map((order) => (
+													<tr key={order.orderId} className="hover:bg-gray-50">
+														<td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">#{order.orderNumber}</td>
+														<td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm">
+															{new Date(order.createOrder).toLocaleDateString('ru-RU', {
+																day: 'numeric',
+																month: 'long',
+																year: 'numeric',
+																hour: '2-digit',
+																minute: '2-digit'
+															})}
+														</td>
+														<td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-bold">{formatPrice(order.totalPrice)}</td>
+														<td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+															<span className={`px-2 py-1 rounded-full text-xs ${order.paidStatus === 'PAID'
+																? 'bg-green-100 text-green-800'
+																: 'bg-yellow-100 text-yellow-800'
+																}`}>
+																{order.paidStatus === 'PAID' ? 'Оплачен' : 'Не оплачен'}
+															</span>
+														</td>
+														<td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm">
+															<div className="flex space-x-2">
+																{order.whatsappLink && (
+																	<a
+																		href={order.whatsappLink}
+																		target="_blank"
+																		rel="noopener noreferrer"
+																		className="text-green-600 hover:text-green-900 p-1"
+																		title="WhatsApp"
+																	>
+																		<PhoneIcon className="h-4 w-4" />
+																	</a>
+																)}
+																<button
+																	onClick={() => handleViewOrder(order.orderId)}
+																	className="text-blue-600 hover:text-blue-900 p-1"
+																	title="Детали заказа"
+																>
+																	<EditIcon className="h-4 w-4" />
+																</button>
+															</div>
+														</td>
+													</tr>
+												))}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+
+							{/* Карточный вид для мобильных */}
+							<div className="lg:hidden space-y-4">
+								{customerOrdersSearch.map((order) => (
+									<div key={order.orderId} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+										<div className="p-4">
+											{/* Заголовок карточки */}
+											<div className="flex justify-between items-start mb-3">
+												<div>
+													<h3 className="text-lg font-semibold text-gray-900">#{order.orderNumber}</h3>
+													<span className={`px-2 py-1 rounded-full text-xs ${order.paidStatus === 'PAID'
+														? 'bg-green-100 text-green-800'
+														: 'bg-yellow-100 text-yellow-800'
+														}`}>
+														{order.paidStatus === 'PAID' ? 'Оплачен' : 'Не оплачен'}
+													</span>
 												</div>
-											</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-						</div>
+											</div>
+
+											{/* Информация о заказе */}
+											<div className="space-y-2 mb-4">
+												<div className="flex items-center text-sm text-gray-600">
+													<CalendarIcon className="h-4 w-4 mr-2" />
+													{new Date(order.createOrder).toLocaleDateString('ru-RU', {
+														day: 'numeric',
+														month: 'long',
+														year: 'numeric',
+														hour: '2-digit',
+														minute: '2-digit'
+													})}
+												</div>
+												<div className="flex items-center text-lg font-bold text-gray-900">
+													<CurrencyDollarIcon className="h-5 w-5 mr-2" />
+													{formatPrice(order.totalPrice)}
+												</div>
+											</div>
+
+											{/* Кнопки действий */}
+											<div className="flex gap-2">
+												{order.whatsappLink && (
+													<a
+														href={order.whatsappLink}
+														target="_blank"
+														rel="noopener noreferrer"
+														className="flex-1 inline-flex items-center justify-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
+													>
+														<PhoneIcon className="h-4 w-4 mr-2" />
+														WhatsApp
+													</a>
+												)}
+												<button
+													onClick={() => handleViewOrder(order.orderId)}
+													className="flex-1 inline-flex items-center justify-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+												>
+													<EditIcon className="h-4 w-4 mr-2" />
+													Детали
+												</button>
+											</div>
+										</div>
+									</div>
+								))}
+							</div>
+						</>
 					)
 				)}
 
