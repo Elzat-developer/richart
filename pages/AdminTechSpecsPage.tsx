@@ -414,14 +414,14 @@ export const AdminTechSpecsPage: React.FC = () => {
 				{/* Create/Edit Form Modal */}
 				{showCreateForm && (
 					<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-						<div className="bg-white rounded-lg max-w-6xl w-full max-h-[95vh] overflow-y-auto p-6">
+						<div className="bg-white rounded-lg max-w-6xl w-full max-h-[95vh] overflow-y-auto p-4 sm:p-6">
 							<div className="flex justify-between items-center mb-4">
-								<h3 className="text-lg font-medium text-gray-900">
+								<h3 className="text-base sm:text-lg font-medium text-gray-900">
 									{editingTechSpec ? 'Редактировать спецификацию' : 'Новая спецификация'}
 								</h3>
 								<button
 									onClick={resetForm}
-									className="text-gray-400 hover:text-gray-500"
+									className="text-gray-400 hover:text-gray-500 p-1"
 								>
 									<XIcon className="h-5 w-5" />
 								</button>
@@ -457,18 +457,18 @@ export const AdminTechSpecsPage: React.FC = () => {
 									</label>
 
 									{/* Выбор типа товара */}
-									<div className="flex space-x-2 mb-3">
+									<div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 mb-3">
 										<button
 											type="button"
 											onClick={() => setSelectedProductType('industrial')}
 											disabled={loadingIndustrial}
-											className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${selectedProductType === 'industrial'
+											className={`w-full sm:w-auto px-3 py-2 rounded-md text-sm font-medium transition-colors ${selectedProductType === 'industrial'
 												? 'bg-blue-600 text-white'
 												: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
 												} disabled:opacity-50 disabled:cursor-not-allowed`}
 										>
 											{loadingIndustrial ? (
-												<div className="flex items-center">
+												<div className="flex items-center justify-center">
 													<div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
 													Загрузка...
 												</div>
@@ -480,13 +480,13 @@ export const AdminTechSpecsPage: React.FC = () => {
 											type="button"
 											onClick={() => setSelectedProductType('household')}
 											disabled={loadingHousehold}
-											className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${selectedProductType === 'household'
+											className={`w-full sm:w-auto px-3 py-2 rounded-md text-sm font-medium transition-colors ${selectedProductType === 'household'
 												? 'bg-blue-600 text-white'
 												: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
 												} disabled:opacity-50 disabled:cursor-not-allowed`}
 										>
 											{loadingHousehold ? (
-												<div className="flex items-center">
+												<div className="flex items-center justify-center">
 													<div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
 													Загрузка...
 												</div>
@@ -511,7 +511,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 									<div className="border border-gray-300 rounded-md">
 										{/* Информация о количестве товаров */}
 										<div className="border-b border-gray-200 p-3 bg-gray-50">
-											<div className="flex items-center justify-between">
+											<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
 												<div className="text-sm text-gray-600">
 													Найдено товаров: {filteredProducts.length}
 													{totalProductPages > 1 && (
@@ -541,8 +541,8 @@ export const AdminTechSpecsPage: React.FC = () => {
 											</div>
 										</div>
 
-										{/* Таблица товаров */}
-										<div className="overflow-x-auto">
+										{/* Таблица товаров для десктопа */}
+										<div className="hidden sm:block overflow-x-auto">
 											<table className="min-w-full divide-y divide-gray-200">
 												<thead className="bg-gray-50">
 													<tr>
@@ -614,19 +614,80 @@ export const AdminTechSpecsPage: React.FC = () => {
 											</table>
 										</div>
 
+										{/* Карточный вид товаров для мобильных */}
+										<div className="sm:hidden space-y-2 p-2">
+											{currentProducts.length === 0 ? (
+												<div className="text-center py-8">
+													<p className="text-sm text-gray-500">
+														{productSearchTerm ? 'Товары не найдены' : 'Нет товаров для этого типа'}
+													</p>
+												</div>
+											) : (
+												currentProducts.map(product => (
+													<div
+														key={product.productId}
+														className={`bg-white border rounded-lg p-3 cursor-pointer transition-colors ${formData.product_id === product.productId ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
+															}`}
+														onClick={() => setFormData(prev => ({ ...prev, product_id: product.productId }))}
+													>
+														<div className="flex justify-between items-start mb-2">
+															<div className="flex-1">
+																<h4 className="text-sm font-medium text-gray-900 mb-1">{product.productName}</h4>
+																<p className="text-xs text-gray-500">ID: {product.productId} | Артикул: {product.tag}</p>
+															</div>
+															{formData.product_id === product.productId && (
+																<svg className="h-5 w-5 text-blue-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+																	<path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+																</svg>
+															)}
+														</div>
+														<div className="flex items-center justify-between">
+															<span className={`inline-flex items-center px-2 py-1 text-xs rounded-full ${product.productType === 'industrial'
+																? 'bg-blue-100 text-blue-800'
+																: 'bg-green-100 text-green-800'
+																}`}>
+																{product.productType === 'industrial' ? 'Промышленное' : 'Бытовое'}
+															</span>
+															{product.price && (
+																<span className="text-sm font-medium text-gray-900">
+																	{product.price.toLocaleString('ru-RU')} ₸
+																</span>
+															)}
+														</div>
+														{formData.product_id !== product.productId && (
+															<button
+																onClick={(e) => {
+																	e.stopPropagation();
+																	setFormData(prev => ({ ...prev, product_id: product.productId }));
+																}}
+																className="w-full mt-2 px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+															>
+																Выбрать товар
+															</button>
+														)}
+														{formData.product_id === product.productId && (
+															<div className="w-full mt-2 px-3 py-1 text-xs bg-green-100 text-green-800 rounded text-center font-medium">
+																Выбрано
+															</div>
+														)}
+													</div>
+												))
+											)}
+										</div>
+
 										{/* Пагинация товаров */}
 										{totalProductPages > 1 && (
 											<div className="border-t border-gray-200 p-3 bg-gray-50">
-												<div className="flex items-center justify-between">
-													<div className="text-sm text-gray-600">
+												<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+													<div className="text-sm text-gray-600 text-center sm:text-left">
 														Показано {productStartIndex + 1}-{Math.min(productEndIndex, filteredProducts.length)} из {filteredProducts.length}
 													</div>
-													<div className="flex items-center space-x-1">
+													<div className="flex items-center justify-center sm:justify-end space-x-1 overflow-x-auto">
 														<button
 															type="button"
 															onClick={() => setProductPage(1)}
 															disabled={productPage === 1}
-															className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+															className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 															title="Первая страница"
 														>
 															««
@@ -635,7 +696,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 															type="button"
 															onClick={() => setProductPage(prev => Math.max(1, prev - 1))}
 															disabled={productPage === 1}
-															className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+															className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 															title="Предыдущая страница"
 														>
 															«
@@ -644,12 +705,12 @@ export const AdminTechSpecsPage: React.FC = () => {
 														{getProductPageNumbers().map((pageNum, index) => (
 															<span key={index}>
 																{pageNum === '...' ? (
-																	<span className="px-3 py-2 text-gray-500">...</span>
+																	<span className="px-3 py-2 text-gray-500 flex-shrink-0">...</span>
 																) : (
 																	<button
 																		type="button"
 																		onClick={() => setProductPage(pageNum as number)}
-																		className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${productPage === pageNum
+																		className={`px-3 py-2 text-sm font-medium rounded-md transition-colors flex-shrink-0 ${productPage === pageNum
 																			? 'bg-blue-600 text-white'
 																			: 'text-gray-700 hover:bg-gray-100'
 																			}`}
@@ -664,7 +725,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 															type="button"
 															onClick={() => setProductPage(prev => Math.min(totalProductPages, prev + 1))}
 															disabled={productPage === totalProductPages}
-															className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+															className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 															title="Следующая страница"
 														>
 															»
@@ -673,7 +734,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 															type="button"
 															onClick={() => setProductPage(totalProductPages)}
 															disabled={productPage === totalProductPages}
-															className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+															className="p-2 text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
 															title="Последняя страница"
 														>
 															»»
@@ -726,17 +787,17 @@ export const AdminTechSpecsPage: React.FC = () => {
 									)}
 								</div>
 
-								<div className="flex justify-end space-x-3 pt-4">
+								<div className="flex flex-col sm:flex-row sm:justify-end gap-3 pt-4">
 									<button
 										type="button"
 										onClick={resetForm}
-										className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+										className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
 									>
 										Отмена
 									</button>
 									<button
 										type="submit"
-										className="px-4 py-2 bg-industrial-accent text-white rounded-md hover:bg-orange-700"
+										className="w-full sm:w-auto px-4 py-2 bg-industrial-accent text-white rounded-md hover:bg-orange-700"
 									>
 										{editingTechSpec ? 'Сохранить' : 'Создать'}
 									</button>
