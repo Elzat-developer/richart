@@ -194,7 +194,7 @@ export const AdminDashboardPage: React.FC = () => {
 							</Link>
 
 							<Link
-								to="/admin/categories"
+								to="/admin/categories?create=true"
 								className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
 							>
 								<CategoryIcon className="h-4 w-4 mr-2" />

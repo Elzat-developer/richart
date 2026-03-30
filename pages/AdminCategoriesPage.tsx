@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { AdminApiService } from '../services/adminApi';
 import { BackendCategoryDto, CreateCategoryDto, EditCategoryDto } from '../types';
@@ -21,6 +21,7 @@ import {
 
 export const AdminCategoriesPage: React.FC = () => {
 	const { admin } = useAdminAuth();
+	const [searchParams] = useSearchParams();
 	const [categories, setCategories] = useState<BackendCategoryDto[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [showCreateForm, setShowCreateForm] = useState(false);
@@ -50,6 +51,17 @@ export const AdminCategoriesPage: React.FC = () => {
 	useEffect(() => {
 		loadCategories();
 	}, [categoryType, showArchived]);
+
+	// Проверяем URL параметр для открытия формы создания
+	useEffect(() => {
+		const createParam = searchParams.get('create');
+		if (createParam === 'true') {
+			setShowCreateForm(true);
+			// Очищаем URL параметр после открытия формы
+			const newUrl = window.location.pathname;
+			window.history.replaceState({}, '', newUrl);
+		}
+	}, [searchParams]);
 
 	useEffect(() => {
 		// Обновляем количество элементов на странице при смене вида
