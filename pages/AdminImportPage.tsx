@@ -232,7 +232,7 @@ export const AdminImportPage: React.FC = () => {
 				{activeTab === 'import' && (
 					<>
 						{/* Instructions */}
-						<div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 sm:p-6 mb-6 shadow-sm">
+						<div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-3 sm:p-6 mb-6 shadow-sm">
 							<div className="flex flex-col sm:flex-row">
 								<div className="flex-shrink-0 mb-3 sm:mb-0">
 									<FileSpreadsheetIcon className="h-5 w-5 text-blue-400" />
