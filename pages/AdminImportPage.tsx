@@ -185,47 +185,54 @@ export const AdminImportPage: React.FC = () => {
 			{/* Navigation */}
 			<AdminNavigation />
 
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-				{/* Page Header */}
-				<div className="mb-6">
-					<h1 className="text-xl sm:text-2xl font-bold text-gray-900">📦 Управление импортом</h1>
-					<p className="mt-2 text-gray-600 text-sm sm:text-base">
-						{activeTab === 'import'
-							? 'Загрузите ZIP архив, содержащий Excel-файл с данными и папку с фотографиями. Система автоматически создаст товары, сожмет изображения и заполнит все характеристики.'
-							: 'Просмотрите историю всех импортов товаров с детальной информацией о результатах.'
-						}
-					</p>
+			{/* Full-width blue background section */}
+			<div className="bg-gradient-to-br from-blue-600 to-blue-700">
+				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+					{/* Page Header */}
+					<div className="mb-6">
+						<h1 className="text-xl sm:text-2xl font-bold text-white">📦 Управление импортом</h1>
+						<p className="mt-2 text-blue-100 text-sm sm:text-base">
+							{activeTab === 'import'
+								? 'Загрузите ZIP архив, содержащий Excel-файл с данными и папку с фотографиями. Система автоматически создаст товары, сожмет изображения и заполнит все характеристики.'
+								: 'Просмотрите историю всех импортов товаров с детальной информацией о результатах.'
+							}
+						</p>
 
-					{/* Tab Switcher */}
-					<div className="mt-6 border-b border-gray-200">
-						<nav className="-mb-px flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-8">
-							<button
-								onClick={() => setActiveTab('import')}
-								className={`py-2 px-1 border-b-2 font-medium text-sm ${activeTab === 'import'
-									? 'border-industrial-accent text-industrial-accent'
-									: 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-									}`}
-							>
-								📤 Импорт товаров
-							</button>
-							<button
-								onClick={() => setActiveTab('history')}
-								className={`py-2 px-1 border-b-2 font-medium text-sm ${activeTab === 'history'
-									? 'border-industrial-accent text-industrial-accent'
-									: 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-									}`}
-							>
-								📋 История импортов
-							</button>
-						</nav>
+						{/* Tab Switcher */}
+						<div className="mt-6 border-b border-blue-500">
+							<nav className="-mb-px flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-8">
+								<button
+									onClick={() => setActiveTab('import')}
+									className={`py-2 px-1 border-b-2 font-medium text-sm ${activeTab === 'import'
+										? 'border-white text-white'
+										: 'border-transparent text-blue-200 hover:text-white hover:border-blue-400'
+										}`}
+								>
+									📤 Импорт товаров
+								</button>
+								<button
+									onClick={() => setActiveTab('history')}
+									className={`py-2 px-1 border-b-2 font-medium text-sm ${activeTab === 'history'
+										? 'border-white text-white'
+										: 'border-transparent text-blue-200 hover:text-white hover:border-blue-400'
+										}`}
+								>
+									📋 История импортов
+								</button>
+							</nav>
+						</div>
 					</div>
 				</div>
+			</div>
+
+			{/* Content area with normal background */}
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
 				{/* Import Tab Content */}
 				{activeTab === 'import' && (
 					<>
 						{/* Instructions */}
-						<div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4 mb-6">
+						<div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 sm:p-6 mb-6 shadow-sm">
 							<div className="flex flex-col sm:flex-row">
 								<div className="flex-shrink-0 mb-3 sm:mb-0">
 									<FileSpreadsheetIcon className="h-5 w-5 text-blue-400" />
@@ -249,31 +256,31 @@ export const AdminImportPage: React.FC = () => {
 
 												{/* Фото-пример */}
 												<div className="mt-4">
-													<h5 className="font-semibold text-blue-900 mb-2">📸 Пример ZIP архива:</h5>
-													<div className="bg-white border border-blue-300 rounded-lg p-4">
-														<div className="flex flex-col items-center space-y-3">
+													<h5 className="font-semibold text-blue-900 mb-3">📸 Пример ZIP архива:</h5>
+													<div className="bg-white border border-blue-300 rounded-xl p-6 shadow-sm">
+														<div className="flex flex-col items-center space-y-4">
 															{/* Визуализация структуры ZIP */}
-															<div className="w-full max-w-md bg-gray-50 border border-gray-300 rounded p-4">
-																<div className="text-center font-mono font-bold text-gray-700 mb-3">📦 products.zip</div>
-																<div className="font-mono text-xs space-y-1">
-																	<div className="bg-white p-2 rounded border border-gray-200">├── 📄 products.xlsx</div>
-																	<div className="bg-white p-2 rounded border border-gray-200">└── 📁 images/</div>
-																	<div className="ml-4 bg-white p-2 rounded border border-gray-200">├── 🖼️ photo1.jpg</div>
-																	<div className="ml-4 bg-white p-2 rounded border border-gray-200">├── 🖼️ photo2.png</div>
-																	<div className="ml-4 bg-white p-2 rounded border border-gray-200">└── 🖼️ photo3.jpg</div>
+															<div className="w-full max-w-md bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-300 rounded-xl p-6 shadow-inner">
+																<div className="text-center font-mono font-bold text-gray-700 mb-4 text-lg">📦 products.zip</div>
+																<div className="font-mono text-xs space-y-2">
+																	<div className="bg-blue-50 p-3 rounded-lg border border-blue-200">├── 📄 products.xlsx</div>
+																	<div className="bg-blue-50 p-3 rounded-lg border border-blue-200">└── 📁 images/</div>
+																	<div className="ml-6 bg-green-50 p-3 rounded-lg border border-green-200">├── 🖼️ photo1.jpg</div>
+																	<div className="ml-6 bg-green-50 p-3 rounded-lg border border-green-200">├── 🖼️ photo2.png</div>
+																	<div className="ml-6 bg-green-50 p-3 rounded-lg border border-green-200">└── 🖼️ photo3.jpg</div>
 																</div>
 															</div>
-															<p className="text-xs text-gray-600 mt-2 text-center">
+															<p className="text-sm text-gray-600 mt-4 text-center font-medium">
 																📦 ZIP архив должен содержать Excel файл и папку images с фотографиями
 															</p>
 															{/* Кнопка скачивания примера */}
-															<div className="mt-4 text-center">
+															<div className="mt-6 text-center">
 																<a
 																	href="/zipFile/products.zip"
 																	download="products-example.zip"
-																	className="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors"
+																	className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white text-sm font-medium rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
 																>
-																	<svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+																	<svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 																		<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
 																	</svg>
 																	📥 Скачать пример ZIP архива
