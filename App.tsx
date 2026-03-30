@@ -20,7 +20,6 @@ import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { AdminProductsPage } from './pages/AdminProductsPage';
 import { AdminProductFormPage } from './pages/AdminProductFormPage';
 import { AdminCategoriesPage } from './pages/AdminCategoriesPage';
-import { AdminCategoryFormPage } from './pages/AdminCategoryFormPage';
 import { AdminTechSpecsPage } from './pages/AdminTechSpecsPage';
 import { AdminProductDetailPage } from './pages/AdminProductDetailPage';
 import { AdminPromotionsPage } from './pages/AdminPromotionsPage';
@@ -113,16 +112,6 @@ function App() {
 						<Route path="/admin/categories" element={
 							<AdminProtectedRoute>
 								<AdminCategoriesPage />
-							</AdminProtectedRoute>
-						} />
-						<Route path="/admin/categories/new" element={
-							<AdminProtectedRoute>
-								<AdminCategoryFormPage />
-							</AdminProtectedRoute>
-						} />
-						<Route path="/admin/categories/:id/edit" element={
-							<AdminProtectedRoute>
-								<AdminCategoryFormPage />
 							</AdminProtectedRoute>
 						} />
 						<Route path="/admin/tech-specs" element={

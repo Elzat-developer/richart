@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { AdminApiService } from '../services/adminApi';
 import { BackendCategoryDto, CreateCategoryDto, EditCategoryDto } from '../types';
@@ -21,7 +21,6 @@ import {
 
 export const AdminCategoriesPage: React.FC = () => {
 	const { admin } = useAdminAuth();
-	const navigate = useNavigate();
 	const [categories, setCategories] = useState<BackendCategoryDto[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [showCreateForm, setShowCreateForm] = useState(false);
@@ -157,11 +156,15 @@ export const AdminCategoriesPage: React.FC = () => {
 	};
 
 	const handleEdit = (category: BackendCategoryDto) => {
-		navigate(`/admin/categories/${category.categoryId}/edit`);
+		setEditingCategory(category);
+		setFormData({
+			categoryId: category.categoryId,
+			categoryName: category.categoryName,
+			description: category.description,
+			categoryType: category.categoryType
+		});
+		setShowCreateForm(true);
 	};
-
-	setShowCreateForm(true);
-
 
 	const resetForm = () => {
 		setFormData({
@@ -239,13 +242,13 @@ export const AdminCategoriesPage: React.FC = () => {
 				{/* Page Header with Actions */}
 				<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
 					<h1 className="text-2xl font-bold text-gray-900">Управление категориями</h1>
-					<Link
-						to="/admin/categories/new"
+					<button
+						onClick={() => setShowCreateForm(true)}
 						className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
 					>
 						<PlusIcon className="h-4 w-4 mr-2" />
 						Добавить категорию
-					</Link>
+					</button>
 				</div>
 
 				{/* Filters and View Controls */}

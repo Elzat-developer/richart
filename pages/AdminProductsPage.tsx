@@ -285,50 +285,45 @@ export const AdminProductsPage: React.FC = () => {
 			{/* Navigation */}
 			<AdminNavigation />
 
-			<div className="max-w-7xl mx-auto py-4 sm:py-6 px-3 sm:px-4 lg:px-8">
+			<div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 				{/* Page Header with Actions */}
-				<div className="flex flex-col gap-3 mb-4 sm:mb-6">
-					<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-						<h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 text-center sm:text-left">
-							📦 Управление товарами
-						</h1>
-					</div>
-					<div className="flex flex-col gap-2">
-						<div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-							<button
-								onClick={loadData}
-								className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
-							>
-								🔄 Обновить
-							</button>
-							<Link
-								to="/admin/import"
-								className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors"
-							>
-								📥 Импорт Zip
-							</Link>
-							<Link
-								to="/admin/products/new"
-								className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
-							>
-								➕ Добавить товар
-							</Link>
-						</div>
+				<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 space-y-3 sm:space-y-0">
+					<h1 className="text-xl sm:text-2xl font-bold text-gray-900">Управление товарами</h1>
+					<div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+						<button
+							onClick={loadData}
+							className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+						>
+							🔄 Обновить
+						</button>
+						<Link
+							to="/admin/import"
+							className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors"
+						>
+							Импорт Zip
+						</Link>
+						<Link
+							to="/admin/products/new"
+							className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
+						>
+							<PlusIcon className="h-4 w-4 mr-2" />
+							Добавить товар
+						</Link>
 					</div>
 				</div>
 
 				{/* Product Type and Status Switchers */}
-				<div className="bg-white shadow rounded-lg mb-4 sm:mb-6 p-3 sm:p-4">
-					<div className="space-y-4">
+				<div className="bg-white shadow rounded-lg mb-4 sm:mb-6 p-4">
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
 						{/* Product Type Switcher */}
 						<div>
-							<label className="block text-sm font-medium text-gray-700 mb-2">
-								🏭 Тип товаров
+							<label className="block text-sm font-medium text-gray-700 mb-2 sm:mb-3">
+								Тип товаров
 							</label>
-							<div className="grid grid-cols-2 gap-2">
+							<div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
 								<button
 									onClick={() => setProductType('industrial')}
-									className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${productType === 'industrial'
+									className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${productType === 'industrial'
 										? 'bg-industrial-accent text-white'
 										: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
 										}`}
@@ -337,7 +332,7 @@ export const AdminProductsPage: React.FC = () => {
 								</button>
 								<button
 									onClick={() => setProductType('household')}
-									className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${productType === 'household'
+									className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${productType === 'household'
 										? 'bg-industrial-accent text-white'
 										: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
 										}`}
@@ -349,13 +344,13 @@ export const AdminProductsPage: React.FC = () => {
 
 						{/* Archive Status Switcher */}
 						<div>
-							<label className="block text-sm font-medium text-gray-700 mb-2">
-								📊 Статус товаров
+							<label className="block text-sm font-medium text-gray-700 mb-2 sm:mb-3">
+								Статус товаров
 							</label>
-							<div className="grid grid-cols-2 gap-2">
+							<div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
 								<button
 									onClick={() => setShowArchived(false)}
-									className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${!showArchived
+									className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${!showArchived
 										? 'bg-green-600 text-white'
 										: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
 										}`}
@@ -364,7 +359,7 @@ export const AdminProductsPage: React.FC = () => {
 								</button>
 								<button
 									onClick={() => setShowArchived(true)}
-									className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${showArchived
+									className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${showArchived
 										? 'bg-red-600 text-white'
 										: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
 										}`}
@@ -374,359 +369,244 @@ export const AdminProductsPage: React.FC = () => {
 							</div>
 						</div>
 					</div>
-				</div>
 
-				{/* Filters */}
-				<div className="bg-white shadow rounded-lg mb-6 p-3 sm:p-4">
-					<div className="space-y-4">
-						{/* First row - Main filters */}
-						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-							<div className="relative">
-								<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-									<SearchIcon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
+					{/* Filters */}
+					<div className="bg-white shadow rounded-lg mb-6 p-4">
+						<div className="space-y-4">
+							{/* First row - Main filters */}
+							<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+								<div className="relative">
+									<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+										<SearchIcon className="h-5 w-5 text-gray-400" />
+									</div>
+									<input
+										type="text"
+										placeholder="Поиск по названию или артикулу..."
+										value={searchTerm}
+										onChange={(e) => setSearchTerm(e.target.value)}
+										className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-industrial-accent focus:border-industrial-accent"
+									/>
 								</div>
-								<input
-									type="text"
-									placeholder="Поиск по названию..."
-									value={searchTerm}
-									onChange={(e) => setSearchTerm(e.target.value)}
-									className="block w-full pl-9 sm:pl-10 pr-3 py-2 border border-gray-300 rounded-md text-sm bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-industrial-accent focus:border-industrial-accent"
-								/>
-							</div>
 
-							<select
-								value={filterCategory}
-								onChange={(e) => setFilterCategory(e.target.value)}
-								className="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white focus:outline-none focus:ring-1 focus:ring-industrial-accent focus:border-industrial-accent"
-							>
-								<option value="">Все категории</option>
-								{categories.map(category => (
-									<option key={category.categoryId} value={category.categoryId}>
-										{category.categoryName}
-									</option>
-								))}
-							</select>
-
-							<select
-								value={filterMaterial}
-								onChange={(e) => setFilterMaterial(e.target.value)}
-								className="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white focus:outline-none focus:ring-1 focus:ring-industrial-accent focus:border-industrial-accent"
-							>
-								<option value="">Все материалы</option>
-								{uniqueMaterials.map(material => (
-									<option key={material} value={material}>
-										{material}
-									</option>
-								))}
-							</select>
-						</div>
-
-						{/* Second row - Date filters */}
-						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-end">
-							<div>
-								<label className="block text-sm font-medium text-gray-700 mb-1">
-									📅 Тип даты
-								</label>
 								<select
-									value={filterDateType}
-									onChange={(e) => setFilterDateType(e.target.value as 'created' | 'updated')}
-									className="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white focus:outline-none focus:ring-1 focus:ring-industrial-accent focus:border-industrial-accent"
+									value={filterCategory}
+									onChange={(e) => setFilterCategory(e.target.value)}
+									className="block w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-industrial-accent focus:border-industrial-accent"
 								>
-									<option value="created">Создания</option>
-									<option value="updated">Обновления</option>
+									<option value="">Все категории</option>
+									{categories.map(category => (
+										<option key={category.categoryId} value={category.categoryId}>
+											{category.categoryName}
+										</option>
+									))}
+								</select>
+
+								<select
+									value={filterMaterial}
+									onChange={(e) => setFilterMaterial(e.target.value)}
+									className="block w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-industrial-accent focus:border-industrial-accent"
+								>
+									<option value="">Все материалы</option>
+									{uniqueMaterials.map(material => (
+										<option key={material} value={material}>
+											{material}
+										</option>
+									))}
 								</select>
 							</div>
 
-							<div>
-								<label className="block text-sm font-medium text-gray-700 mb-1">
-									📆 Дата от
-								</label>
-								<input
-									type="date"
-									value={filterDateFrom}
-									onChange={(e) => setFilterDateFrom(e.target.value)}
-									className="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white focus:outline-none focus:ring-1 focus:ring-industrial-accent focus:border-industrial-accent"
-								/>
+							{/* Second row - Date filters */}
+							<div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+								<div>
+									<label className="block text-sm font-medium text-gray-700 mb-1">
+										Тип даты
+									</label>
+									<select
+										value={filterDateType}
+										onChange={(e) => setFilterDateType(e.target.value as 'created' | 'updated')}
+										className="block w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-industrial-accent focus:border-industrial-accent"
+									>
+										<option value="created">Дата создания</option>
+										<option value="updated">Дата обновления</option>
+									</select>
+								</div>
+
+								<div>
+									<label className="block text-sm font-medium text-gray-700 mb-1">
+										Дата от
+									</label>
+									<input
+										type="date"
+										value={filterDateFrom}
+										onChange={(e) => setFilterDateFrom(e.target.value)}
+										className="block w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-industrial-accent focus:border-industrial-accent"
+									/>
+								</div>
+
+								<div>
+									<label className="block text-sm font-medium text-gray-700 mb-1">
+										Дата до
+									</label>
+									<input
+										type="date"
+										value={filterDateTo}
+										onChange={(e) => setFilterDateTo(e.target.value)}
+										className="block w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-industrial-accent focus:border-industrial-accent"
+									/>
+								</div>
+
+								<div className="md:col-span-2 flex items-end">
+									<button
+										onClick={clearFilters}
+										className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+									>
+										Очистить фильтры
+									</button>
+								</div>
 							</div>
 
-							<div>
-								<label className="block text-sm font-medium text-gray-700 mb-1">
-									📆 Дата до
-								</label>
-								<input
-									type="date"
-									value={filterDateTo}
-									onChange={(e) => setFilterDateTo(e.target.value)}
-									className="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white focus:outline-none focus:ring-1 focus:ring-industrial-accent focus:border-industrial-accent"
-								/>
-							</div>
-
-							<div className="lg:col-span-2 flex flex-col sm:flex-row gap-2">
-								<button
-									onClick={clearFilters}
-									className="flex-1 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 transition-colors"
-								>
-									🔍 Применить
-								</button>
-								<button
-									onClick={clearFilters}
-									className="flex-1 inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
-								>
-									🔄 Сбросить
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-				{/* Stats row */}
-				<div className="text-sm text-gray-500 flex items-center justify-between pt-2 border-t border-gray-200">
-					<div className="flex items-center">
-						<PackageIcon className="h-4 w-4 mr-1" />
-						Всего: {products.length} | Найдено: {filteredProducts.length} товаров
-						{(filterMaterial || filterDateFrom || filterDateTo) && (
-							<span className="ml-2 text-industrial-accent">
-								(фильтры активны)
-							</span>
-						)}
-					</div>
-					<div className="flex items-center space-x-4">
-						{/* View Mode Switcher */}
-						<div className="flex items-center space-x-2">
-							<span className="text-gray-600">Вид:</span>
-							<button
-								onClick={() => setViewMode('grid')}
-								className={`px-3 py-1 rounded text-sm font-medium transition-colors ${viewMode === 'grid'
-									? 'bg-industrial-accent text-white'
-									: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-									}`}
-							>
-								📱 Карточки
-							</button>
-							<button
-								onClick={() => setViewMode('table')}
-								className={`px-3 py-1 rounded text-sm font-medium transition-colors ${viewMode === 'table'
-									? 'bg-industrial-accent text-white'
-									: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-									}`}
-							>
-								📊 Таблица
-							</button>
-						</div>
-						{totalPages > 1 && (
-							<div className="text-sm text-gray-600">
-								Страница {currentPage} из {totalPages}
-							</div>
-						)}
-					</div>
-				</div>
-			</div >
-
-
-
-			{
-				filteredProducts.length === 0 ? (
-					<div className="bg-white shadow rounded-lg">
-						<div className="text-center py-12">
-							<PackageIcon className="mx-auto h-12 w-12 text-gray-400" />
-							<h3 className="mt-2 text-sm font-medium text-gray-900">Товары не найдены</h3>
-							<p className="mt-1 text-sm text-gray-500">
-								{searchTerm || filterCategory || filterMaterial || filterDateFrom || filterDateTo ? 'Попробуйте изменить параметры фильтрации' : 'Начните с добавления первого товара'}
-							</p>
-							<div className="mt-6">
-								<Link
-									to="/admin/products/new"
-									className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-industrial-accent"
-								>
-									<PlusIcon className="h-4 w-4 mr-2" />
-									Добавить товар
-								</Link>
-							</div>
-						</div>
-					</div>
-				) : (
-					<>
-						{viewMode === 'grid' ? (
-							/* Grid View */
-							<div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
-								{currentProducts.map((product) => (
-									<div key={product.productId} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
-										{/* Product Image - кликабельный */}
-										<Link to={`/admin/products/${product.productId}`} className="block">
-											<div className="aspect-[4/3] bg-gray-100 overflow-hidden p-2 flex items-center justify-center">
-												<img
-													src={getImageUrl(product.photoDto)}
-													alt={product.productName}
-													className="max-w-full max-h-full object-contain"
-													onError={(e) => {
-														console.error('Failed to load product image:', product.photoDto?.photoURL);
-														(e.target as HTMLImageElement).src = 'https://picsum.photos/400/300?error=load-failed&id=' + product.productId;
-													}}
-													onLoad={() => {
-														console.log('Product image loaded successfully:', getImageUrl(product.photoDto));
-													}}
-												/>
-											</div>
-										</Link>
-
-										{/* Product Info */}
-										<div className="p-4 flex flex-col flex-grow">
-											<div className="flex items-start justify-between mb-2">
-												<h3 className="text-lg font-semibold text-gray-900 line-clamp-2 flex-grow">
-													{product.productName}
-												</h3>
-												<span className="text-xs font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded ml-2 flex-shrink-0">
-													{product.tag}
-												</span>
-											</div>
-
-											<div className="text-sm text-gray-600 mb-4 flex-grow">
-												<p className="mb-1">
-													<span className="font-medium">Категория:</span> {getCategoryName(product.categoryId)}
-												</p>
-												<p className="mb-1">
-													<span className="font-medium">Материал:</span> {product.material || 'Не указан'}
-												</p>
-												<p className="mb-1">
-													<span className="font-medium">Создан:</span> {formatDate(product.createdAt)}
-												</p>
-												<p>
-													<span className="font-medium">Обновлен:</span> {
-														!product.updatedAt ||
-															new Date(product.updatedAt).getTime() === new Date(product.createdAt).getTime()
-															? 'Не изменялось'
-															: formatDate(product.updatedAt)
-													}
-												</p>
-											</div>
-
-											{/* Actions */}
-											<div className="flex justify-between items-center pt-3 border-t border-gray-200 mt-auto">
-												<Link
-													to={`/admin/products/${product.productId}`}
-													className="inline-flex items-center text-industrial-accent hover:text-industrial-900 text-sm font-medium"
-												>
-													<PackageIcon className="h-4 w-4" />
-													<span className="hidden sm:inline ml-1">Просмотр</span>
-												</Link>
-
-												<div className="flex space-x-2">
-													<Link
-														to={`/admin/products/${product.productId}/edit`}
-														className="inline-flex items-center text-blue-600 hover:text-blue-900 text-sm font-medium"
-													>
-														<EditIcon className="h-4 w-4" />
-													</Link>
-													{showArchived && (
-														<button
-															onClick={() => handleActivateProduct(product.productId)}
-															className="inline-flex items-center text-green-600 hover:text-green-900 text-sm font-medium"
-															title="Активировать товар"
-														>
-															<CheckIcon className="h-4 w-4" />
-														</button>
-													)}
-													<button
-														onClick={() => handleDeleteProduct(product.productId)}
-														className="inline-flex items-center text-red-600 hover:text-red-900 text-sm font-medium"
-													>
-														<TrashIcon className="h-4 w-4" />
-													</button>
-												</div>
-											</div>
-										</div>
+							{/* Stats row */}
+							<div className="text-sm text-gray-500 flex items-center justify-between pt-2 border-t border-gray-200">
+								<div className="flex items-center">
+									<PackageIcon className="h-4 w-4 mr-1" />
+									Всего: {products.length} | Найдено: {filteredProducts.length} товаров
+									{(filterMaterial || filterDateFrom || filterDateTo) && (
+										<span className="ml-2 text-industrial-accent">
+											(фильтры активны)
+										</span>
+									)}
+								</div>
+								<div className="flex items-center space-x-4">
+									{/* View Mode Switcher */}
+									<div className="flex items-center space-x-2">
+										<span className="text-gray-600">Вид:</span>
+										<button
+											onClick={() => setViewMode('grid')}
+											className={`px-3 py-1 rounded text-sm font-medium transition-colors ${viewMode === 'grid'
+												? 'bg-industrial-accent text-white'
+												: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+												}`}
+										>
+											📱 Карточки
+										</button>
+										<button
+											onClick={() => setViewMode('table')}
+											className={`px-3 py-1 rounded text-sm font-medium transition-colors ${viewMode === 'table'
+												? 'bg-industrial-accent text-white'
+												: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+												}`}
+										>
+											📊 Таблица
+										</button>
 									</div>
-								))}
+									{totalPages > 1 && (
+										<div className="text-sm text-gray-600">
+											Страница {currentPage} из {totalPages}
+										</div>
+									)}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					{/* Products Display */}
+					{
+						filteredProducts.length === 0 ? (
+							<div className="bg-white shadow rounded-lg">
+								<div className="text-center py-12">
+									<PackageIcon className="mx-auto h-12 w-12 text-gray-400" />
+									<h3 className="mt-2 text-sm font-medium text-gray-900">Товары не найдены</h3>
+									<p className="mt-1 text-sm text-gray-500">
+										{searchTerm || filterCategory || filterMaterial || filterDateFrom || filterDateTo ? 'Попробуйте изменить параметры фильтрации' : 'Начните с добавления первого товара'}
+									</p>
+									<div className="mt-6">
+										<Link
+											to="/admin/products/new"
+											className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-industrial-accent hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-industrial-accent"
+										>
+											<PlusIcon className="h-4 w-4 mr-2" />
+											Добавить товар
+										</Link>
+									</div>
+								</div>
 							</div>
 						) : (
-							/* Table View */
-							<div className="bg-white shadow rounded-lg overflow-hidden">
-								<div className="overflow-x-auto">
-									<table className="min-w-full divide-y divide-gray-200">
-										<thead className="bg-gray-50">
-											<tr>
-												<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-													Фото
-												</th>
-												<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-													Название
-												</th>
-												<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-													Артикул
-												</th>
-												<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-													Категория
-												</th>
-												<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-													Материал
-												</th>
-												<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-													Создан
-												</th>
-												<th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-													Действия
-												</th>
-											</tr>
-										</thead>
-										<tbody className="bg-white divide-y divide-gray-200">
-											{currentProducts.map((product) => (
-												<tr key={product.productId} className="hover:bg-gray-50 cursor-pointer" onClick={() => handleProductClick(product)}>
-													<td className="px-6 py-4 whitespace-nowrap">
+							<>
+								{viewMode === 'grid' ? (
+									/* Grid View */
+									<div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
+										{currentProducts.map((product) => (
+											<div key={product.productId} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
+												{/* Product Image - кликабельный */}
+												<Link to={`/admin/products/${product.productId}`} className="block">
+													<div className="aspect-[4/3] bg-gray-100 overflow-hidden p-2 flex items-center justify-center">
 														<img
 															src={getImageUrl(product.photoDto)}
 															alt={product.productName}
-															className="h-12 w-12 object-cover rounded"
+															className="max-w-full max-h-full object-contain"
 															onError={(e) => {
-																(e.target as HTMLImageElement).src = 'https://picsum.photos/48/48?error=load-failed&id=' + product.productId;
+																console.error('Failed to load product image:', product.photoDto?.photoURL);
+																(e.target as HTMLImageElement).src = 'https://picsum.photos/400/300?error=load-failed&id=' + product.productId;
+															}}
+															onLoad={() => {
+																console.log('Product image loaded successfully:', getImageUrl(product.photoDto));
 															}}
 														/>
-													</td>
-													<td className="px-6 py-4">
-														<div className="text-sm font-medium text-gray-900 line-clamp-2">
+													</div>
+												</Link>
+
+												{/* Product Info */}
+												<div className="p-4 flex flex-col flex-grow">
+													<div className="flex items-start justify-between mb-2">
+														<h3 className="text-lg font-semibold text-gray-900 line-clamp-2 flex-grow">
 															{product.productName}
-														</div>
-													</td>
-													<td className="px-6 py-4 whitespace-nowrap">
-														<span className="text-xs font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded">
+														</h3>
+														<span className="text-xs font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded ml-2 flex-shrink-0">
 															{product.tag}
 														</span>
-													</td>
-													<td className="px-6 py-4 whitespace-nowrap">
-														<div className="text-sm text-gray-900">
-															{getCategoryName(product.categoryId)}
-														</div>
-													</td>
-													<td className="px-6 py-4 whitespace-nowrap">
-														<div className="text-sm text-gray-900">
-															{product.material || 'Не указан'}
-														</div>
-													</td>
-													<td className="px-6 py-4 whitespace-nowrap">
-														<div className="text-sm text-gray-900">
-															{formatDate(product.createdAt)}
-														</div>
-													</td>
-													<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" onClick={(e) => e.stopPropagation()}>
-														<div className="flex items-center justify-end space-x-2">
-															<Link
-																to={`/admin/products/${product.productId}`}
-																className="text-industrial-accent hover:text-industrial-900"
-																title="Просмотр"
-															>
-																<PackageIcon className="h-4 w-4" />
-															</Link>
+													</div>
+
+													<div className="text-sm text-gray-600 mb-4 flex-grow">
+														<p className="mb-1">
+															<span className="font-medium">Категория:</span> {getCategoryName(product.categoryId)}
+														</p>
+														<p className="mb-1">
+															<span className="font-medium">Материал:</span> {product.material || 'Не указан'}
+														</p>
+														<p className="mb-1">
+															<span className="font-medium">Создан:</span> {formatDate(product.createdAt)}
+														</p>
+														<p>
+															<span className="font-medium">Обновлен:</span> {
+																!product.updatedAt ||
+																	new Date(product.updatedAt).getTime() === new Date(product.createdAt).getTime()
+																	? 'Не изменялось'
+																	: formatDate(product.updatedAt)
+															}
+														</p>
+													</div>
+
+													{/* Actions */}
+													<div className="flex justify-between items-center pt-3 border-t border-gray-200 mt-auto">
+														<Link
+															to={`/admin/products/${product.productId}`}
+															className="inline-flex items-center text-industrial-accent hover:text-industrial-900 text-sm font-medium"
+														>
+															<PackageIcon className="h-4 w-4" />
+															<span className="hidden sm:inline ml-1">Просмотр</span>
+														</Link>
+
+														<div className="flex space-x-2">
 															<Link
 																to={`/admin/products/${product.productId}/edit`}
-																className="text-blue-600 hover:text-blue-900"
-																title="Редактировать"
+																className="inline-flex items-center text-blue-600 hover:text-blue-900 text-sm font-medium"
 															>
 																<EditIcon className="h-4 w-4" />
 															</Link>
 															{showArchived && (
 																<button
 																	onClick={() => handleActivateProduct(product.productId)}
-																	className="text-green-600 hover:text-green-900"
+																	className="inline-flex items-center text-green-600 hover:text-green-900 text-sm font-medium"
 																	title="Активировать товар"
 																>
 																	<CheckIcon className="h-4 w-4" />
@@ -734,111 +614,215 @@ export const AdminProductsPage: React.FC = () => {
 															)}
 															<button
 																onClick={() => handleDeleteProduct(product.productId)}
-																className="text-red-600 hover:text-red-900"
-																title="Удалить"
+																className="inline-flex items-center text-red-600 hover:text-red-900 text-sm font-medium"
 															>
 																<TrashIcon className="h-4 w-4" />
 															</button>
 														</div>
-													</td>
-												</tr>
-											))}
-										</tbody>
-									</table>
-								</div>
-							</div>
-						)}
-
-						{/* Pagination */}
-						{totalPages > 1 && (
-							<div className="bg-white shadow rounded-lg mt-6 p-4">
-								<div className="flex items-center justify-between">
-									<div className="text-sm text-gray-700">
-										Показано {startIndex + 1}-{Math.min(endIndex, filteredProducts.length)} из {filteredProducts.length} товаров
+													</div>
+												</div>
+											</div>
+										))}
 									</div>
-
-									<div className="flex items-center space-x-2">
-										{/* Items per page selector */}
-										<select
-											value={itemsPerPage}
-											onChange={(e) => {
-												setItemsPerPage(Number(e.target.value));
-												setCurrentPage(1);
-											}}
-											className="text-sm border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-1 focus:ring-industrial-accent"
-										>
-											<option value={12}>12</option>
-											<option value={24}>24</option>
-											<option value={48}>48</option>
-											<option value={96}>96</option>
-										</select>
-
-										{/* Pagination buttons */}
-										<div className="flex items-center space-x-1">
-											<button
-												onClick={() => setCurrentPage(1)}
-												disabled={currentPage === 1}
-												className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
-											>
-												<ChevronLeftIcon className="h-4 w-4" />
-												<ChevronLeftIcon className="h-4 w-4 -ml-2" />
-											</button>
-
-											<button
-												onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-												disabled={currentPage === 1}
-												className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
-											>
-												<ChevronLeftIcon className="h-4 w-4" />
-											</button>
-
-											{getPageNumbers().map((page, index) => (
-												<span key={index}>
-													{page === '...' ? (
-														<span className="px-3 py-2 text-gray-500">...</span>
-													) : (
-														<button
-															onClick={() => setCurrentPage(page as number)}
-															className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${currentPage === page
-																? 'bg-industrial-accent text-white'
-																: 'text-gray-700 hover:bg-gray-100'
-																}`}
-														>
-															{page}
-														</button>
-													)}
-												</span>
-											))}
-
-											<button
-												onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-												disabled={currentPage === totalPages}
-												className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
-											>
-												<ChevronRightIcon className="h-4 w-4" />
-											</button>
-
-											<button
-												onClick={() => setCurrentPage(totalPages)}
-												disabled={currentPage === totalPages}
-												className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
-											>
-												<ChevronRightIcon className="h-4 w-4" />
-												<ChevronRightIcon className="h-4 w-4 -ml-2" />
-											</button>
+								) : (
+									/* Table View */
+									<div className="bg-white shadow rounded-lg overflow-hidden">
+										<div className="overflow-x-auto">
+											<table className="min-w-full divide-y divide-gray-200">
+												<thead className="bg-gray-50">
+													<tr>
+														<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+															Фото
+														</th>
+														<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+															Название
+														</th>
+														<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+															Артикул
+														</th>
+														<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+															Категория
+														</th>
+														<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+															Материал
+														</th>
+														<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+															Создан
+														</th>
+														<th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+															Действия
+														</th>
+													</tr>
+												</thead>
+												<tbody className="bg-white divide-y divide-gray-200">
+													{currentProducts.map((product) => (
+														<tr key={product.productId} className="hover:bg-gray-50 cursor-pointer" onClick={() => handleProductClick(product)}>
+															<td className="px-6 py-4 whitespace-nowrap">
+																<img
+																	src={getImageUrl(product.photoDto)}
+																	alt={product.productName}
+																	className="h-12 w-12 object-cover rounded"
+																	onError={(e) => {
+																		(e.target as HTMLImageElement).src = 'https://picsum.photos/48/48?error=load-failed&id=' + product.productId;
+																	}}
+																/>
+															</td>
+															<td className="px-6 py-4">
+																<div className="text-sm font-medium text-gray-900 line-clamp-2">
+																	{product.productName}
+																</div>
+															</td>
+															<td className="px-6 py-4 whitespace-nowrap">
+																<span className="text-xs font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded">
+																	{product.tag}
+																</span>
+															</td>
+															<td className="px-6 py-4 whitespace-nowrap">
+																<div className="text-sm text-gray-900">
+																	{getCategoryName(product.categoryId)}
+																</div>
+															</td>
+															<td className="px-6 py-4 whitespace-nowrap">
+																<div className="text-sm text-gray-900">
+																	{product.material || 'Не указан'}
+																</div>
+															</td>
+															<td className="px-6 py-4 whitespace-nowrap">
+																<div className="text-sm text-gray-900">
+																	{formatDate(product.createdAt)}
+																</div>
+															</td>
+															<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" onClick={(e) => e.stopPropagation()}>
+																<div className="flex items-center justify-end space-x-2">
+																	<Link
+																		to={`/admin/products/${product.productId}`}
+																		className="text-industrial-accent hover:text-industrial-900"
+																		title="Просмотр"
+																	>
+																		<PackageIcon className="h-4 w-4" />
+																	</Link>
+																	<Link
+																		to={`/admin/products/${product.productId}/edit`}
+																		className="text-blue-600 hover:text-blue-900"
+																		title="Редактировать"
+																	>
+																		<EditIcon className="h-4 w-4" />
+																	</Link>
+																	{showArchived && (
+																		<button
+																			onClick={() => handleActivateProduct(product.productId)}
+																			className="text-green-600 hover:text-green-900"
+																			title="Активировать товар"
+																		>
+																			<CheckIcon className="h-4 w-4" />
+																		</button>
+																	)}
+																	<button
+																		onClick={() => handleDeleteProduct(product.productId)}
+																		className="text-red-600 hover:text-red-900"
+																		title="Удалить"
+																	>
+																		<TrashIcon className="h-4 w-4" />
+																	</button>
+																</div>
+															</td>
+														</tr>
+													))}
+												</tbody>
+											</table>
 										</div>
 									</div>
-								</div>
-							</div>
-						)}
-					</>
-				)
-			}
+								)}
 
-			{/* Product Modal */}
+								{/* Pagination */}
+								{totalPages > 1 && (
+									<div className="bg-white shadow rounded-lg mt-6 p-4">
+										<div className="flex items-center justify-between">
+											<div className="text-sm text-gray-700">
+												Показано {startIndex + 1}-{Math.min(endIndex, filteredProducts.length)} из {filteredProducts.length} товаров
+											</div>
 
-			{
-				showProductModal && selectedProduct && (
+											<div className="flex items-center space-x-2">
+												{/* Items per page selector */}
+												<select
+													value={itemsPerPage}
+													onChange={(e) => {
+														setItemsPerPage(Number(e.target.value));
+														setCurrentPage(1);
+													}}
+													className="text-sm border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-1 focus:ring-industrial-accent"
+												>
+													<option value={12}>12</option>
+													<option value={24}>24</option>
+													<option value={48}>48</option>
+													<option value={96}>96</option>
+												</select>
+
+												{/* Pagination buttons */}
+												<div className="flex items-center space-x-1">
+													<button
+														onClick={() => setCurrentPage(1)}
+														disabled={currentPage === 1}
+														className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
+													>
+														<ChevronLeftIcon className="h-4 w-4" />
+														<ChevronLeftIcon className="h-4 w-4 -ml-2" />
+													</button>
+
+													<button
+														onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+														disabled={currentPage === 1}
+														className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
+													>
+														<ChevronLeftIcon className="h-4 w-4" />
+													</button>
+
+													{getPageNumbers().map((page, index) => (
+														<span key={index}>
+															{page === '...' ? (
+																<span className="px-3 py-2 text-gray-500">...</span>
+															) : (
+																<button
+																	onClick={() => setCurrentPage(page as number)}
+																	className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${currentPage === page
+																		? 'bg-industrial-accent text-white'
+																		: 'text-gray-700 hover:bg-gray-100'
+																		}`}
+																>
+																	{page}
+																</button>
+															)}
+														</span>
+													))}
+
+													<button
+														onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+														disabled={currentPage === totalPages}
+														className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
+													>
+														<ChevronRightIcon className="h-4 w-4" />
+													</button>
+
+													<button
+														onClick={() => setCurrentPage(totalPages)}
+														disabled={currentPage === totalPages}
+														className="p-2 text-gray-500 hover:text-industrial-accent disabled:opacity-50 disabled:cursor-not-allowed"
+													>
+														<ChevronRightIcon className="h-4 w-4" />
+														<ChevronRightIcon className="h-4 w-4 -ml-2" />
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								)}
+							</>
+						)
+					}
+				</div>
+
+				{/* Product Modal */}
+				{showProductModal && selectedProduct && (
 					<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
 						<div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
 							{/* Modal Header */}
@@ -968,8 +952,8 @@ export const AdminProductsPage: React.FC = () => {
 							</div>
 						</div>
 					</div>
-				)
-			}
+				)}
+			</div>
 		</div>
 	);
 };
