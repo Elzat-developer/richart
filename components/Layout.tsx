@@ -84,7 +84,7 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 									<img
 										src={getImageUrl(company.logoUrl)}
 										alt={company.name || 'Rest Art'}
-										className={`transition-all duration-300 rounded-lg object-contain ${isScrolled ? 'w-8 h-8' : 'w-12 h-12'}`}
+										className={`transition-all duration-300 rounded-lg object-contain ${isScrolled ? 'w-8 h-8' : 'w-43 h-36'}`}
 										onError={(e) => {
 											const target = e.target as HTMLImageElement;
 											target.src = 'https://picsum.photos/64/64?error=logo-failed';
