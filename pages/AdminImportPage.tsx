@@ -242,317 +242,315 @@ export const AdminImportPage: React.FC = () => {
 										📂 Структура архива
 									</h3>
 									<div className="mt-2 text-sm text-blue-700">
-										<div className="space-y-3">
-											<div>
-												<h4 className="font-semibold text-blue-900 mb-1">Ваш ZIP-файл должен выглядеть строго так:</h4>
-												<div className="bg-blue-100 rounded p-2 font-mono text-xs">
-													<div>products.zip</div>
-													<div>├── products.xlsx (Файл с данными в корне архива)</div>
-													<div>└── 📁 images/ (Папка с фото)</div>
-													<div>&nbsp;&nbsp;&nbsp;&nbsp;├── photo1.jpg</div>
-													<div>&nbsp;&nbsp;&nbsp;&nbsp;├── photo2.png</div>
-													<div>&nbsp;&nbsp;&nbsp;&nbsp;└── ...</div>
-												</div>
+										<div>
+											<h4 className="font-semibold text-blue-900 mb-1">Ваш ZIP-файл должен выглядеть строго так:</h4>
+											<div className="bg-blue-100 rounded p-2 font-mono text-xs">
+												<div>products.zip</div>
+												<div>├── products.xlsx (Файл с данными в корне архива)</div>
+												<div>└── 📁 images/ (Папка с фото)</div>
+												<div>&nbsp;&nbsp;&nbsp;&nbsp;├── photo1.jpg</div>
+												<div>&nbsp;&nbsp;&nbsp;&nbsp;├── photo2.png</div>
+												<div>&nbsp;&nbsp;&nbsp;&nbsp;└── ...</div>
+											</div>
 
-												{/* Фото-пример */}
-												<div className="mt-4">
-													<h5 className="font-semibold text-blue-900 mb-3">📸 Пример ZIP архива:</h5>
-													<div className="bg-white border border-blue-300 rounded-xl p-6 shadow-sm">
-														<div className="flex flex-col items-center space-y-4">
-															{/* Визуализация структуры ZIP */}
-															<div className="w-full max-w-md bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-300 rounded-xl p-6 shadow-inner">
-																<div className="text-center font-mono font-bold text-gray-700 mb-4 text-lg">📦 products.zip</div>
-																<div className="font-mono text-xs space-y-2">
-																	<div className="bg-blue-50 p-3 rounded-lg border border-blue-200">├── 📄 products.xlsx</div>
-																	<div className="bg-blue-50 p-3 rounded-lg border border-blue-200">└── 📁 images/</div>
-																	<div className="ml-6 bg-green-50 p-3 rounded-lg border border-green-200">├── 🖼️ photo1.jpg</div>
-																	<div className="ml-6 bg-green-50 p-3 rounded-lg border border-green-200">├── 🖼️ photo2.png</div>
-																	<div className="ml-6 bg-green-50 p-3 rounded-lg border border-green-200">└── 🖼️ photo3.jpg</div>
-																</div>
+											{/* Фото-пример */}
+											<div className="mt-4">
+												<h5 className="font-semibold text-blue-900 mb-3">📸 Пример ZIP архива:</h5>
+												<div className="bg-white border border-blue-300 rounded-xl p-6 shadow-sm">
+													<div className="flex flex-col items-center space-y-4">
+														{/* Визуализация структуры ZIP */}
+														<div className="w-full max-w-md bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-300 rounded-xl p-6 shadow-inner">
+															<div className="text-center font-mono font-bold text-gray-700 mb-4 text-lg">📦 products.zip</div>
+															<div className="font-mono text-xs space-y-2">
+																<div className="bg-blue-50 p-3 rounded-lg border border-blue-200">├── 📄 products.xlsx</div>
+																<div className="bg-blue-50 p-3 rounded-lg border border-blue-200">└── 📁 images/</div>
+																<div className="ml-6 bg-green-50 p-3 rounded-lg border border-green-200">├── 🖼️ photo1.jpg</div>
+																<div className="ml-6 bg-green-50 p-3 rounded-lg border border-green-200">├── 🖼️ photo2.png</div>
+																<div className="ml-6 bg-green-50 p-3 rounded-lg border border-green-200">└── 🖼️ photo3.jpg</div>
 															</div>
-															<p className="text-sm text-gray-600 mt-4 text-center font-medium">
-																📦 ZIP архив должен содержать Excel файл и папку images с фотографиями
+														</div>
+														<p className="text-sm text-gray-600 mt-4 text-center font-medium">
+															📦 ZIP архив должен содержать Excel файл и папку images с фотографиями
+														</p>
+														{/* Кнопка скачивания примера */}
+														<div className="mt-6 text-center">
+															<a
+																href="/zipFile/products.zip"
+																download="products-example.zip"
+																className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white text-sm font-medium rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+															>
+																<svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+																	<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+																</svg>
+																📥 Скачать пример ZIP архива
+															</a>
+															<p className="text-xs text-gray-500 mt-2">
+																Файл: products-example.zip (212 KB)
 															</p>
-															{/* Кнопка скачивания примера */}
-															<div className="mt-6 text-center">
-																<a
-																	href="/zipFile/products.zip"
-																	download="products-example.zip"
-																	className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white text-sm font-medium rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-																>
-																	<svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-																		<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-																	</svg>
-																	📥 Скачать пример ZIP архива
-																</a>
-																<p className="text-xs text-gray-500 mt-2">
-																	Файл: products-example.zip (212 KB)
-																</p>
-															</div>
-															{/* Кнопка скачивания Excel шаблона */}
-															<div className="mt-3 text-center">
-																<a
-																	href="/zipFile/products.xlsx"
-																	download="products-template.xlsx"
-																	className="inline-flex items-center px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
-																>
-																	<svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-																		<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v1a1 1 0 001 1h4a1 1 0 001-1v-1m3-2V8a2 2 0 00-2-2H8a2 2 0 00-2 2v6m9 4h-6" />
-																	</svg>
-																	📊 Скачать Excel шаблон
-																</a>
-																<p className="text-xs text-gray-500 mt-1">
-																	Шаблон с примерами данных (9.7 KB)
-																</p>
-															</div>
-															{/* Инструкция по использованию */}
-															<div className="mt-4 bg-green-50 border border-green-200 rounded p-3">
-																<h6 className="text-sm font-medium text-green-800 mb-2">📋 Как использовать примеры:</h6>
-																<ul className="text-xs text-green-700 space-y-1">
-																	<li>1. 📥 Скачайте ZIP пример - готовый архив с товарами и фото</li>
-																	<li>2. 📊 Скачайте Excel шаблон - файл с примерами данных</li>
-																	<li>3. ✏️ Измените Excel файл под свои товары</li>
-																	<li>4. 📁 Добавьте папку images с фотографиями</li>
-																	<li>5. 📦 Создайте ZIP архив и загрузите на сайт</li>
-																</ul>
-															</div>
+														</div>
+														{/* Кнопка скачивания Excel шаблона */}
+														<div className="mt-3 text-center">
+															<a
+																href="/zipFile/products.xlsx"
+																download="products-template.xlsx"
+																className="inline-flex items-center px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+															>
+																<svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+																	<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v1a1 1 0 001 1h4a1 1 0 001-1v-1m3-2V8a2 2 0 00-2-2H8a2 2 0 00-2 2v6m9 4h-6" />
+																</svg>
+																📊 Скачать Excel шаблон
+															</a>
+															<p className="text-xs text-gray-500 mt-1">
+																Шаблон с примерами данных (9.7 KB)
+															</p>
+														</div>
+														{/* Инструкция по использованию */}
+														<div className="mt-4 bg-green-50 border border-green-200 rounded p-3">
+															<h6 className="text-sm font-medium text-green-800 mb-2">📋 Как использовать примеры:</h6>
+															<ul className="text-xs text-green-700 space-y-1">
+																<li>1. 📥 Скачайте ZIP пример - готовый архив с товарами и фото</li>
+																<li>2. 📊 Скачайте Excel шаблон - файл с примерами данных</li>
+																<li>3. ✏️ Измените Excel файл под свои товары</li>
+																<li>4. 📁 Добавьте папку images с фотографиями</li>
+																<li>5. 📦 Создайте ZIP архив и загрузите на сайт</li>
+															</ul>
 														</div>
 													</div>
 												</div>
 											</div>
+										</div>
 
-											<div>
-												<h4 className="font-semibold text-blue-900 mb-1">📊 Структура Excel файла (Порядок колонок)</h4>
-												<p className="text-xs text-blue-600 mb-2">Таблица стала больше. Убедитесь, что данные находятся в правильных столбцах:</p>
-												<div className="bg-white border border-blue-200 rounded p-2 text-xs overflow-x-auto">
-													<table className="w-full">
-														<thead>
-															<tr className="bg-blue-50">
-																<th className="border border-blue-200 px-1 py-1">Колонка</th>
-																<th className="border border-blue-200 px-1 py-1">Заголовок</th>
-																<th className="border border-blue-200 px-1 py-1">Описание / Пример</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">A (0)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Наименование</td><td className="border border-blue-200 px-1 py-1">Стул "Лофт"</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">B (1)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Артикул</td><td className="border border-blue-200 px-1 py-1">LF-001</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">C (2)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Цена</td><td className="border border-blue-200 px-1 py-1">15000</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">D (3)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Материал</td><td className="border border-blue-200 px-1 py-1">Дуб, Сталь</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">E (4)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Размеры (текст)</td><td className="border border-blue-200 px-1 py-1">50x50x90 см</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">F (5)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Вес (кг)</td><td className="border border-blue-200 px-1 py-1">7.5</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">G (6)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Количество</td><td className="border border-blue-200 px-1 py-1">20</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">H (7)</td><td className="border border-blue-200 px-1 py-1 font-semibold">ID Категории</td><td className="border border-blue-200 px-1 py-1">5 (число из раздела "Категории")</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">I (8)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Фотографии</td><td className="border border-blue-200 px-1 py-1">image1.jpg, image2.jpg (через запятую)</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">J (9)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Описание</td><td className="border border-blue-200 px-1 py-1">Полное описание товара</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">K (10)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Ширина (мм)</td><td className="border border-blue-200 px-1 py-1">500 (только число)</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">L (11)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Глубина (мм)</td><td className="border border-blue-200 px-1 py-1">500 (только число)</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">M (12)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Высота (мм)</td><td className="border border-blue-200 px-1 py-1">900 (только число)</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">N (13)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Мощность</td><td className="border border-blue-200 px-1 py-1">1.5 кВт / 1500 ккал</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">O (14)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Напряжение</td><td className="border border-blue-200 px-1 py-1">220В / 380В</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">P (15)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Страна</td><td className="border border-blue-200 px-1 py-1">Италия</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">Q (16)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Тип продукта</td><td className="border border-blue-200 px-1 py-1">industrial (пром) или household (бытовой)</td></tr>
-															<tr><td className="border border-blue-200 px-1 py-1 font-semibold">R+ (17+)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Спец: [Имя]</td><td className="border border-blue-200 px-1 py-1">См. раздел "Динамические характеристики" ниже</td></tr>
-														</tbody>
-													</table>
-												</div>
+										<div>
+											<h4 className="font-semibold text-blue-900 mb-1">📊 Структура Excel файла (Порядок колонок)</h4>
+											<p className="text-xs text-blue-600 mb-2">Таблица стала больше. Убедитесь, что данные находятся в правильных столбцах:</p>
+											<div className="bg-white border border-blue-200 rounded p-2 text-xs overflow-x-auto">
+												<table className="w-full">
+													<thead>
+														<tr className="bg-blue-50">
+															<th className="border border-blue-200 px-1 py-1">Колонка</th>
+															<th className="border border-blue-200 px-1 py-1">Заголовок</th>
+															<th className="border border-blue-200 px-1 py-1">Описание / Пример</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">A (0)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Наименование</td><td className="border border-blue-200 px-1 py-1">Стул "Лофт"</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">B (1)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Артикул</td><td className="border border-blue-200 px-1 py-1">LF-001</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">C (2)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Цена</td><td className="border border-blue-200 px-1 py-1">15000</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">D (3)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Материал</td><td className="border border-blue-200 px-1 py-1">Дуб, Сталь</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">E (4)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Размеры (текст)</td><td className="border border-blue-200 px-1 py-1">50x50x90 см</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">F (5)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Вес (кг)</td><td className="border border-blue-200 px-1 py-1">7.5</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">G (6)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Количество</td><td className="border border-blue-200 px-1 py-1">20</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">H (7)</td><td className="border border-blue-200 px-1 py-1 font-semibold">ID Категории</td><td className="border border-blue-200 px-1 py-1">5 (число из раздела "Категории")</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">I (8)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Фотографии</td><td className="border border-blue-200 px-1 py-1">image1.jpg, image2.jpg (через запятую)</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">J (9)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Описание</td><td className="border border-blue-200 px-1 py-1">Полное описание товара</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">K (10)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Ширина (мм)</td><td className="border border-blue-200 px-1 py-1">500 (только число)</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">L (11)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Глубина (мм)</td><td className="border border-blue-200 px-1 py-1">500 (только число)</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">M (12)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Высота (мм)</td><td className="border border-blue-200 px-1 py-1">900 (только число)</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">N (13)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Мощность</td><td className="border border-blue-200 px-1 py-1">1.5 кВт / 1500 ккал</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">O (14)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Напряжение</td><td className="border border-blue-200 px-1 py-1">220В / 380В</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">P (15)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Страна</td><td className="border border-blue-200 px-1 py-1">Италия</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">Q (16)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Тип продукта</td><td className="border border-blue-200 px-1 py-1">industrial (пром) или household (бытовой)</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">R+ (17+)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Спец: [Имя]</td><td className="border border-blue-200 px-1 py-1">См. раздел "Динамические характеристики" ниже</td></tr>
+													</tbody>
+												</table>
+											</div>
 
-												{/* Фото-пример Excel таблицы */}
-												<div className="mt-4">
-													<h5 className="font-semibold text-blue-900 mb-2">📸 Пример Excel файла:</h5>
-													<div className="bg-white border border-blue-300 rounded-lg p-4">
-														<div className="flex flex-col items-center space-y-3">
-															{/* Визуализация Excel таблицы */}
-															<div className="w-full max-w-md">
-																<div className="bg-blue-600 text-white p-2 rounded-t text-center font-bold text-sm">products.xlsx</div>
-																<div className="border border-gray-300">
-																	<div className="grid grid-cols-6 bg-gray-100 text-xs font-bold">
-																		<div className="border border-gray-300 p-1 text-center">A</div>
-																		<div className="border border-gray-300 p-1 text-center">B</div>
-																		<div className="border border-gray-300 p-1 text-center">C</div>
-																		<div className="border border-gray-300 p-1 text-center">D</div>
-																		<div className="border border-gray-300 p-1 text-center">E</div>
-																		<div className="border border-gray-300 p-1 text-center">F</div>
-																	</div>
-																	<div className="grid grid-cols-6 text-xs">
-																		<div className="border border-gray-300 p-1 text-center">Наименование</div>
-																		<div className="border border-gray-300 p-1 text-center">Артикул</div>
-																		<div className="border border-gray-300 p-1 text-center">Цена</div>
-																		<div className="border border-gray-300 p-1 text-center">Материал</div>
-																		<div className="border border-gray-300 p-1 text-center">Размеры</div>
-																		<div className="border border-gray-300 p-1 text-center">Вес</div>
-																	</div>
-																	<div className="grid grid-cols-6 text-xs bg-blue-50">
-																		<div className="border border-gray-300 p-1">Стул "Лофт"</div>
-																		<div className="border border-gray-300 p-1">LF-001</div>
-																		<div className="border border-gray-300 p-1">15000</div>
-																		<div className="border border-gray-300 p-1">Дуб, Сталь</div>
-																		<div className="border border-gray-300 p-1">50x50x90</div>
-																		<div className="border border-gray-300 p-1">7.5</div>
-																	</div>
+											{/* Фото-пример Excel таблицы */}
+											<div className="mt-4">
+												<h5 className="font-semibold text-blue-900 mb-2">📸 Пример Excel файла:</h5>
+												<div className="bg-white border border-blue-300 rounded-lg p-4">
+													<div className="flex flex-col items-center space-y-3">
+														{/* Визуализация Excel таблицы */}
+														<div className="w-full max-w-md">
+															<div className="bg-blue-600 text-white p-2 rounded-t text-center font-bold text-sm">products.xlsx</div>
+															<div className="border border-gray-300">
+																<div className="grid grid-cols-6 bg-gray-100 text-xs font-bold">
+																	<div className="border border-gray-300 p-1 text-center">A</div>
+																	<div className="border border-gray-300 p-1 text-center">B</div>
+																	<div className="border border-gray-300 p-1 text-center">C</div>
+																	<div className="border border-gray-300 p-1 text-center">D</div>
+																	<div className="border border-gray-300 p-1 text-center">E</div>
+																	<div className="border border-gray-300 p-1 text-center">F</div>
+																</div>
+																<div className="grid grid-cols-6 text-xs">
+																	<div className="border border-gray-300 p-1 text-center">Наименование</div>
+																	<div className="border border-gray-300 p-1 text-center">Артикул</div>
+																	<div className="border border-gray-300 p-1 text-center">Цена</div>
+																	<div className="border border-gray-300 p-1 text-center">Материал</div>
+																	<div className="border border-gray-300 p-1 text-center">Размеры</div>
+																	<div className="border border-gray-300 p-1 text-center">Вес</div>
+																</div>
+																<div className="grid grid-cols-6 text-xs bg-blue-50">
+																	<div className="border border-gray-300 p-1">Стул "Лофт"</div>
+																	<div className="border border-gray-300 p-1">LF-001</div>
+																	<div className="border border-gray-300 p-1">15000</div>
+																	<div className="border border-gray-300 p-1">Дуб, Сталь</div>
+																	<div className="border border-gray-300 p-1">50x50x90</div>
+																	<div className="border border-gray-300 p-1">7.5</div>
 																</div>
 															</div>
-															<p className="text-xs text-gray-600 mt-2 text-center">
-																📊 Excel файл должен содержать все колонки в правильном порядке
-															</p>
 														</div>
+														<p className="text-xs text-gray-600 mt-2 text-center">
+															📊 Excel файл должен содержать все колонки в правильном порядке
+														</p>
 													</div>
 												</div>
 											</div>
+										</div>
 
-											<div>
-												<h4 className="font-semibold text-blue-900 mb-1">⚡ Динамические характеристики (Столбцы 17 и далее)</h4>
-												<p className="text-xs text-blue-600">Вы можете добавлять любые дополнительные поля, не меняя код системы.</p>
-												<p className="text-xs text-blue-600">Заголовок колонки обязательно должен начинаться с префикса Спец: .</p>
-												<p className="text-xs text-blue-600">Всё, что идет после двоеточия, станет названием характеристики в карточке товара.</p>
-												<div className="bg-yellow-50 border border-yellow-200 rounded p-2 mt-2">
-													<p className="text-xs"><strong>Пример:</strong> Заголовок: Спец: Температурный режим → Значение: -5...+10°C</p>
-													<p className="text-xs"><strong>Пример:</strong> Заголовок: Спец: Объем камеры → Значение: 100 л</p>
-												</div>
+										<div>
+											<h4 className="font-semibold text-blue-900 mb-1">⚡ Динамические характеристики (Столбцы 17 и далее)</h4>
+											<p className="text-xs text-blue-600">Вы можете добавлять любые дополнительные поля, не меняя код системы.</p>
+											<p className="text-xs text-blue-600">Заголовок колонки обязательно должен начинаться с префикса Спец: .</p>
+											<p className="text-xs text-blue-600">Всё, что идет после двоеточия, станет названием характеристики в карточке товара.</p>
+											<div className="bg-yellow-50 border border-yellow-200 rounded p-2 mt-2">
+												<p className="text-xs"><strong>Пример:</strong> Заголовок: Спец: Температурный режим → Значение: -5...+10°C</p>
+												<p className="text-xs"><strong>Пример:</strong> Заголовок: Спец: Объем камеры → Значение: 100 л</p>
+											</div>
+										</div>
+
+										<div>
+											<h4 className="font-semibold text-blue-900 mb-1">⚠️ Важные правила</h4>
+											<ul className="list-disc list-inside space-y-1 text-xs">
+												<li><strong>Тип продукта (Колонка Q):</strong> Используйте только слова industrial (или промышленный) и household (или бытовой).</li>
+												<li><strong>Габариты (K, L, M):</strong> Вводите только целые числа (миллиметры).</li>
+												<li><strong>Фотографии:</strong> Имена файлов в колонке I должны в точности совпадать с именами файлов внутри папки images/.</li>
+												<li><strong>ID Категории:</strong> Посмотрите ID в разделе "Категории" вашей админки. Если ID указан неверно, строка не будет импортирована.</li>
+												<li><strong>Формат чисел:</strong> В колонках Цена, Вес, Кол-во и Габариты не должно быть текста (только цифры).</li>
+											</ul>
+										</div>
+
+										<div>
+											<h4 className="font-semibold text-blue-900 mb-1">🔍 Пример заполнения (Строка 17+)</h4>
+											<div className="bg-yellow-50 border border-yellow-200 rounded p-2">
+												<table className="text-xs">
+													<tr><td className="font-semibold pr-2">Спец: Количество зон</td><td>2</td></tr>
+													<tr><td className="font-semibold pr-2">Спец: Тип фреона</td><td>R290</td></tr>
+													<tr><td className="font-semibold pr-2">Спец: Цвет</td><td>Черный антрацит</td></tr>
+												</table>
 											</div>
 
-											<div>
-												<h4 className="font-semibold text-blue-900 mb-1">⚠️ Важные правила</h4>
-												<ul className="list-disc list-inside space-y-1 text-xs">
-													<li><strong>Тип продукта (Колонка Q):</strong> Используйте только слова industrial (или промышленный) и household (или бытовой).</li>
-													<li><strong>Габариты (K, L, M):</strong> Вводите только целые числа (миллиметры).</li>
-													<li><strong>Фотографии:</strong> Имена файлов в колонке I должны в точности совпадать с именами файлов внутри папки images/.</li>
-													<li><strong>ID Категории:</strong> Посмотрите ID в разделе "Категории" вашей админки. Если ID указан неверно, строка не будет импортирована.</li>
-													<li><strong>Формат чисел:</strong> В колонках Цена, Вес, Кол-во и Габариты не должно быть текста (только цифры).</li>
-												</ul>
-											</div>
-
-											<div>
-												<h4 className="font-semibold text-blue-900 mb-1">🔍 Пример заполнения (Строка 17+)</h4>
-												<div className="bg-yellow-50 border border-yellow-200 rounded p-2">
-													<table className="text-xs">
-														<tr><td className="font-semibold pr-2">Спец: Количество зон</td><td>2</td></tr>
-														<tr><td className="font-semibold pr-2">Спец: Тип фреона</td><td>R290</td></tr>
-														<tr><td className="font-semibold pr-2">Спец: Цвет</td><td>Черный антрацит</td></tr>
-													</table>
-												</div>
-
-												{/* Фото-пример папки с фотографиями */}
-												<div className="mt-4">
-													<h5 className="font-semibold text-blue-900 mb-2">📸 Пример папки с фотографиями:</h5>
-													<div className="bg-white border border-blue-300 rounded-lg p-4">
-														<div className="flex flex-col items-center space-y-3">
-															{/* Визуализация папки с фото */}
-															<div className="w-full max-w-md">
-																<div className="bg-blue-600 text-white p-2 rounded-t text-center font-bold text-sm">📁 images</div>
-																<div className="border border-gray-300 bg-gray-50 p-3">
-																	<div className="grid grid-cols-2 gap-2 text-xs">
-																		<div className="bg-white p-2 rounded border border-gray-200 text-center">
-																			<div className="text-2xl mb-1">🖼️</div>
-																			<div>photo1.jpg</div>
-																		</div>
-																		<div className="bg-white p-2 rounded border border-gray-200 text-center">
-																			<div className="text-2xl mb-1">🖼️</div>
-																			<div>photo2.png</div>
-																		</div>
-																		<div className="bg-white p-2 rounded border border-gray-200 text-center">
-																			<div className="text-2xl mb-1">🖼️</div>
-																			<div>photo3.jpg</div>
-																		</div>
-																		<div className="bg-white p-2 rounded border border-gray-200 text-center">
-																			<div className="text-2xl mb-1">🖼️</div>
-																			<div>photo4.png</div>
-																		</div>
+											{/* Фото-пример папки с фотографиями */}
+											<div className="mt-4">
+												<h5 className="font-semibold text-blue-900 mb-2">📸 Пример папки с фотографиями:</h5>
+												<div className="bg-white border border-blue-300 rounded-lg p-4">
+													<div className="flex flex-col items-center space-y-3">
+														{/* Визуализация папки с фото */}
+														<div className="w-full max-w-md">
+															<div className="bg-blue-600 text-white p-2 rounded-t text-center font-bold text-sm">📁 images</div>
+															<div className="border border-gray-300 bg-gray-50 p-3">
+																<div className="grid grid-cols-2 gap-2 text-xs">
+																	<div className="bg-white p-2 rounded border border-gray-200 text-center">
+																		<div className="text-2xl mb-1">🖼️</div>
+																		<div>photo1.jpg</div>
 																	</div>
-																	<div className="mt-3 text-center text-xs text-gray-600 bg-white p-2 rounded border border-gray-200">
-																		📸 4 файла • 📊 Всего 2.5 MB
+																	<div className="bg-white p-2 rounded border border-gray-200 text-center">
+																		<div className="text-2xl mb-1">🖼️</div>
+																		<div>photo2.png</div>
+																	</div>
+																	<div className="bg-white p-2 rounded border border-gray-200 text-center">
+																		<div className="text-2xl mb-1">🖼️</div>
+																		<div>photo3.jpg</div>
+																	</div>
+																	<div className="bg-white p-2 rounded border border-gray-200 text-center">
+																		<div className="text-2xl mb-1">🖼️</div>
+																		<div>photo4.png</div>
 																	</div>
 																</div>
+																<div className="mt-3 text-center text-xs text-gray-600 bg-white p-2 rounded border border-gray-200">
+																	📸 4 файла • 📊 Всего 2.5 MB
+																</div>
 															</div>
-															<p className="text-xs text-gray-600 mt-2 text-center">
-																📁 Папка images должна содержать все фотографии из колонки I
-															</p>
 														</div>
+														<p className="text-xs text-gray-600 mt-2 text-center">
+															📁 Папка images должна содержать все фотографии из колонки I
+														</p>
 													</div>
 												</div>
 											</div>
+										</div>
 
-											<div>
-												<h4 className="font-semibold text-blue-900 mb-1">📍 Где найти ID категорий:</h4>
+										<div>
+											<h4 className="font-semibold text-blue-900 mb-1">📍 Где найти ID категорий:</h4>
 
-												{/* Удобная выборка категорий */}
-												<div className="bg-green-50 border border-green-200 rounded p-3 mb-3">
-													<div className="flex items-center justify-between mb-2">
-														<h5 className="text-sm font-medium text-green-800">📋 Быстрая выборка категорий</h5>
-														<button
-															onClick={toggleCategories}
-															className="text-xs bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700"
-														>
-															{showCategories ? 'Скрыть' : 'Показать'}
-														</button>
-													</div>
+											{/* Удобная выборка категорий */}
+											<div className="bg-green-50 border border-green-200 rounded p-3 mb-3">
+												<div className="flex items-center justify-between mb-2">
+													<h5 className="text-sm font-medium text-green-800">📋 Быстрая выборка категорий</h5>
+													<button
+														onClick={toggleCategories}
+														className="text-xs bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700"
+													>
+														{showCategories ? 'Скрыть' : 'Показать'}
+													</button>
+												</div>
 
-													{showCategories && (
-														<div className="space-y-2">
-															{/* Переключатель типа категорий */}
-															<div className="flex space-x-2 mb-2">
-																<button
-																	onClick={() => handleCategoryTypeChange('industrial')}
-																	className={`px-3 py-1 text-xs rounded ${selectedCategoryType === 'industrial'
-																		? 'bg-blue-600 text-white'
-																		: 'bg-gray-200 text-gray-700'
-																		}`}
-																>
-																	🏭 Промышленные
-																</button>
-																<button
-																	onClick={() => handleCategoryTypeChange('household')}
-																	className={`px-3 py-1 text-xs rounded ${selectedCategoryType === 'household'
-																		? 'bg-blue-600 text-white'
-																		: 'bg-gray-200 text-gray-700'
-																		}`}
-																>
-																	🏠 Бытовые
-																</button>
-															</div>
+												{showCategories && (
+													<div className="space-y-2">
+														{/* Переключатель типа категорий */}
+														<div className="flex space-x-2 mb-2">
+															<button
+																onClick={() => handleCategoryTypeChange('industrial')}
+																className={`px-3 py-1 text-xs rounded ${selectedCategoryType === 'industrial'
+																	? 'bg-blue-600 text-white'
+																	: 'bg-gray-200 text-gray-700'
+																	}`}
+															>
+																🏭 Промышленные
+															</button>
+															<button
+																onClick={() => handleCategoryTypeChange('household')}
+																className={`px-3 py-1 text-xs rounded ${selectedCategoryType === 'household'
+																	? 'bg-blue-600 text-white'
+																	: 'bg-gray-200 text-gray-700'
+																	}`}
+															>
+																🏠 Бытовые
+															</button>
+														</div>
 
-															{/* Список категорий */}
-															<div className="max-h-40 overflow-y-auto bg-white rounded border border-green-300">
-																{categories.length > 0 ? (
-																	<table className="w-full text-xs">
-																		<thead>
-																			<tr className="bg-green-100">
-																				<th className="border border-green-300 px-2 py-1 text-left">ID</th>
-																				<th className="border border-green-300 px-2 py-1 text-left">Название категории</th>
+														{/* Список категорий */}
+														<div className="max-h-40 overflow-y-auto bg-white rounded border border-green-300">
+															{categories.length > 0 ? (
+																<table className="w-full text-xs">
+																	<thead>
+																		<tr className="bg-green-100">
+																			<th className="border border-green-300 px-2 py-1 text-left">ID</th>
+																			<th className="border border-green-300 px-2 py-1 text-left">Название категории</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		{categories.map((category) => (
+																			<tr key={category.categoryId} className="hover:bg-green-50">
+																				<td className="border border-green-300 px-2 py-1 font-mono text-green-700 font-bold">
+																					{category.categoryId}
+																				</td>
+																				<td className="border border-green-300 px-2 py-1">
+																					{category.categoryName}
+																				</td>
 																			</tr>
-																		</thead>
-																		<tbody>
-																			{categories.map((category) => (
-																				<tr key={category.categoryId} className="hover:bg-green-50">
-																					<td className="border border-green-300 px-2 py-1 font-mono text-green-700 font-bold">
-																						{category.categoryId}
-																					</td>
-																					<td className="border border-green-300 px-2 py-1">
-																						{category.categoryName}
-																					</td>
-																				</tr>
-																			))}
-																		</tbody>
-																	</table>
-																) : (
-																	<div className="text-center py-4 text-gray-500 text-xs">
-																		Загрузка категорий...
-																	</div>
-																)}
-															</div>
+																		))}
+																	</tbody>
+																</table>
+															) : (
+																<div className="text-center py-4 text-gray-500 text-xs">
+																	Загрузка категорий...
+																</div>
+															)}
 														</div>
-													)}
-
-													<div className="mt-2 text-xs text-green-700">
-														💡 <strong>Используйте ID из таблицы выше</strong> в колонке H вашей Excel таблицы
 													</div>
-												</div>
+												)}
 
-												{/* Старая инструкция как резерв */}
-												<div className="bg-yellow-50 border border-yellow-200 rounded p-2">
-													<p className="text-xs text-yellow-800">
-														<strong>Или вручную:</strong> Админка → Категории → найти ID в карточке категории
-													</p>
+												<div className="mt-2 text-xs text-green-700">
+													💡 <strong>Используйте ID из таблицы выше</strong> в колонке H вашей Excel таблицы
 												</div>
+											</div>
+
+											{/* Старая инструкция как резерв */}
+											<div className="bg-yellow-50 border border-yellow-200 rounded p-2">
+												<p className="text-xs text-yellow-800">
+													<strong>Или вручную:</strong> Админка → Категории → найти ID в карточке категории
+												</p>
 											</div>
 										</div>
 									</div>
