@@ -80,7 +80,7 @@ export const useCart = () => {
       // Implement clear cart API call if available
       // For now, remove all items individually
       if (cart?.items.length) {
-        await Promise.all(cart.items.map(item => removeFromCart(item.itemId)));
+        await Promise.all(cart.items.map(item => removeFromCart(item.cart_item_id)));
       }
       return true;
     } catch (error) {

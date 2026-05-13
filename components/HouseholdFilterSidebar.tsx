@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ApiService } from '../services/api';
-import { Category, GetCategoriesUserDto, GetProductsUserDto } from '../types';
+import { GetCategoriesUserDto } from '../types';
 
 interface HouseholdFilterSidebarProps {
 	className?: string;
@@ -10,20 +10,43 @@ interface HouseholdFilterSidebarProps {
 }
 
 const HOUSEHOLD_MATERIALS = ['Дерево', 'МДФ', 'ЛДСП', 'Металл', 'Ткань', 'Пластик', 'Стекло', 'Керамика'];
+const CATEGORY_PREVIEW_LIMIT = 5;
 
 export const HouseholdFilterSidebar: React.FC<HouseholdFilterSidebarProps> = ({ className, onCloseMobile, categoryType = 'household' }) => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [categories, setCategories] = useState<GetCategoriesUserDto[]>([]);
 	const [materials] = useState<string[]>(HOUSEHOLD_MATERIALS);
+	const [categorySearch, setCategorySearch] = useState('');
+	const [showAllCategories, setShowAllCategories] = useState(false);
 
 	// Local state for inputs to allow typing without immediate URL jumps
 	const [minPrice, setMinPrice] = useState(searchParams.get('minPrice') || '');
 	const [maxPrice, setMaxPrice] = useState(searchParams.get('maxPrice') || '');
 
 	useEffect(() => {
-		// Загружаем бытовые категории
 		ApiService.getCategories(categoryType as 'industrial' | 'household').then(setCategories);
 	}, [categoryType]);
+
+	const filteredCategories = useMemo(() => {
+		const q = categorySearch.trim().toLowerCase();
+		if (!q) return categories;
+		return categories.filter((c) => c.categoryName.toLowerCase().includes(q));
+	}, [categories, categorySearch]);
+
+	const needsCategoryCollapse = filteredCategories.length > CATEGORY_PREVIEW_LIMIT;
+	const displayedCategories =
+		showAllCategories || !needsCategoryCollapse
+			? filteredCategories
+			: filteredCategories.slice(0, CATEGORY_PREVIEW_LIMIT);
+	const hiddenCategoryCount = Math.max(0, filteredCategories.length - CATEGORY_PREVIEW_LIMIT);
+
+	useEffect(() => {
+		if (!categories.length) return;
+		const id = searchParams.get('categoryId');
+		if (!id) return;
+		const idx = categories.findIndex((c) => c.categoryId?.toString() === id);
+		if (idx >= CATEGORY_PREVIEW_LIMIT) setShowAllCategories(true);
+	}, [categories, searchParams]);
 
 
 	const updateParam = (key: string, value: string | null) => {
@@ -54,9 +77,11 @@ export const HouseholdFilterSidebar: React.FC<HouseholdFilterSidebarProps> = ({ 
 	const currentCategory = searchParams.get('categoryId');
 	const currentMaterial = searchParams.get('material');
 	const resetFilters = () => {
-		setSearchParams({}); // Полностью очищает URL
+		setSearchParams({});
 		setMinPrice('');
 		setMaxPrice('');
+		setCategorySearch('');
+		setShowAllCategories(false);
 	};
 	return (
 		<aside className={`bg-white border border-industrial-200 p-6 flex flex-col h-full ${className}`}>
@@ -86,7 +111,19 @@ export const HouseholdFilterSidebar: React.FC<HouseholdFilterSidebarProps> = ({ 
 			<div className="flex-1 overflow-y-auto pt-6 pb-28">
 				{/* Category Filter */}
 				<div className="mb-8">
-					<h3 className="text-sm font-bold uppercase mb-4 text-industrial-500">Категории</h3>
+					<h3 className="text-sm font-bold uppercase mb-3 text-industrial-500">Категории</h3>
+					<label htmlFor="household-catalog-category-search" className="sr-only">
+						Поиск категории
+					</label>
+					<input
+						id="household-catalog-category-search"
+						type="search"
+						placeholder="Поиск категории…"
+						value={categorySearch}
+						onChange={(e) => setCategorySearch(e.target.value)}
+						autoComplete="off"
+						className="w-full border border-gray-300 px-3 py-2 text-sm mb-3 focus:border-industrial-accent focus:outline-none focus:ring-1 focus:ring-industrial-accent"
+					/>
 					<div className="space-y-2">
 						<label className="flex items-center gap-3 cursor-pointer group">
 							<input
@@ -100,7 +137,7 @@ export const HouseholdFilterSidebar: React.FC<HouseholdFilterSidebarProps> = ({ 
 								Все категории
 							</span>
 						</label>
-						{categories.map((cat) => (
+						{displayedCategories.map((cat) => (
 							<label key={cat.categoryId} className="flex items-center gap-3 cursor-pointer group">
 								<input
 									type="radio"
@@ -117,6 +154,34 @@ export const HouseholdFilterSidebar: React.FC<HouseholdFilterSidebarProps> = ({ 
 							</label>
 						))}
 					</div>
+					{filteredCategories.length === 0 && categories.length > 0 && (
+						<p className="mt-3 text-xs text-gray-500">Ничего не найдено по запросу.</p>
+					)}
+					{needsCategoryCollapse && !showAllCategories && (
+						<p className="mt-3 text-xs text-gray-500 leading-relaxed">
+							Показано {CATEGORY_PREVIEW_LIMIT} из {filteredCategories.length}{' '}
+							{hiddenCategoryCount > 0 ? `категорий. Ещё ${hiddenCategoryCount} скрыто.` : '.'}
+						</p>
+					)}
+					{needsCategoryCollapse && (
+						<button
+							type="button"
+							onClick={() => {
+								setShowAllCategories((expanded) => {
+									if (!expanded) return true;
+									const id = searchParams.get('categoryId');
+									if (id) {
+										const idx = filteredCategories.findIndex((c) => c.categoryId?.toString() === id);
+										if (idx !== -1 && idx >= CATEGORY_PREVIEW_LIMIT) return true;
+									}
+									return false;
+								});
+							}}
+							className="mt-2 w-full text-left text-xs font-bold uppercase text-industrial-accent underline hover:text-industrial-800"
+						>
+							{showAllCategories ? 'Свернуть список категорий' : `Показать все категории (${filteredCategories.length})`}
+						</button>
+					)}
 				</div>
 
 				{/* Price Range Filter */}
