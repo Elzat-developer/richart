@@ -34,11 +34,10 @@ export const PromotionsBlock: React.FC = () => {
 					setCacheInitialized(true);
 				} else {
 					// Загружаем из API
-					');
 					const data = await ApiService.getPromotions();
 					// Показываем структуру первого элемента
 					if (data && data.length > 0) {
-						}
+					}
 
 					// Сортируем по promotion_id по возрастанию (1, 2, 3...)
 					const sortedPromotions = data.sort((a: Promotion, b: Promotion) => a.promotion_id - b.promotion_id);
@@ -84,7 +83,7 @@ export const PromotionsBlock: React.FC = () => {
 	}
 
 	const currentPromotion = promotions[currentIndex];
-	);
+
 
 	return (
 		<section className="relative w-full aspect-video md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden">
@@ -95,12 +94,13 @@ export const PromotionsBlock: React.FC = () => {
 						src={getImageUrl({ photoURL: currentPromotion.urlPhoto })}
 						alt={`Акция ${currentPromotion.promotion_id}`}
 						className="w-full h-full object-contain"
-						onLoad={() => {
-							}}
+						// onLoad можно просто убрать, если он пустой
 						onError={(e) => {
-							,
-								naturalWidth: (e.target as HTMLImageElement).naturalWidth,
-								naturalHeight: (e.target as HTMLImageElement).naturalHeight
+							const target = e.target as HTMLImageElement;
+							console.error("Ошибка загрузки картинки:", {
+								url: target.src,
+								naturalWidth: target.naturalWidth,
+								naturalHeight: target.naturalHeight
 							});
 						}}
 					/>
@@ -109,7 +109,9 @@ export const PromotionsBlock: React.FC = () => {
 						<div className="text-center text-gray-600">
 							<div className="text-4xl mb-2">🏷️</div>
 							<div>Нет изображения акции</div>
-							<div className="text-sm mt-2">URL: {currentPromotion?.urlPhoto || 'undefined'}</div>
+							<div className="text-sm mt-2">
+								URL: {currentPromotion?.urlPhoto || 'undefined'}
+							</div>
 						</div>
 					</div>
 				)}

@@ -75,12 +75,11 @@ export const AdminCategoriesPage: React.FC = () => {
 			// Показываем структуру первой категории
 			if (data && data.length > 0) {
 				const firstCategory = data[0] as any;
-				);
-				}
+			}
 
 			setCategories(data || []);
 		} catch (error) {
-			} finally {
+		} finally {
 			setLoading(false);
 		}
 	};
@@ -125,7 +124,7 @@ export const AdminCategoriesPage: React.FC = () => {
 			await loadCategories();
 			resetForm();
 		} catch (error) {
-			}
+		}
 	};
 
 	const handleDelete = async (categoryId: number) => {
@@ -135,7 +134,7 @@ export const AdminCategoriesPage: React.FC = () => {
 			await AdminApiService.deleteCategory(categoryId);
 			await loadCategories();
 		} catch (error) {
-			}
+		}
 	};
 
 	const handleActivateCategory = async (categoryId: number) => {
@@ -145,7 +144,7 @@ export const AdminCategoriesPage: React.FC = () => {
 			await AdminApiService.editCategoryActive(categoryId);
 			loadCategories();
 		} catch (error) {
-			}
+		}
 	};
 
 	const handleEdit = (category: BackendCategoryDto) => {

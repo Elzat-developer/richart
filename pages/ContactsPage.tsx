@@ -1,20 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ApiService } from '../services/api';
-
-interface CompanyDto {
-	companyName: string;
-	address: string;
-	phone: string;
-	email: string;
-	workingHours: string;
-	requisites: string;
-	socialMedia: {
-		instagram?: string;
-		facebook?: string;
-		youtube?: string;
-	};
-}
+import { CompanyDto } from '../types';
 
 const ContactsPage: React.FC = () => {
 	const [company, setCompany] = useState<CompanyDto | null>(null);

@@ -279,18 +279,6 @@ export interface CreateTechSpec {
 	fileTechSpec: File;
 }
 
-export interface CompanyDto {
-	companyId: number;
-	name: string;
-	text: string;
-	email: string;
-	phone: string;
-	logoUrl: string;
-	address: string;
-	requisites: string;
-	jobStartAndEndDate: string;
-}
-
 export interface GetOrdersDto {
 	orderId: number;
 	orderNumber: string;

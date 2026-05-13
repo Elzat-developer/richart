@@ -165,7 +165,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 			document.body.removeChild(link);
 			window.URL.revokeObjectURL(url);
 		} catch (error) {
-			}
+		}
 	};
 
 	const getProductName = (productId: number | null): string => {
@@ -185,16 +185,12 @@ export const AdminTechSpecsPage: React.FC = () => {
 				AdminApiService.getProducts('household', true)
 			]);
 
-			// Логируем детали каждой тех. спецификации для отладки
-			techSpecsData?.forEach((spec: any) => {
-				});
-
 			setTechSpecs(techSpecsData || []);
 			setIndustrialProducts(industrialData || []);
 			setHouseholdProducts(householdData || []);
 			setProducts([...(industrialData || []), ...(householdData || [])]); // Для отображения в списке тех. спецификаций
-		} catch (error) {
-			.message);
+		} catch (error: any) {
+			console.error("Ошибка загрузки данных:", error.message);
 		} finally {
 			setLoading(false);
 			setLoadingIndustrial(false);
@@ -270,7 +266,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 			await loadData();
 			resetForm();
 		} catch (error) {
-			}
+		}
 	};
 
 	const handleDelete = async (techSpecId: number) => {
@@ -280,7 +276,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 			await AdminApiService.deleteTechSpec(techSpecId);
 			await loadData();
 		} catch (error) {
-			}
+		}
 	};
 
 	const handleEdit = (techSpec: TechSpec) => {
