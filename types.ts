@@ -154,6 +154,8 @@ export interface GetCategoriesUserDto {
 	categoryName: string;
 	photoUrl?: string;
 	categoryType: 'industrial' | 'household';
+	/** Если бэкенд отдаёт флаг — неактивные скрываем на витрине */
+	active?: boolean;
 }
 
 export interface CartItemDto {

@@ -215,7 +215,7 @@ export const ApiService = {
 		try {
 			console.log('📡 Making request to /get_categories');
 			const response = await apiClient.get<GetCategoriesUserDto[]>('/get_categories', {
-				params: { categoryType }
+				params: { categoryType, active: true }
 			});
 			console.log('✅ Raw categories response from backend:', response.data);
 			console.log('📊 Response status:', response.status);
@@ -227,7 +227,8 @@ export const ApiService = {
 				console.log('🖼️ First category photoUrl:', (response.data[0] as any).photoUrl);
 			}
 
-			return response.data;
+			const list = response.data ?? [];
+			return list.filter((c) => c.active !== false);
 		} catch (error) {
 			console.error("❌ API Error in getCategories:", error);
 			console.error("❌ Error details:", error.response?.data);
