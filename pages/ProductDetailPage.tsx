@@ -53,7 +53,7 @@ export const ProductDetailPage: React.FC = () => {
 				const similarData = await ApiService.getSimilarProducts(parseInt(id));
 				setSimilarProducts(similarData);
 			} catch (err) {
-				} finally {
+			} finally {
 				setLoadingSimilar(false);
 			}
 		};
@@ -97,7 +97,7 @@ export const ProductDetailPage: React.FC = () => {
 			document.body.removeChild(link);
 			window.URL.revokeObjectURL(url);
 		} catch (error) {
-			}
+		}
 	};
 
 	const getFileIcon = (fileName?: string, fileType?: string) => {
@@ -145,15 +145,18 @@ export const ProductDetailPage: React.FC = () => {
 			// Обновляем состояние корзины через контекст
 			await refreshCart();
 
-			// Показываем сообщение без перенаправления
-			добавлен в корзину!`);
-		} catch (error) {
-			}
-	};
+			// ИСПРАВЛЕНО: Добавили alert перед текстом
+			alert(`Товар "${product.productName}" успешно добавлен в корзину!`);
 
+		} catch (error) {
+			// Желательно добавить обработку ошибки, чтобы пользователь понимал, если что-то пошло не так
+			console.error("Ошибка при добавлении в корзину:", error);
+			alert("Не удалось добавить товар в корзину. Попробуйте позже.");
+		}
+	};
 	const handleWhatsApp = () => {
 		if (product) {
-			const text = `Я хочу закупить ${product.productName} Количество: ${quantity}`;
+			const text = `Я хочу закупить ${product.productName} Количество: ${quantity} `;
 			window.open(`https://wa.me/77472164664?text=${encodeURIComponent(text)}`, '_blank');
 		}
 	};
