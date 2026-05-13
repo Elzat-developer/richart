@@ -14,7 +14,6 @@ export const useCart = () => {
       const data = await ApiService.getCart();
       setCart(data);
     } catch (error) {
-      console.error("Failed to fetch cart", error);
       setError('Failed to load cart');
     } finally {
       setLoading(false);
@@ -35,7 +34,6 @@ export const useCart = () => {
       await refreshCart();
       return true;
     } catch (error) {
-      console.error("Failed to add to cart", error);
       setError('Failed to add item to cart');
       return false;
     } finally {
@@ -53,7 +51,6 @@ export const useCart = () => {
       await refreshCart();
       return true;
     } catch (error) {
-      console.error("Failed to update item", error);
       setError('Failed to update quantity');
       return false;
     } finally {
@@ -69,7 +66,6 @@ export const useCart = () => {
       await refreshCart();
       return true;
     } catch (error) {
-      console.error("Failed to remove item", error);
       setError('Failed to remove item');
       return false;
     } finally {
@@ -88,7 +84,6 @@ export const useCart = () => {
       }
       return true;
     } catch (error) {
-      console.error("Failed to clear cart", error);
       setError('Failed to clear cart');
       return false;
     } finally {

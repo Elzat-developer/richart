@@ -55,8 +55,7 @@ const AdminCompanyPage: React.FC = () => {
 				}
 			} catch (err) {
 				setError('Не удалось загрузить данные компании');
-				console.error('Error fetching company:', err);
-			} finally {
+				} finally {
 				setLoading(false);
 			}
 		};
@@ -122,8 +121,7 @@ const AdminCompanyPage: React.FC = () => {
 			} else {
 				setError('Ошибка при сохранении данных компании: ' + (err.response?.data?.message || err.message));
 			}
-			console.error('Error saving company:', err);
-		} finally {
+			} finally {
 			setSaving(false);
 		}
 	};
@@ -156,7 +154,6 @@ const AdminCompanyPage: React.FC = () => {
 					</button>
 				</div>
 			</div>
-
 
 			{/* Content */}
 			<div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">

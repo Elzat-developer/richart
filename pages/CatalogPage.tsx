@@ -49,10 +49,8 @@ export const CatalogPage: React.FC = () => {
 				// 3. Просто сохраняем результат. Бэкенд уже всё отфильтровал за нас!
 				setProducts(data);
 
-				console.log('✅ Catalog loaded from backend with filters:', params);
-			} catch (error) {
-				console.error("Failed to load catalog", error);
-			} finally {
+				} catch (error) {
+				} finally {
 				setLoading(false);
 			}
 		};

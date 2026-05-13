@@ -266,8 +266,7 @@ export const Layout: React.FC = () => {
 				const companyData = await ApiService.getCompany();
 				setCompany(companyData);
 			} catch (error) {
-				console.error('Error fetching company info:', error);
-			}
+				}
 		};
 
 		fetchCompany();

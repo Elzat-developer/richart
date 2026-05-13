@@ -31,13 +31,10 @@ export const AdminProductDetailPage: React.FC = () => {
 			if (!id) return;
 
 			try {
-				console.log('Loading product details for ID:', id);
 				const productData = await AdminApiService.getProduct(parseInt(id));
-				console.log('Product loaded:', productData);
 				setProduct(productData);
 			} catch (error) {
-				console.error('Error loading product:', error);
-			} finally {
+				} finally {
 				setLoading(false);
 			}
 		};
@@ -121,8 +118,6 @@ export const AdminProductDetailPage: React.FC = () => {
 			// Перенаправляем обратно к списку товаров
 			window.location.href = '/admin/products';
 		} catch (error) {
-			console.error('Error deleting product:', error);
-			alert('Ошибка при удалении товара');
 			setDeleting(false);
 		}
 	};
@@ -139,12 +134,8 @@ export const AdminProductDetailPage: React.FC = () => {
 
 	const handleDownloadTechSpec = async (fileUrl: string, fileName: string) => {
 		try {
-			console.log('Downloading file:', fileUrl);
-
 			// Используем ту же логику что и в технических спецификациях
 			const downloadUrl = getTechSpecUrl(fileUrl);
-			console.log('Download URL:', downloadUrl);
-
 			// Скачиваем файл через fetch
 			const response = await fetch(downloadUrl);
 			if (!response.ok) {
@@ -164,9 +155,7 @@ export const AdminProductDetailPage: React.FC = () => {
 			document.body.removeChild(link);
 			window.URL.revokeObjectURL(url);
 		} catch (error) {
-			console.error('Error downloading file:', error);
-			alert('Ошибка при скачивании файла');
-		}
+			}
 	};
 
 	const getFileIcon = (fileName?: string, fileType?: string) => {
@@ -302,7 +291,6 @@ export const AdminProductDetailPage: React.FC = () => {
 													className="max-w-full max-h-[400px] sm:max-h-[600px] object-contain cursor-pointer transition-transform hover:scale-105 w-full"
 													onClick={openFullscreen}
 													onError={(e) => {
-														console.error('Failed to load product image:', product.photos[currentPhotoIndex]?.photoURL);
 														(e.target as HTMLImageElement).src = 'https://picsum.photos/800/600?error=load-failed&id=' + product.photos[currentPhotoIndex]?.photo_id;
 													}}
 												/>

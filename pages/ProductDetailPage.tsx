@@ -34,7 +34,6 @@ export const ProductDetailPage: React.FC = () => {
 				setProduct(productData);
 				setError(null);
 			} catch (err) {
-				console.error('Error fetching product detail:', err);
 				setError('Не удалось загрузить товар. Попробуйте позже.');
 			} finally {
 				setLoading(false);
@@ -54,8 +53,7 @@ export const ProductDetailPage: React.FC = () => {
 				const similarData = await ApiService.getSimilarProducts(parseInt(id));
 				setSimilarProducts(similarData);
 			} catch (err) {
-				console.error('Error fetching similar products:', err);
-			} finally {
+				} finally {
 				setLoadingSimilar(false);
 			}
 		};
@@ -78,12 +76,8 @@ export const ProductDetailPage: React.FC = () => {
 
 	const handleDownloadTechSpec = async (fileUrl: string, fileName: string) => {
 		try {
-			console.log('Downloading file:', fileUrl);
-
 			// Используем ту же логику что и в технических спецификациях
 			const downloadUrl = getTechSpecUrl(fileUrl);
-			console.log('Download URL:', downloadUrl);
-
 			// Скачиваем файл через fetch
 			const response = await fetch(downloadUrl);
 			if (!response.ok) {
@@ -103,9 +97,7 @@ export const ProductDetailPage: React.FC = () => {
 			document.body.removeChild(link);
 			window.URL.revokeObjectURL(url);
 		} catch (error) {
-			console.error('Error downloading file:', error);
-			alert('Ошибка при скачивании файла');
-		}
+			}
 	};
 
 	const getFileIcon = (fileName?: string, fileType?: string) => {
@@ -154,11 +146,9 @@ export const ProductDetailPage: React.FC = () => {
 			await refreshCart();
 
 			// Показываем сообщение без перенаправления
-			alert(`Товар "${product.productName}" (${quantity} шт.) добавлен в корзину!`);
+			добавлен в корзину!`);
 		} catch (error) {
-			console.error('Error adding to cart:', error);
-			alert('Ошибка при добавлении в корзину');
-		}
+			}
 	};
 
 	const handleWhatsApp = () => {

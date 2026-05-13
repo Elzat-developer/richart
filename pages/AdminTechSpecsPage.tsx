@@ -142,12 +142,8 @@ export const AdminTechSpecsPage: React.FC = () => {
 
 	const handleDownloadFile = async (fileUrl: string, fileName: string) => {
 		try {
-			console.log('Downloading file:', fileUrl);
-
 			// Используем ту же логику что и у акций
 			const downloadUrl = getFileUrl(fileUrl);
-			console.log('Download URL:', downloadUrl);
-
 			// Скачиваем файл через fetch
 			const response = await fetch(downloadUrl);
 			if (!response.ok) {
@@ -169,9 +165,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 			document.body.removeChild(link);
 			window.URL.revokeObjectURL(url);
 		} catch (error) {
-			console.error('Error downloading file:', error);
-			alert('Ошибка при скачивании файла');
-		}
+			}
 	};
 
 	const getProductName = (productId: number | null): string => {
@@ -182,7 +176,6 @@ export const AdminTechSpecsPage: React.FC = () => {
 
 	const loadData = async () => {
 		try {
-			console.log('Loading tech specs and products...');
 			setLoadingIndustrial(true);
 			setLoadingHousehold(true);
 
@@ -192,22 +185,16 @@ export const AdminTechSpecsPage: React.FC = () => {
 				AdminApiService.getProducts('household', true)
 			]);
 
-			console.log('Tech specs loaded:', techSpecsData);
-			console.log('Industrial products loaded:', industrialData);
-			console.log('Household products loaded:', householdData);
-
 			// Логируем детали каждой тех. спецификации для отладки
 			techSpecsData?.forEach((spec: any) => {
-				console.log(`TechSpec ID: ${spec.techSpecId}, fileName: ${spec.fileName}, product_id: ${spec.product_id}, fileUrl: ${spec.fileUrl}`);
-			});
+				});
 
 			setTechSpecs(techSpecsData || []);
 			setIndustrialProducts(industrialData || []);
 			setHouseholdProducts(householdData || []);
 			setProducts([...(industrialData || []), ...(householdData || [])]); // Для отображения в списке тех. спецификаций
 		} catch (error) {
-			console.error('Error loading data:', error);
-			alert('Ошибка при загрузке данных: ' + (error as Error).message);
+			.message);
 		} finally {
 			setLoading(false);
 			setLoadingIndustrial(false);
@@ -217,9 +204,6 @@ export const AdminTechSpecsPage: React.FC = () => {
 
 	const validateForm = (): boolean => {
 		const errors: any = {};
-
-		console.log('Validation - editingTechSpec:', editingTechSpec);
-		console.log('Validation - file:', file);
 
 		// При создании - все поля обязательны
 		if (!editingTechSpec) {
@@ -243,8 +227,6 @@ export const AdminTechSpecsPage: React.FC = () => {
 				errors.general = 'Нет изменений для сохранения';
 			}
 		}
-
-		console.log('Validation errors:', errors);
 
 		setValidationErrors(errors);
 		return Object.keys(errors).length === 0;
@@ -275,10 +257,6 @@ export const AdminTechSpecsPage: React.FC = () => {
 					updateData.fileTechSpec = file;
 				}
 
-				console.log('Original data:', editingTechSpec);
-				console.log('Form data:', formData);
-				console.log('Update data:', updateData);
-
 				await AdminApiService.editTechSpec(editingTechSpec.techSpecId, updateData);
 			} else {
 				// При создании - файл обязателен
@@ -292,9 +270,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 			await loadData();
 			resetForm();
 		} catch (error) {
-			console.error('Error saving tech spec:', error);
-			alert('Ошибка при сохранении технической спецификации');
-		}
+			}
 	};
 
 	const handleDelete = async (techSpecId: number) => {
@@ -304,13 +280,10 @@ export const AdminTechSpecsPage: React.FC = () => {
 			await AdminApiService.deleteTechSpec(techSpecId);
 			await loadData();
 		} catch (error) {
-			console.error('Error deleting tech spec:', error);
-			alert('Ошибка при удалении технической спецификации');
-		}
+			}
 	};
 
 	const handleEdit = (techSpec: TechSpec) => {
-		console.log('handleEdit called with:', techSpec);
 		setEditingTechSpec(techSpec);
 		setFormData({
 			fileName: techSpec.fileName,

@@ -20,8 +20,6 @@ export const PromotionsBlock: React.FC = () => {
 		const loadPromotions = async () => {
 			try {
 				setLoading(true);
-				console.log('🔄 Loading promotions from ApiService...');
-
 				// Проверяем есть ли в кеше
 				const cachedData = localStorage.getItem('promotionsCache');
 				const cacheTime = localStorage.getItem('promotionsCacheTime');
@@ -29,43 +27,28 @@ export const PromotionsBlock: React.FC = () => {
 
 				// Если кеш есть и он не старше 5 минут (300000 мс)
 				if (cachedData && cacheTime && (now - parseInt(cacheTime)) < 300000) {
-					console.log('📦 Using cached promotions data');
 					const parsedData = JSON.parse(cachedData);
-					console.log('📊 Cached data:', parsedData);
-
 					// Сортируем по promotion_id по возрастанию (1, 2, 3...)
 					const sortedPromotions = parsedData.sort((a: Promotion, b: Promotion) => a.promotion_id - b.promotion_id);
-					console.log('✅ Sorted cached promotions:', sortedPromotions);
 					setPromotions(sortedPromotions);
 					setCacheInitialized(true);
 				} else {
 					// Загружаем из API
-					console.log('🌐 Loading promotions from API (cache expired or empty)');
+					');
 					const data = await ApiService.getPromotions();
-					console.log('📦 Raw promotions data:', data);
-					console.log('📊 Data type:', typeof data);
-					console.log('📏 Data length:', data?.length);
-
 					// Показываем структуру первого элемента
 					if (data && data.length > 0) {
-						console.log('🔍 First promotion structure:', data[0]);
-						console.log('🖼️ First promotion URL:', data[0].urlPhoto || data[0].url_photo);
-					}
+						}
 
 					// Сортируем по promotion_id по возрастанию (1, 2, 3...)
 					const sortedPromotions = data.sort((a: Promotion, b: Promotion) => a.promotion_id - b.promotion_id);
-					console.log('✅ Sorted promotions:', sortedPromotions);
-
 					// Сохраняем в кеш
 					localStorage.setItem('promotionsCache', JSON.stringify(sortedPromotions));
 					localStorage.setItem('promotionsCacheTime', now.toString());
-					console.log('💾 Promotions cached for 5 minutes');
-
 					setPromotions(sortedPromotions);
 					setCacheInitialized(true);
 				}
 			} catch (err) {
-				console.error('❌ Error loading promotions:', err);
 				setError('Не удалось загрузить акции');
 			} finally {
 				setLoading(false);
@@ -97,13 +80,11 @@ export const PromotionsBlock: React.FC = () => {
 	}
 
 	if (error || promotions.length === 0) {
-		console.log('⚠️ No promotions or error:', { error, promotionsLength: promotions.length });
 		return null; // Не показываем блок если нет акций
 	}
 
 	const currentPromotion = promotions[currentIndex];
-	console.log('🎯 Rendering promotion:', currentPromotion);
-	console.log('🖼️ Image URL:', getImageUrl({ photoURL: currentPromotion.urlPhoto }));
+	);
 
 	return (
 		<section className="relative w-full aspect-video md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden">
@@ -115,12 +96,9 @@ export const PromotionsBlock: React.FC = () => {
 						alt={`Акция ${currentPromotion.promotion_id}`}
 						className="w-full h-full object-contain"
 						onLoad={() => {
-							console.log('✅ Promotion image loaded successfully!');
-						}}
+							}}
 						onError={(e) => {
-							console.error('❌ Failed to load promotion image:', {
-								originalUrl: currentPromotion.urlPhoto,
-								generatedUrl: getImageUrl({ photoURL: currentPromotion.urlPhoto }),
+							,
 								naturalWidth: (e.target as HTMLImageElement).naturalWidth,
 								naturalHeight: (e.target as HTMLImageElement).naturalHeight
 							});

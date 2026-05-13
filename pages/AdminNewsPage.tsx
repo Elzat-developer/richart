@@ -60,8 +60,7 @@ export const AdminNewsPage: React.FC = () => {
 			const data = await UserApiService.getNews();
 			setNews(data || []);
 		} catch (error) {
-			console.error('Error loading news:', error);
-		} finally {
+			} finally {
 			setLoading(false);
 		}
 	};
@@ -131,7 +130,6 @@ export const AdminNewsPage: React.FC = () => {
 			} else {
 				// При создании новости файл обязателен
 				if (!formData.newsPhotoUrl || formData.newsPhotoUrl.size === 0) {
-					alert('Файл изображения обязателен');
 					return;
 				}
 				await AdminApiService.createNews(formData);
@@ -140,9 +138,7 @@ export const AdminNewsPage: React.FC = () => {
 			await loadNews();
 			resetForm();
 		} catch (error) {
-			console.error('Error saving news:', error);
-			alert('Ошибка при сохранении новости');
-		}
+			}
 	};
 
 	const handleDeleteNews = async (newsId: number) => {
@@ -152,9 +148,7 @@ export const AdminNewsPage: React.FC = () => {
 			await AdminApiService.deleteNews(newsId);
 			await loadNews();
 		} catch (error) {
-			console.error('Error deleting news:', error);
-			alert('Ошибка при удалении новости');
-		}
+			}
 	};
 
 	const formatFileSize = (bytes: number): string => {
@@ -228,8 +222,6 @@ export const AdminNewsPage: React.FC = () => {
 			const data = await UserApiService.getNewsById(newsId);
 			setSelectedNews(data);
 		} catch (error) {
-			console.error('Error loading news by id:', error);
-			alert('Ошибка при загрузке деталей новости');
 			setShowDetailModal(false);
 		} finally {
 			setLoadingDetail(false);

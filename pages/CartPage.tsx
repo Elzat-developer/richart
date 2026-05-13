@@ -34,9 +34,7 @@ export const CartPage: React.FC = () => {
 			window.URL.revokeObjectURL(url);
 			document.body.removeChild(a);
 		} catch (error) {
-			console.error("Download error:", error);
-			alert("Не удалось скачать коммерческое предложение");
-		}
+			}
 	};
 
 	const handleCheckoutSubmit = async (e: React.FormEvent) => {
@@ -49,8 +47,7 @@ export const CartPage: React.FC = () => {
 			window.dispatchEvent(new CustomEvent('mobile-filters', { detail: { open: false } }));
 			setIsCheckoutModalOpen(false);
 		} catch (error) {
-			alert("Оформление заказа не удалось. Попробуйте еще раз.");
-		} finally {
+			} finally {
 			setCheckoutLoading(false);
 		}
 	};

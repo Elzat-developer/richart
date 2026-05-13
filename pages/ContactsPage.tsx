@@ -29,7 +29,6 @@ const ContactsPage: React.FC = () => {
 				setCompany(companyData);
 				setError(null);
 			} catch (err) {
-				console.error('Error fetching company info:', err);
 				setError('Не удалось загрузить контактную информацию. Попробуйте позже.');
 			} finally {
 				setLoading(false);

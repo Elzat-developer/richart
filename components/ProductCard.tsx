@@ -29,11 +29,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 		try {
 			await ApiService.addToCart(product.productId, 1);
 			await refreshCart();
-			alert(`Товар "${product.productName}" добавлен в корзину!`);
-		} catch (error) {
-			console.error('Error adding to cart:', error);
-			alert('Ошибка при добавлении в корзину');
-		} finally {
+			} catch (error) {
+			} finally {
 			setIsAdding(false);
 		}
 	};

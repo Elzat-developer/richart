@@ -21,12 +21,9 @@ export const CategoriesPage: React.FC = () => {
 			try {
 				setLoading(true);
 				setError(null);
-				console.log('🔄 Loading categories from ApiService...');
 				const categoriesData = await ApiService.getCategories('industrial');
-				console.log('📦 Categories loaded:', categoriesData);
 				setCategories(categoriesData);
 			} catch (err) {
-				console.error('❌ Error loading categories:', err);
 				setError('Не удалось загрузить категории');
 			} finally {
 				setLoading(false);

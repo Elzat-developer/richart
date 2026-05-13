@@ -71,26 +71,16 @@ export const AdminCategoriesPage: React.FC = () => {
 
 	const loadCategories = async () => {
 		try {
-			console.log('🔄 Loading admin categories...');
-			console.log('📋 Category type:', categoryType);
-			console.log('📋 Show archived:', showArchived);
-
 			const data = await AdminApiService.getCategories(categoryType, !showArchived);
-			console.log('📦 Admin categories loaded:', data);
-
 			// Показываем структуру первой категории
 			if (data && data.length > 0) {
 				const firstCategory = data[0] as any;
-				console.log('🔍 First category structure:', firstCategory);
-				console.log('📋 All fields:', Object.keys(firstCategory));
-				console.log('🖼️ Photo URL:', firstCategory.photoUrl);
-				console.log('🏷️ Category type:', firstCategory.categoryType);
-			}
+				);
+				}
 
 			setCategories(data || []);
 		} catch (error) {
-			console.error('❌ Error loading admin categories:', error);
-		} finally {
+			} finally {
 			setLoading(false);
 		}
 	};
@@ -135,9 +125,7 @@ export const AdminCategoriesPage: React.FC = () => {
 			await loadCategories();
 			resetForm();
 		} catch (error) {
-			console.error('Error saving category:', error);
-			alert('Ошибка при сохранении категории');
-		}
+			}
 	};
 
 	const handleDelete = async (categoryId: number) => {
@@ -147,24 +135,17 @@ export const AdminCategoriesPage: React.FC = () => {
 			await AdminApiService.deleteCategory(categoryId);
 			await loadCategories();
 		} catch (error) {
-			console.error('Error deleting category:', error);
-			alert('Ошибка при удалении категории');
-		}
+			}
 	};
 
 	const handleActivateCategory = async (categoryId: number) => {
-		console.log('✅ Attempting to activate category:', categoryId);
 		if (!confirm('Вы уверены, что хотите активировать эту категорию?')) return;
 
 		try {
-			console.log('🔄 Calling editCategoryActive API...');
 			await AdminApiService.editCategoryActive(categoryId);
-			console.log('✅ Category activated successfully');
 			loadCategories();
 		} catch (error) {
-			console.error('❌ Error activating category:', error);
-			alert('Ошибка при активации категории. Проверьте консоль для деталей.');
-		}
+			}
 	};
 
 	const handleEdit = (category: BackendCategoryDto) => {
@@ -200,7 +181,6 @@ export const AdminCategoriesPage: React.FC = () => {
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
 		if (file) {
-			console.log('📸 Selected file:', file.name, file.type, file.size);
 			setFormData(prev => ({ ...prev, photoUrl: file }));
 		}
 	};

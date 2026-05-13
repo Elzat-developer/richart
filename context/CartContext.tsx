@@ -22,8 +22,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const data = await ApiService.getCart();
       setCart(data);
     } catch (error) {
-      console.error("Failed to fetch cart", error);
-    }
+      }
   }, []);
 
   useEffect(() => {
@@ -46,8 +45,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       await ApiService.updateCartItem(itemId, quantity);
       await refreshCart();
     } catch (error) {
-      console.error("Failed to update item", error);
-    }
+      }
   };
 
   const removeFromCart = async (itemId: number) => {
@@ -55,8 +53,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       await ApiService.removeCartItem(itemId);
       await refreshCart();
     } catch (error) {
-      console.error("Failed to remove item", error);
-    }
+      }
   };
 
   return (

@@ -43,12 +43,9 @@ export const HouseholdCategoriesBlock: React.FC = () => {
 			try {
 				setLoading(true);
 				setError(null);
-				console.log('🔄 Loading household categories from ApiService...');
 				const categoriesData = await ApiService.getCategories('household');
-				console.log('📦 Household categories loaded:', categoriesData);
 				setCategories(categoriesData);
 			} catch (err) {
-				console.error('❌ Error loading household categories:', err);
 				setError('Не удалось загрузить категории');
 			} finally {
 				setLoading(false);
@@ -137,7 +134,7 @@ export const HouseholdCategoriesBlock: React.FC = () => {
 									<Link
 										key={categoryAny.categoryId || category.categoryId}
 										to={`/catalog?categoryId=${categoryAny.categoryId || category.categoryId}`}
-										className="flex-shrink-0 group relative shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-x-110 hover:z-10 flex flex-col w-32 sm:w-40 md:w-48 lg:w-60"
+										className="flex-shrink-0 group relative shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-x-110 hover:z-10 flex flex-col w-32 sm:w-40 md:w-48 lg:w-60 h-64 sm:h-72"
 										style={{ backgroundColor: 'rgb(245,243,241)' }}
 									>
 										{/* Фото категории */}

@@ -34,7 +34,6 @@ const OrdersPage: React.FC = () => {
 				setError('Заказы не найдены для указанного номера телефона');
 			}
 		} catch (err) {
-			console.error('Error fetching orders:', err);
 			setError('Произошла ошибка при загрузке заказов');
 			setOrders([]);
 			setCustomerName('');

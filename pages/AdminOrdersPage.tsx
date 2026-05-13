@@ -54,8 +54,7 @@ export const AdminOrdersPage: React.FC = () => {
 			const data = await AdminApiService.getOrders();
 			setOrders(data || []);
 		} catch (error) {
-			console.error('Error loading orders:', error);
-		} finally {
+			} finally {
 			setLoading(false);
 		}
 	};
@@ -66,9 +65,7 @@ export const AdminOrdersPage: React.FC = () => {
 			await AdminApiService.editPaidStatusOrder(orderId, newStatus);
 			await loadOrders(); // Ждем обновления списка
 		} catch (error) {
-			console.error('Error updating paid status:', error);
-			alert('Ошибка при обновлении статуса оплаты');
-		} finally {
+			} finally {
 			setUpdatingOrderId(null);
 		}
 	};
@@ -79,8 +76,7 @@ export const AdminOrdersPage: React.FC = () => {
 			await AdminApiService.deleteOrder(orderId);
 			loadOrders();
 		} catch (error) {
-			console.error('Error deleting order:', error);
-		}
+			}
 	};
 
 	const formatDate = (dateString: string) => {
@@ -114,8 +110,6 @@ export const AdminOrdersPage: React.FC = () => {
 			const orderData = await UserApiService.getOrderDetails(orderId);
 			setSelectedOrder(orderData);
 		} catch (error) {
-			console.error('Error loading order details:', error);
-			alert('Ошибка при загрузке деталей заказа');
 			setShowDetailModal(false);
 		} finally {
 			setLoadingDetail(false);
@@ -140,9 +134,7 @@ export const AdminOrdersPage: React.FC = () => {
 			setSelectedCustomerInfo({ name: customerName, phone: customerPhone });
 			setShowCustomerOrdersModal(true);
 		} catch (error) {
-			console.error('Error loading customer orders:', error);
-			alert('Ошибка при загрузке заказов клиента');
-		} finally {
+			} finally {
 			setLoadingCustomerOrders(false);
 		}
 	};
@@ -155,7 +147,6 @@ export const AdminOrdersPage: React.FC = () => {
 
 	const searchCustomerOrders = async () => {
 		if (!customerPhone.trim()) {
-			alert('Пожалуйста, введите номер телефона клиента');
 			return;
 		}
 
@@ -169,8 +160,6 @@ export const AdminOrdersPage: React.FC = () => {
 			const data = await response.json();
 			setCustomerOrdersSearch(data || []);
 		} catch (error) {
-			console.error('Error searching customer orders:', error);
-			alert('Ошибка при поиске заказов клиента');
 			setCustomerOrdersSearch([]);
 		} finally {
 			setLoadingCustomerSearch(false);

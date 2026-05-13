@@ -21,8 +21,7 @@ export const HomePage: React.FC = () => {
 				const companyData = await ApiService.getCompany();
 				setCompany(companyData);
 			} catch (error) {
-				console.error('Error fetching company info:', error);
-			}
+				}
 		};
 
 		fetchCompany();
@@ -33,27 +32,15 @@ export const HomePage: React.FC = () => {
 			try {
 				setLoading(true);
 				setError(null);
-				console.log('🔄 Loading featured products from ApiService...');
 				const products = await ApiService.getProducts('industrial');
-				console.log('📦 Raw products data:', products);
-				console.log('📊 Data type:', typeof products);
-				console.log('📏 Data length:', products?.length);
-
 				// Показываем структуру первого элемента
 				if (products && products.length > 0) {
-					console.log('🔍 First product structure:', products[0]);
-					console.log('🏷️ First product name:', products[0].productName);
-					console.log('💰 First product price:', products[0].productPrice);
-					console.log('📸 First product photo:', products[0].photoDtoList);
-					console.log('📸 Photo URL:', products[0].photoDtoList?.photoURL);
-				}
+					}
 
 				// Берем первые 8 продуктов как избранные (бэкенд уже отфильтровал по активности)
 				const featuredProducts = products.slice(0, 8);
-				console.log('✅ Featured products selected:', featuredProducts);
 				setFeaturedProducts(featuredProducts);
 			} catch (err) {
-				console.error('❌ Error loading featured products:', err);
 				setError('Не удалось загрузить избранные товары');
 			} finally {
 				setLoading(false);

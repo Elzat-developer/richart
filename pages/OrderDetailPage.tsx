@@ -20,7 +20,6 @@ export const OrderDetailPage: React.FC = () => {
 				const orderData = await UserApiService.getOrderDetails(parseInt(orderId));
 				setOrder(orderData);
 			} catch (err) {
-				console.error('Error fetching order details:', err);
 				setError('Не удалось загрузить детали заказа');
 			} finally {
 				setLoading(false);

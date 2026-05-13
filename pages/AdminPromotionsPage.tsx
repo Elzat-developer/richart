@@ -35,13 +35,10 @@ export const AdminPromotionsPage: React.FC = () => {
 
 	const loadPromotions = async () => {
 		try {
-			console.log('Loading promotions...');
 			const data = await UserApiService.getPromotions();
-			console.log('Promotions loaded:', data);
 			setPromotions(data || []);
 		} catch (error) {
-			console.error('Error loading promotions:', error);
-		} finally {
+			} finally {
 			setLoading(false);
 		}
 	};
@@ -85,8 +82,7 @@ export const AdminPromotionsPage: React.FC = () => {
 			resetForm();
 			loadPromotions();
 		} catch (error) {
-			console.error('Error saving promotion:', error);
-		}
+			}
 	};
 
 	const handleDeletePromotion = async (promotionId: number) => {
@@ -96,8 +92,7 @@ export const AdminPromotionsPage: React.FC = () => {
 			await AdminApiService.deletePromotion(promotionId);
 			loadPromotions();
 		} catch (error) {
-			console.error('Error deleting promotion:', error);
-		}
+			}
 	};
 
 	const resetForm = () => {
@@ -352,7 +347,6 @@ export const AdminPromotionsPage: React.FC = () => {
 											alt={`Акция ${promotion.promotion_id}`}
 											className="w-full h-full object-contain"
 											onError={(e) => {
-												console.error('Failed to load image:', promotion.urlPhoto);
 												(e.target as HTMLImageElement).src = 'https://picsum.photos/800/450?error=load-failed&id=' + promotion.promotion_id;
 											}}
 										/>

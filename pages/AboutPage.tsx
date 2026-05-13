@@ -21,8 +21,7 @@ const AboutPage: React.FC = () => {
 				setCompany(companyData);
 			} catch (err) {
 				setError('Не удалось загрузить информацию о компании');
-				console.error('Error fetching company data:', err);
-			} finally {
+				} finally {
 				setLoading(false);
 			}
 		};
@@ -415,8 +414,6 @@ const AboutPage: React.FC = () => {
 												Все документы для бухгалтерии предоставляем при оформлении заказа
 											</p>
 										</div>
-
-
 
 										<div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
 											<p className="text-orange-800 text-sm font-medium">

@@ -19,7 +19,6 @@ const NewsPage: React.FC = () => {
 				setNews(newsData);
 				setError(null);
 			} catch (err) {
-				console.error('Error fetching news:', err);
 				setError('Не удалось загрузить новости. Попробуйте позже.');
 			} finally {
 				setLoading(false);

@@ -48,10 +48,8 @@ export const HouseholdCatalogPage: React.FC = () => {
 				// 3. Сохраняем результат
 				setProducts(data);
 
-				console.log('✅ Household catalog loaded from backend with filters:', params);
-			} catch (error) {
-				console.error("Failed to load household catalog", error);
-			} finally {
+				} catch (error) {
+				} finally {
 				setLoading(false);
 			}
 		};

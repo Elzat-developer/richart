@@ -42,8 +42,6 @@ export const AdminDashboardPage: React.FC = () => {
 	useEffect(() => {
 		const loadData = async () => {
 			try {
-				console.log('Loading dashboard data...');
-
 				// Загружаем данные по отдельности с обработкой ошибок
 				let productsData = [];
 				let categoriesData = [];
@@ -54,54 +52,33 @@ export const AdminDashboardPage: React.FC = () => {
 
 				try {
 					productsData = await AdminApiService.getProducts();
-					console.log('✅ Products loaded:', productsData.length);
-				} catch (error) {
-					console.error('❌ Error loading products:', error);
-				}
+					} catch (error) {
+					}
 
 				try {
 					categoriesData = await AdminApiService.getCategories();
-					console.log('✅ Categories loaded:', categoriesData.length);
-				} catch (error) {
-					console.error('❌ Error loading categories:', error);
-				}
+					} catch (error) {
+					}
 
 				try {
 					techSpecsData = await AdminApiService.getTechSpecs();
-					console.log('✅ Tech specs loaded:', techSpecsData.length);
-				} catch (error) {
-					console.error('❌ Error loading tech specs:', error);
-				}
+					} catch (error) {
+					}
 
 				try {
 					promotionsData = await UserApiService.getPromotions();
-					console.log('✅ Promotions loaded:', promotionsData.length);
-				} catch (error) {
-					console.error('❌ Error loading promotions:', error);
-				}
+					} catch (error) {
+					}
 
 				try {
 					newsData = await UserApiService.getNews();
-					console.log('✅ News loaded:', newsData.length);
-				} catch (error) {
-					console.error('❌ Error loading news:', error);
-				}
+					} catch (error) {
+					}
 
 				try {
 					ordersData = await AdminApiService.getOrders();
-					console.log('✅ Orders loaded:', ordersData.length);
-				} catch (error) {
-					console.error('❌ Error loading orders:', error);
-				}
-
-				console.log('📊 Dashboard data summary:', {
-					products: productsData.length,
-					categories: categoriesData.length,
-					techSpecs: techSpecsData.length,
-					promotions: promotionsData.length,
-					news: newsData.length,
-					orders: ordersData.length
-				});
+					} catch (error) {
+					}
 
 				setProducts(productsData);
 				setCategories(categoriesData);
@@ -133,8 +110,7 @@ export const AdminDashboardPage: React.FC = () => {
 					activePromotions: promotionsData.length
 				});
 			} catch (error) {
-				console.error('❌ Error loading admin dashboard:', error);
-			} finally {
+				} finally {
 				setLoading(false);
 			}
 		};

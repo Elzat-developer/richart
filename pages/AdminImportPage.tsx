@@ -48,8 +48,7 @@ export const AdminImportPage: React.FC = () => {
 			const histories = await AdminApiService.getImportHistories();
 			setImportHistories(histories);
 		} catch (error) {
-			console.error('Error loading import histories:', error);
-		} finally {
+			} finally {
 			setLoadingHistory(false);
 		}
 	};
@@ -60,8 +59,7 @@ export const AdminImportPage: React.FC = () => {
 			setSelectedHistory(history);
 			setShowHistoryModal(true);
 		} catch (error) {
-			console.error('Error loading import history:', error);
-		}
+			}
 	};
 
 	const handleDeleteHistory = async (historyId: number) => {
@@ -74,9 +72,7 @@ export const AdminImportPage: React.FC = () => {
 			// Обновляем список после удаления
 			await loadImportHistories();
 		} catch (error) {
-			console.error('Error deleting import history:', error);
-			alert('Ошибка при удалении записи истории');
-		}
+			}
 	};
 
 	// Функции для работы с категориями
@@ -85,8 +81,7 @@ export const AdminImportPage: React.FC = () => {
 			const categoriesData = await AdminApiService.getCategories(type, true);
 			setCategories(categoriesData);
 		} catch (error) {
-			console.error('Error loading categories:', error);
-		}
+			}
 	};
 
 	const toggleCategories = () => {
@@ -131,12 +126,10 @@ export const AdminImportPage: React.FC = () => {
 		// Также проверяем расширение файла
 		const fileName = selectedFile.name.toLowerCase();
 		if (!fileName.endsWith('.zip')) {
-			alert('Неверный формат файла. Ожидается .zip архив с Excel и папкой images');
 			return;
 		}
 
 		if (!allowedTypes.includes(selectedFile.type) && !fileName.endsWith('.zip')) {
-			alert('Неверный формат файла. Ожидается .zip архив с Excel и папкой images');
 			return;
 		}
 
@@ -152,7 +145,6 @@ export const AdminImportPage: React.FC = () => {
 
 	const handleImport = async () => {
 		if (!file) {
-			alert('Архив не выбран или пуст');
 			return;
 		}
 
@@ -163,7 +155,6 @@ export const AdminImportPage: React.FC = () => {
 			// Обновляем историю импортов после успешного импорта
 			await loadImportHistories();
 		} catch (error: any) {
-			console.error('Import error:', error);
 			const errorResult: ImportReportDto = {
 				successCount: 0,
 				errorCount: 1,

@@ -23,7 +23,6 @@ export const AdminProductFormPage: React.FC = () => {
 			const categoriesData = await AdminApiService.getCategories(type, true);
 			setCategories(categoriesData);
 		} catch (error) {
-			console.error('Ошибка при загрузке категорий:', error);
 			setCategories([]);
 		} finally {
 			setLoadingCategories(false);
@@ -92,9 +91,7 @@ export const AdminProductFormPage: React.FC = () => {
 					});
 				}
 			} catch (error) {
-				console.error('Error loading data:', error);
-				alert('Ошибка при загрузке данных');
-			} finally {
+				} finally {
 				setLoading(false);
 			}
 		};
@@ -182,20 +179,14 @@ export const AdminProductFormPage: React.FC = () => {
 					techSpecFile: formData.techSpecFile // Файл технических спецификаций
 				});
 			} else {
-				console.log('Creating product with data:', formData);
 				await AdminApiService.createProduct(formData);
-				console.log('Product created successfully');
-			}
+				}
 
 			// Показываем сообщение об успехе
-			alert(isEditing ? 'Товар успешно обновлен!' : 'Товар успешно создан!');
-
 			// Перенаправляем обратно к списку товаров
 			navigate('/admin/products');
 		} catch (error) {
-			console.error('Error saving product:', error);
-			alert('Ошибка при сохранении товара');
-		} finally {
+			} finally {
 			setSaving(false);
 		}
 	};
@@ -279,7 +270,6 @@ export const AdminProductFormPage: React.FC = () => {
 				allowedExtensions.some(ext => fileName.endsWith(ext));
 
 			if (!isValidType) {
-				alert('Пожалуйста, выберите файл поддерживаемого формата: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, TXT');
 				return;
 			}
 

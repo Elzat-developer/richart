@@ -15,12 +15,9 @@ export const HouseholdProductsBlock: React.FC = () => {
 			try {
 				setLoading(true);
 				setError(null);
-				console.log('🔄 Loading household products from ApiService...');
 				const productsData = await ApiService.getProducts('household');
-				console.log('📦 Household products loaded:', productsData);
 				setProducts(productsData);
 			} catch (err) {
-				console.error('❌ Error loading household products:', err);
 				setError('Не удалось загрузить товары');
 			} finally {
 				setLoading(false);
