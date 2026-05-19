@@ -222,7 +222,7 @@ export const HomePage: React.FC = () => {
 									<p>
 										<span className="text-gray-600">Телефон:</span>{' '}
 										<a href="tel:+77472164664" className="text-emerald-600 font-semibold hover:text-emerald-700">
-											+7 747 216 4664
+										{company?.phone || '+7 747 216 4664'}
 										</a>
 									</p>
 									<p>
