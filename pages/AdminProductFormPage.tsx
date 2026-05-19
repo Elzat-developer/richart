@@ -31,7 +31,6 @@ export const AdminProductFormPage: React.FC = () => {
 	const [loading, setLoading] = useState(false);
 	const [saving, setSaving] = useState(false);
 	const [categories, setCategories] = useState<BackendCategoryDto[]>([]);
-	const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof CreateProductDto, string>>>({});
 	const [loadingCategories, setLoadingCategories] = useState(false);
 	const [specEntries, setSpecEntries] = useState<SpecEntry[]>([]);
 
@@ -124,53 +123,8 @@ export const AdminProductFormPage: React.FC = () => {
 		loadCategories(formData.productType);
 	}, [formData.productType]);
 
-	const validateForm = (): boolean => {
-		const errors: Partial<Record<keyof CreateProductDto, string>> = {};
-
-		if (!formData.productName.trim()) {
-			errors.productName = 'Название товара обязательно';
-		}
-
-		if (!formData.description.trim()) {
-			errors.description = 'Описание обязательно';
-		}
-
-		if (!formData.tag.trim()) {
-			errors.tag = 'Артикул обязателен';
-		}
-
-		if (formData.price <= 0) {
-			errors.price = 'Цена должна быть больше 0';
-		}
-
-		if (!formData.material.trim()) {
-			errors.material = 'Материал обязателен';
-		}
-
-		if (!formData.dimensions.trim()) {
-			errors.dimensions = 'Габариты обязательны';
-		}
-
-		if (formData.weight <= 0) {
-			errors.weight = 'Вес должен быть больше 0';
-		}
-
-		if (formData.categoryId === 0) {
-			errors.categoryId = 'Выберите категорию';
-		}
-
-		if (formData.quantity < 0) {
-			errors.quantity = 'Количество не может быть отрицательным';
-		}
-
-		setValidationErrors(errors);
-		return Object.keys(errors).length === 0;
-	};
-
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-
-		if (!validateForm()) return;
 
 		setSaving(true);
 		const specifications = entriesToSpecsRecord(specEntries);
@@ -243,20 +197,10 @@ export const AdminProductFormPage: React.FC = () => {
 				[field]: value,
 				categoryId: 0  // Сбрасываем категорию при смене типа
 			}));
-
-			// Очищаем ошибку категории
-			if (validationErrors.categoryId) {
-				setValidationErrors(prev => ({ ...prev, categoryId: undefined }));
-			}
 			return;
 		}
 
 		setFormData(prev => ({ ...prev, [field]: value }));
-
-		// Очищаем ошибку при вводе
-		if (validationErrors[field]) {
-			setValidationErrors(prev => ({ ...prev, [field]: undefined }));
-		}
 	};
 
 	const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -354,64 +298,52 @@ export const AdminProductFormPage: React.FC = () => {
 							<div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2">
 								<div>
 									<label htmlFor="productName" className="block text-sm font-medium text-gray-700">
-										Название товара *
+										Название товара
 									</label>
 									<input
 										type="text"
 										id="productName"
 										value={formData.productName}
 										onChange={handleChange('productName')}
-										className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent ${validationErrors.productName ? 'border-red-500' : 'border-gray-300'
-											}`}
+										className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent"
 										placeholder="Промышленный стол"
 									/>
-									{validationErrors.productName && (
-										<p className="mt-1 text-sm text-red-500">{validationErrors.productName}</p>
-									)}
 								</div>
 
 								<div>
 									<label htmlFor="tag" className="block text-sm font-medium text-gray-700">
-										Артикул *
+										Артикул
 									</label>
 									<input
 										type="text"
 										id="tag"
 										value={formData.tag}
 										onChange={handleChange('tag')}
-										className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent ${validationErrors.tag ? 'border-red-500' : 'border-gray-300'
-											}`}
+										className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent"
 										placeholder="IND-001"
 									/>
-									{validationErrors.tag && (
-										<p className="mt-1 text-sm text-red-500">{validationErrors.tag}</p>
-									)}
 								</div>
 							</div>
 
 							<div className="mt-6">
 								<label htmlFor="description" className="block text-sm font-medium text-gray-700">
-									Описание *
+									Описание
 								</label>
 								<textarea
 									id="description"
 									rows={4}
 									value={formData.description}
 									onChange={handleChange('description')}
-									className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent ${validationErrors.description ? 'border-red-500' : 'border-gray-300'
-										}`}
+									className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent"
 									placeholder="Подробное описание товара..."
 								/>
-								{validationErrors.description && (
-									<p className="mt-1 text-sm text-red-500">{validationErrors.description}</p>
-								)}
 							</div>
 						</div>
 
 						{/* Category */}
 						<div>
 							<label htmlFor="categoryId" className="block text-sm font-medium text-gray-700">
-								Категория *
+								Категория
 								<span className="ml-2 text-xs text-gray-500">
 									({formData.productType === 'industrial' ? 'Промышленные' : 'Бытовые'} товары)
 								</span>
@@ -421,11 +353,10 @@ export const AdminProductFormPage: React.FC = () => {
 								value={formData.categoryId}
 								onChange={handleChange('categoryId')}
 								disabled={loadingCategories}
-								className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent ${validationErrors.categoryId ? 'border-red-500' : 'border-gray-300'
-									} ${loadingCategories ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+								className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent ${loadingCategories ? 'bg-gray-100 cursor-not-allowed' : ''}`}
 							>
 								<option value={0}>
-									{loadingCategories ? 'Загрузка...' : 'Выберите категорию'}
+									{loadingCategories ? 'Загрузка...' : 'Без категории'}
 								</option>
 								{categories.map(category => (
 									<option key={category.categoryId} value={category.categoryId}>
@@ -433,9 +364,6 @@ export const AdminProductFormPage: React.FC = () => {
 									</option>
 								))}
 							</select>
-							{validationErrors.categoryId && (
-								<p className="mt-1 text-sm text-red-500">{validationErrors.categoryId}</p>
-							)}
 							{categories.length === 0 && !loadingCategories && (
 								<p className="mt-1 text-sm text-gray-500">
 									Для типа "{formData.productType === 'industrial' ? 'Промышленный' : 'Бытовой'}" категорий не найдено
@@ -449,97 +377,74 @@ export const AdminProductFormPage: React.FC = () => {
 							<div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2">
 								<div>
 									<label htmlFor="price" className="block text-sm font-medium text-gray-700">
-										Цена (₸) *
+										Цена (₸)
 									</label>
 									<input
 										type="number"
 										id="price"
 										step="0.01"
-										min="0"
 										value={formData.price}
 										onChange={handleChange('price')}
-										className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent ${validationErrors.price ? 'border-red-500' : 'border-gray-300'
-											}`}
+										className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent"
 										placeholder="150.00"
 									/>
-									{validationErrors.price && (
-										<p className="mt-1 text-sm text-red-500">{validationErrors.price}</p>
-									)}
 								</div>
 
 								<div>
 									<label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
-										Количество на складе *
+										Количество на складе
 									</label>
 									<input
 										type="number"
 										id="quantity"
-										min="0"
 										value={formData.quantity}
 										onChange={handleChange('quantity')}
-										className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent ${validationErrors.quantity ? 'border-red-500' : 'border-gray-300'
-											}`}
+										className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent"
 										placeholder="10"
 									/>
-									{validationErrors.quantity && (
-										<p className="mt-1 text-sm text-red-500">{validationErrors.quantity}</p>
-									)}
 								</div>
 
 								<div>
 									<label htmlFor="material" className="block text-sm font-medium text-gray-700">
-										Материал *
+										Материал
 									</label>
 									<input
 										type="text"
 										id="material"
 										value={formData.material}
 										onChange={handleChange('material')}
-										className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent ${validationErrors.material ? 'border-red-500' : 'border-gray-300'
-											}`}
+										className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent"
 										placeholder="Сталь"
 									/>
-									{validationErrors.material && (
-										<p className="mt-1 text-sm text-red-500">{validationErrors.material}</p>
-									)}
 								</div>
 
 								<div>
 									<label htmlFor="dimensions" className="block text-sm font-medium text-gray-700">
-										Габариты *
+										Габариты
 									</label>
 									<input
 										type="text"
 										id="dimensions"
 										value={formData.dimensions}
 										onChange={handleChange('dimensions')}
-										className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent ${validationErrors.dimensions ? 'border-red-500' : 'border-gray-300'
-											}`}
+										className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent"
 										placeholder="120x60x90 см"
 									/>
-									{validationErrors.dimensions && (
-										<p className="mt-1 text-sm text-red-500">{validationErrors.dimensions}</p>
-									)}
 								</div>
 
 								<div>
 									<label htmlFor="weight" className="block text-sm font-medium text-gray-700">
-										Вес (кг) *
+										Вес (кг)
 									</label>
 									<input
 										type="number"
 										id="weight"
 										step="0.1"
-										min="0"
 										value={formData.weight}
 										onChange={handleChange('weight')}
-										className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent ${validationErrors.weight ? 'border-red-500' : 'border-gray-300'
-											}`}
+										className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent"
 										placeholder="45.5"
 									/>
-									{validationErrors.weight && (
-										<p className="mt-1 text-sm text-red-500">{validationErrors.weight}</p>
-									)}
 								</div>
 
 								{/* Дополнительные размеры */}
