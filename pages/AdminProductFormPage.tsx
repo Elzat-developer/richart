@@ -4,6 +4,24 @@ import { useAdminAuth } from '../context/AdminAuthContext';
 import { AdminApiService } from '../services/adminApi';
 import { CreateProductDto, GetProductDto, BackendCategoryDto } from '../types';
 
+type SpecEntry = { id: string; name: string; value: string };
+
+const specsRecordToEntries = (specs?: Record<string, string>): SpecEntry[] => {
+	if (!specs) return [];
+	return Object.entries(specs).map(([name, value]) => ({
+		id: crypto.randomUUID(),
+		name,
+		value: value ?? '',
+	}));
+};
+
+const entriesToSpecsRecord = (entries: SpecEntry[]): Record<string, string> =>
+	entries.reduce<Record<string, string>>((acc, { name, value }) => {
+		const trimmed = name.trim();
+		if (trimmed) acc[trimmed] = value;
+		return acc;
+	}, {});
+
 export const AdminProductFormPage: React.FC = () => {
 	const { id } = useParams<{ id?: string }>();
 	const navigate = useNavigate();
@@ -15,6 +33,7 @@ export const AdminProductFormPage: React.FC = () => {
 	const [categories, setCategories] = useState<BackendCategoryDto[]>([]);
 	const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof CreateProductDto, string>>>({});
 	const [loadingCategories, setLoadingCategories] = useState(false);
+	const [specEntries, setSpecEntries] = useState<SpecEntry[]>([]);
 
 	// Функция для загрузки категорий по типу
 	const loadCategories = async (type: 'industrial' | 'household') => {
@@ -89,6 +108,7 @@ export const AdminProductFormPage: React.FC = () => {
 						active: productData.active !== undefined ? productData.active : true,
 						photos: [] // При редактировании начинаем с пустого массива фото
 					});
+					setSpecEntries(specsRecordToEntries(productData.specifications));
 				}
 			} catch (error) {
 				} finally {
@@ -153,6 +173,7 @@ export const AdminProductFormPage: React.FC = () => {
 		if (!validateForm()) return;
 
 		setSaving(true);
+		const specifications = entriesToSpecsRecord(specEntries);
 		try {
 			if (isEditing && id) {
 				await AdminApiService.editProduct({
@@ -170,7 +191,7 @@ export const AdminProductFormPage: React.FC = () => {
 					power: formData.power,
 					voltage: formData.voltage,
 					country: formData.country,
-					specifications: formData.specifications,
+					specifications,
 					categoryId: formData.categoryId,
 					quantity: formData.quantity,
 					productType: formData.productType,
@@ -179,8 +200,8 @@ export const AdminProductFormPage: React.FC = () => {
 					techSpecFile: formData.techSpecFile // Файл технических спецификаций
 				});
 			} else {
-				await AdminApiService.createProduct(formData);
-				}
+				await AdminApiService.createProduct({ ...formData, specifications });
+			}
 
 			// Показываем сообщение об успехе
 			// Перенаправляем обратно к списку товаров
@@ -653,20 +674,22 @@ export const AdminProductFormPage: React.FC = () => {
 						<div>
 							<h3 className="text-base sm:text-lg font-medium text-gray-900 mb-3 sm:mb-4">Дополнительные характеристики</h3>
 							<div className="space-y-4">
-								{formData.specifications && Object.entries(formData.specifications).map(([key, value]) => (
-									<div key={key} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+								{specEntries.map((entry) => (
+									<div key={entry.id} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 										<div>
 											<label className="block text-sm font-medium text-gray-700">
 												Название характеристики
 											</label>
 											<input
 												type="text"
-												value={key}
+												value={entry.name}
 												onChange={(e) => {
-													const newSpecs = { ...formData.specifications };
-													delete newSpecs[key];
-													newSpecs[e.target.value] = value;
-													setFormData(prev => ({ ...prev, specifications: newSpecs }));
+													const name = e.target.value;
+													setSpecEntries((prev) =>
+														prev.map((item) =>
+															item.id === entry.id ? { ...item, name } : item
+														)
+													);
 												}}
 												className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent border-gray-300"
 											/>
@@ -677,15 +700,14 @@ export const AdminProductFormPage: React.FC = () => {
 											</label>
 											<input
 												type="text"
-												value={value}
+												value={entry.value}
 												onChange={(e) => {
-													setFormData(prev => ({
-														...prev,
-														specifications: {
-															...prev.specifications,
-															[key]: e.target.value
-														}
-													}));
+													const value = e.target.value;
+													setSpecEntries((prev) =>
+														prev.map((item) =>
+															item.id === entry.id ? { ...item, value } : item
+														)
+													);
 												}}
 												className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent border-gray-300"
 											/>
@@ -694,9 +716,7 @@ export const AdminProductFormPage: React.FC = () => {
 											<button
 												type="button"
 												onClick={() => {
-													const newSpecs = { ...formData.specifications };
-													delete newSpecs[key];
-													setFormData(prev => ({ ...prev, specifications: newSpecs }));
+													setSpecEntries((prev) => prev.filter((item) => item.id !== entry.id));
 												}}
 												className="px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm"
 											>
@@ -706,18 +726,13 @@ export const AdminProductFormPage: React.FC = () => {
 									</div>
 								))}
 
-								{/* Кнопка добавления новой характеристики */}
 								<button
 									type="button"
 									onClick={() => {
-										const newKey = `характеристика_${Object.keys(formData.specifications || {}).length + 1}`;
-										setFormData(prev => ({
+										setSpecEntries((prev) => [
 											...prev,
-											specifications: {
-												...prev.specifications,
-												[newKey]: ''
-											}
-										}));
+											{ id: crypto.randomUUID(), name: '', value: '' },
+										]);
 									}}
 									className="px-4 py-2 bg-industrial-accent text-white rounded-md hover:bg-orange-700 text-sm"
 								>
