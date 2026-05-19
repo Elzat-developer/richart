@@ -19,6 +19,14 @@ import {
 	CheckIcon
 } from '../components/Icons';
 
+const DESCRIPTION_PREVIEW_LENGTH = 20;
+
+const truncateDescription = (text: string, maxLength = DESCRIPTION_PREVIEW_LENGTH): string => {
+	if (!text) return '';
+	if (text.length <= maxLength) return text;
+	return `${text.slice(0, maxLength)}...`;
+};
+
 export const AdminCategoriesPage: React.FC = () => {
 	const { admin } = useAdminAuth();
 	const [searchParams] = useSearchParams();
@@ -37,6 +45,7 @@ export const AdminCategoriesPage: React.FC = () => {
 	const [validationErrors, setValidationErrors] = useState<Partial<CreateCategoryDto>>({});
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(viewMode === 'table' ? 20 : 12); // Больше элементов в таблице
+	const [viewingCategory, setViewingCategory] = useState<BackendCategoryDto | null>(null);
 
 	// Функция для получения URL фото из данных категории
 	const getCategoryPhotoFromData = (category: BackendCategoryDto): string => {
@@ -68,6 +77,15 @@ export const AdminCategoriesPage: React.FC = () => {
 		setItemsPerPage(viewMode === 'table' ? 20 : 12);
 		setCurrentPage(1); // Сбрасываем на первую страницу
 	}, [viewMode]);
+
+	useEffect(() => {
+		if (!viewingCategory) return;
+		const prevOverflow = document.body.style.overflow;
+		document.body.style.overflow = 'hidden';
+		return () => {
+			document.body.style.overflow = prevOverflow;
+		};
+	}, [viewingCategory]);
 
 	const loadCategories = async () => {
 		try {
@@ -326,6 +344,122 @@ export const AdminCategoriesPage: React.FC = () => {
 						</div>
 					</div>
 				</div>
+				{/* Category details modal */}
+				{viewingCategory && (
+					<div
+						className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+						onClick={() => setViewingCategory(null)}
+						role="dialog"
+						aria-modal="true"
+						aria-labelledby="category-detail-title"
+					>
+						<div
+							className="bg-white rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-xl"
+							onClick={(e) => e.stopPropagation()}
+						>
+							<div className="flex justify-between items-start p-4 sm:p-6 border-b border-gray-100">
+								<h3 id="category-detail-title" className="text-lg font-bold text-gray-900 pr-4">
+									{viewingCategory.categoryName}
+								</h3>
+								<button
+									type="button"
+									onClick={() => setViewingCategory(null)}
+									className="text-gray-400 hover:text-gray-600 shrink-0"
+									aria-label="Закрыть"
+								>
+									<XIcon className="h-5 w-5" />
+								</button>
+							</div>
+
+							<div className="h-48 sm:h-56 bg-gradient-to-br from-industrial-50 to-blue-50 flex items-center justify-center p-4">
+								<img
+									src={getCategoryPhotoUrl(viewingCategory.photoUrl || '')}
+									alt={viewingCategory.categoryName}
+									className="max-w-full max-h-full object-contain"
+									onError={(e) => {
+										(e.target as HTMLImageElement).src = `https://picsum.photos/400/300?error=${viewingCategory.categoryId}`;
+									}}
+								/>
+							</div>
+
+							<div className="p-4 sm:p-6 space-y-4">
+								<dl className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+									<div>
+										<dt className="text-gray-500 font-medium">ID</dt>
+										<dd className="text-gray-900 font-mono mt-0.5">{viewingCategory.categoryId}</dd>
+									</div>
+									<div>
+										<dt className="text-gray-500 font-medium">Тип</dt>
+										<dd className="mt-0.5">
+											<span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${viewingCategory.categoryType === 'industrial'
+												? 'bg-industrial-100 text-industrial-accent'
+												: 'bg-blue-100 text-blue-800'
+												}`}>
+												{viewingCategory.categoryType === 'industrial' ? 'Промышленная' : 'Бытовая'}
+											</span>
+										</dd>
+									</div>
+									<div>
+										<dt className="text-gray-500 font-medium">Статус</dt>
+										<dd className="text-gray-900 mt-0.5">{showArchived ? 'Архивная' : 'Активная'}</dd>
+									</div>
+									{viewingCategory.photoUrl && (
+										<div className="sm:col-span-2">
+											<dt className="text-gray-500 font-medium">Фото (путь)</dt>
+											<dd className="text-gray-900 mt-0.5 break-all text-xs font-mono">{viewingCategory.photoUrl}</dd>
+										</div>
+									)}
+								</dl>
+
+								<div>
+									<p className="text-sm text-gray-500 font-medium mb-1">Описание</p>
+									<p className="text-sm text-gray-900 leading-relaxed whitespace-pre-wrap">
+										{viewingCategory.description || '—'}
+									</p>
+								</div>
+
+								<div className="flex flex-col sm:flex-row gap-2 pt-2 border-t border-gray-100">
+									<button
+										type="button"
+										onClick={() => {
+											setViewingCategory(null);
+											handleEdit(viewingCategory);
+										}}
+										className="flex-1 inline-flex items-center justify-center px-4 py-2 bg-industrial-accent text-white text-sm font-medium rounded-lg hover:bg-orange-600"
+									>
+										<EditIcon className="h-4 w-4 mr-2" />
+										Редактировать
+									</button>
+									{showArchived && (
+										<button
+											type="button"
+											onClick={() => {
+												handleActivateCategory(viewingCategory.categoryId);
+												setViewingCategory(null);
+											}}
+											className="flex-1 inline-flex items-center justify-center px-4 py-2 bg-green-500 text-white text-sm font-medium rounded-lg hover:bg-green-600"
+										>
+											<CheckIcon className="h-4 w-4 mr-2" />
+											Активировать
+										</button>
+									)}
+									<button
+										type="button"
+										onClick={() => {
+											setViewingCategory(null);
+											handleDelete(viewingCategory.categoryId);
+										}}
+										className="flex-1 inline-flex items-center justify-center px-4 py-2 bg-red-50 text-red-600 text-sm font-medium rounded-lg hover:bg-red-100 border border-red-200"
+									>
+										<TrashIcon className="h-4 w-4 mr-2" />
+										Удалить
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				)}
+
 				{/* Create/Edit Form Modal */}
 				{showCreateForm && (
 					<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -509,84 +643,84 @@ export const AdminCategoriesPage: React.FC = () => {
 							{viewMode === 'grid' ? (
 								/* Categories Grid */
 								<div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-6 lg:gap-8">
-									{currentCategories.map((category) => (
-										<div key={category.categoryId} className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 overflow-hidden border border-gray-100">
-											{/* Фото категории с градиентом */}
-											<div className="relative h-32 sm:h-56 sm:h-64 overflow-hidden bg-gradient-to-br from-industrial-50 to-blue-50">
-												<div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+									{currentCategories.map((category) => {
+									const descriptionPreview = truncateDescription(category.description);
+									const hasLongDescription = (category.description?.length ?? 0) > DESCRIPTION_PREVIEW_LENGTH;
+
+									return (
+									<div key={category.categoryId} className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col">
+										<button
+											type="button"
+											onClick={() => setViewingCategory(category)}
+											className="text-left flex flex-col flex-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-industrial-accent focus-visible:ring-inset"
+										>
+											<div className="relative h-36 sm:h-44 shrink-0 bg-gradient-to-br from-industrial-50 to-blue-50 flex items-center justify-center p-3">
 												<img
 													src={getCategoryPhotoUrl(category.photoUrl || '')}
 													alt={category.categoryName}
-													className="w-full h-full object-contain sm:object-cover group-hover:scale-110 transition-transform duration-500"
+													className="max-w-full max-h-full w-auto h-auto object-contain"
 													onError={(e) => {
 														(e.target as HTMLImageElement).src = `https://picsum.photos/400/300?error=${category.categoryId}`;
 													}}
 												/>
-												{/* Бейдж типа категории */}
-												<div className="absolute top-2 right-2 sm:top-3 sm:right-3">
-													<span className={`inline-flex items-center px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs font-medium backdrop-blur-sm ${category.categoryType === 'industrial'
-														? 'bg-industrial-600/90 text-white'
-														: 'bg-blue-600/90 text-white'
-														}`}>
-														<span className="hidden sm:inline">{category.categoryType === 'industrial' ? '🏭 Промышленная' : '🏠 Бытовая'}</span>
-														<span className="sm:hidden">{category.categoryType === 'industrial' ? '🏭' : '🏠'}</span>
+												<div className="absolute top-2 right-2 pointer-events-none">
+													<span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium backdrop-blur-sm ${category.categoryType === 'industrial' ? 'bg-industrial-600/90 text-white' : 'bg-blue-600/90 text-white'}`}>
+														{category.categoryType === 'industrial' ? '🏭' : '🏠'}
 													</span>
 												</div>
 											</div>
 
-											<div className="p-3 sm:p-5 sm:p-6">
-												{/* ID категории */}
-												<div className="flex items-center justify-between mb-2 sm:mb-3">
-													<span className="inline-flex items-center px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-xs font-mono bg-gray-100 text-gray-600 border border-gray-200">
-														<span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-industrial-accent rounded-full mr-1 sm:mr-2"></span>
-														ID: {category.categoryId}
-													</span>
-												</div>
-
-												{/* Название категории */}
-												<h3 className="text-sm sm:text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 line-clamp-2 group-hover:text-industrial-accent transition-colors duration-300">
+											<div className="p-3 sm:p-4 flex-1">
+												<span className="inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-mono bg-gray-100 text-gray-600 border border-gray-200 mb-2">
+													ID: {category.categoryId}
+												</span>
+												<h3 className="text-sm sm:text-base font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-industrial-accent">
 													{category.categoryName}
 												</h3>
-
-												{/* Описание */}
-												<p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-5 line-clamp-2 leading-relaxed hidden sm:block">
-													{category.description}
+												<p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
+													{descriptionPreview || '—'}
 												</p>
-
-												{/* Кнопки действий */}
-												<div className="space-y-2 sm:space-y-3">
-													<div className="flex gap-1 sm:gap-2">
-														<button
-															onClick={() => handleEdit(category)}
-															className="flex-1 inline-flex items-center justify-center px-2 sm:px-4 py-1.5 sm:py-2.5 bg-industrial-accent text-white text-xs sm:text-sm font-medium rounded-lg sm:rounded-xl hover:bg-orange-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
-														>
-															<EditIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-															<span className="hidden xs:inline sm:inline">Редактировать</span>
-															<span className="xs:hidden sm:hidden">✏️</span>
-														</button>
-														{showArchived && (
-															<button
-																onClick={() => handleActivateCategory(category.categoryId)}
-																className="inline-flex items-center justify-center px-1.5 sm:px-3 py-1.5 sm:py-2.5 bg-green-500 text-white text-xs sm:text-sm font-medium rounded-lg sm:rounded-xl hover:bg-green-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
-																title="Активировать категорию"
-															>
-																<CheckIcon className="h-3 w-3 sm:h-4 sm:w-4" />
-															</button>
-														)}
-													</div>
-
-													<button
-														onClick={() => handleDelete(category.categoryId)}
-														className="w-full inline-flex items-center justify-center px-2 sm:px-4 py-1.5 sm:py-2.5 bg-red-50 text-red-600 text-xs sm:text-sm font-medium rounded-lg sm:rounded-xl hover:bg-red-100 transition-all duration-300 border border-red-200"
-													>
-														<TrashIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-														<span className="hidden sm:inline">Удалить категорию</span>
-														<span className="sm:hidden">🗑️</span>
-													</button>
-												</div>
+												{hasLongDescription && (
+													<span className="mt-1 block text-xs text-industrial-accent font-medium">
+														Нажмите, чтобы прочитать полностью →
+													</span>
+												)}
 											</div>
+										</button>
+
+										<div className="p-3 sm:p-4 pt-0 space-y-2">
+											<div className="flex gap-1 sm:gap-2">
+												<button
+													type="button"
+													onClick={() => handleEdit(category)}
+													className="flex-1 inline-flex items-center justify-center px-2 sm:px-4 py-1.5 sm:py-2.5 bg-industrial-accent text-white text-xs sm:text-sm font-medium rounded-lg hover:bg-orange-600"
+												>
+													<EditIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+													<span className="hidden sm:inline">Редактировать</span>
+												</button>
+												{showArchived && (
+													<button
+														type="button"
+														onClick={() => handleActivateCategory(category.categoryId)}
+														className="inline-flex items-center justify-center px-2 py-1.5 sm:py-2.5 bg-green-500 text-white text-xs sm:text-sm font-medium rounded-lg hover:bg-green-600"
+														title="Активировать категорию"
+													>
+														<CheckIcon className="h-4 w-4" />
+													</button>
+												)}
+											</div>
+											<button
+												type="button"
+												onClick={() => handleDelete(category.categoryId)}
+												className="w-full inline-flex items-center justify-center px-2 py-1.5 sm:py-2.5 bg-red-50 text-red-600 text-xs sm:text-sm font-medium rounded-lg hover:bg-red-100 border border-red-200"
+											>
+												<TrashIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+												<span className="hidden sm:inline">Удалить</span>
+											</button>
 										</div>
-									))}
+									</div>
+									);
+								})}
 								</div>
 							) : (
 								/* Categories Table */
@@ -649,9 +783,14 @@ export const AdminCategoriesPage: React.FC = () => {
 															</span>
 														</td>
 														<td className="px-6 py-4">
-															<div className="text-sm text-gray-900 max-w-xs truncate">
-																{category.description}
-															</div>
+															<button
+																type="button"
+																onClick={() => setViewingCategory(category)}
+																className="text-sm text-gray-900 max-w-xs text-left truncate hover:text-industrial-accent"
+																title="Показать полностью"
+															>
+																{truncateDescription(category.description) || '—'}
+															</button>
 														</td>
 														<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
 															<div className="flex items-center justify-end space-x-2">
@@ -759,3 +898,4 @@ export const AdminCategoriesPage: React.FC = () => {
 		</div>
 	);
 };
+
