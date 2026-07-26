@@ -70,12 +70,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 				</Link>
 
 				{/* B2B информация о цене */}
-				<div className="flex items-center justify-between border-t border-slate-100 pt-2 sm:pt-4 mt-auto">
-					<div className="flex-1">
+				<div className="flex flex-col sm:flex-row sm:items-center justify-between border-t border-slate-100 pt-2 sm:pt-4 mt-auto">
+					<div className="flex-1 min-w-0">
 						<div className="text-xs text-slate-500 uppercase tracking-wide font-medium mb-1">
 							Цена
 						</div>
-						<div className="text-sm sm:text-xl font-bold text-slate-900">
+						<div className="text-sm sm:text-lg font-bold text-slate-900 whitespace-nowrap overflow-hidden overflow-ellipsis">
 							{(product as any).productPrice || (product as any).price ?
 								`${new Intl.NumberFormat('ru-KZ').format((product as any).productPrice || (product as any).price)} ₸` :
 								'По запросу'
@@ -84,11 +84,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 					</div>
 
 					{/* B2B кнопка действий */}
-					<div className="flex flex-col gap-1 sm:gap-2 ml-2 sm:ml-4">
+					<div className="flex flex-col gap-1 sm:gap-2 mt-3 sm:mt-0 ml-0 sm:ml-4 w-full sm:w-auto">
 						<button
 							onClick={handleAddToCart}
 							disabled={isAdding}
-							className="bg-emerald-600 text-white hover:bg-emerald-700 disabled:bg-emerald-400 disabled:cursor-not-allowed px-2 sm:px-4 py-1.5 sm:py-2 rounded-md transition-colors flex items-center justify-center text-xs sm:text-sm font-medium"
+							className="w-full sm:w-auto bg-emerald-600 text-white hover:bg-emerald-700 disabled:bg-emerald-400 disabled:cursor-not-allowed px-2 sm:px-4 py-1.5 sm:py-2 rounded-md transition-colors flex items-center justify-center text-xs sm:text-sm font-medium"
 							title="Добавить в корзину"
 						>
 							{isAdding ? (
