@@ -12,7 +12,7 @@ export const CatalogPage: React.FC = () => {
 	const [showMobileFilter, setShowMobileFilter] = useState(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [currentPage, setCurrentPage] = useState(1);
-	const itemsPerPage = 4;
+	const itemsPerPage = 15;
 
 	useEffect(() => {
 		if (!showMobileFilter) return;
@@ -44,16 +44,29 @@ export const CatalogPage: React.FC = () => {
 			setLoading(true);
 			try {
 				const params = {
-					categoryId: searchParams.get('categoryId'),
-					minPrice: searchParams.get('minPrice'),
-					maxPrice: searchParams.get('maxPrice'),
-					material: searchParams.get('material'),
+					categoryId: searchParams.get('categoryId') || undefined,
+					minPrice: searchParams.get('minPrice') || undefined,
+					maxPrice: searchParams.get('maxPrice') || undefined,
+					material: searchParams.get('material') || undefined,
 					productType: 'industrial' as const,
 					active: true
 				};
 
 				const data = await ApiService.getFilteredProducts(params);
 				setProducts(data);
+
+				const requestedPage = Number(searchParams.get('page') || '1');
+				const totalPagesAfterLoad = Math.max(1, Math.ceil(data.length / itemsPerPage));
+				const normalizedPage = Number.isNaN(requestedPage) || requestedPage < 1
+					? 1
+					: Math.min(requestedPage, totalPagesAfterLoad);
+
+				setCurrentPage(normalizedPage);
+				if (normalizedPage !== requestedPage) {
+					const nextSearchParams = new URLSearchParams(searchParams);
+					nextSearchParams.set('page', String(normalizedPage));
+					setSearchParams(nextSearchParams, { replace: true });
+				}
 			} catch (error) {
 			} finally {
 				setLoading(false);
@@ -139,14 +152,14 @@ export const CatalogPage: React.FC = () => {
 					</div>
 
 					{loading ? (
-						<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 animate-pulse">
-							{[...Array(4)].map((_, i) => (
+						<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 animate-pulse">
+							{[...Array(10)].map((_, i) => (
 								<div key={i} className="bg-gray-200 h-96 w-full"></div>
 							))}
 						</div>
 					) : products.length > 0 ? (
 						<>
-							<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+							<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
 								{paginatedProducts.map(product => (
 									<ProductCard key={product.productId} product={product} />
 								))}
