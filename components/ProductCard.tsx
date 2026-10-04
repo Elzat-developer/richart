@@ -29,8 +29,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 		try {
 			await ApiService.addToCart(product.productId, 1);
 			await refreshCart();
-			} catch (error) {
-			} finally {
+		} catch (error) {
+		} finally {
 			setIsAdding(false);
 		}
 	};

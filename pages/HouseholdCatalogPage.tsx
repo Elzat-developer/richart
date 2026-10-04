@@ -193,8 +193,8 @@ export const HouseholdCatalogPage: React.FC = () => {
 												key={page}
 												onClick={() => handlePageChange(page)}
 												className={`min-w-10 rounded-lg px-3 py-2 text-sm font-semibold transition ${safeCurrentPage === page
-												? 'bg-emerald-600 text-white shadow-sm'
-												: 'border border-slate-300 text-slate-700 hover:border-emerald-500 hover:text-emerald-600'}`}
+													? 'bg-emerald-600 text-white shadow-sm'
+													: 'border border-slate-300 text-slate-700 hover:border-emerald-500 hover:text-emerald-600'}`}
 											>
 												{page}
 											</button>
