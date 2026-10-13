@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ApiService } from '../services/api';
 import { OrderHistoryUserDto } from '../types';
 
 const OrdersPage: React.FC = () => {
+	const navigate = useNavigate();
 	const [orders, setOrders] = useState<OrderHistoryUserDto[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -252,7 +253,7 @@ const OrdersPage: React.FC = () => {
 												</a>
 											)}
 											<button
-												onClick={() => window.location.href = `/catalog`}
+												onClick={() => navigate('/catalog')}
 												className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
 											>
 												Каталог
@@ -275,7 +276,7 @@ const OrdersPage: React.FC = () => {
 								Для указанного номера телефона заказов не найдено
 							</p>
 							<button
-								onClick={() => window.location.href = '/catalog'}
+								onClick={() => navigate('/catalog')}
 								className="bg-emerald-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-emerald-700 transition-colors"
 							>
 								Перейти в каталог

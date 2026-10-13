@@ -24,6 +24,14 @@ export const HouseholdFilterSidebar: React.FC<HouseholdFilterSidebarProps> = ({ 
 	const [maxPrice, setMaxPrice] = useState(searchParams.get('maxPrice') || '');
 
 	useEffect(() => {
+		setMinPrice(searchParams.get('minPrice') || '');
+		setMaxPrice(searchParams.get('maxPrice') || '');
+		if (!searchParams.get('categoryId')) {
+			setCategorySearch('');
+		}
+	}, [searchParams]);
+
+	useEffect(() => {
 		ApiService.getCategories(categoryType as 'industrial' | 'household').then(setCategories);
 	}, [categoryType]);
 

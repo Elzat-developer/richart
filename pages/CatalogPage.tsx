@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { FilterSidebar } from '../components/FilterSidebar';
 import { FilterIcon } from '../components/Icons';
 import { ProductCard } from '../components/ProductCard';
@@ -7,6 +7,7 @@ import { ApiService } from '../services/api';
 import { GetProductsUserDto } from '../types';
 
 export const CatalogPage: React.FC = () => {
+	const navigate = useNavigate();
 	const [products, setProducts] = useState<GetProductsUserDto[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [showMobileFilter, setShowMobileFilter] = useState(false);
@@ -105,6 +106,15 @@ export const CatalogPage: React.FC = () => {
 		const nextSearchParams = new URLSearchParams(searchParams);
 		nextSearchParams.set('page', String(nextPage));
 		setSearchParams(nextSearchParams, { replace: true });
+	};
+
+	const handleResetFilters = () => {
+		if (window.location.pathname !== '/' && window.location.pathname !== '') {
+			window.location.href = '/#/catalog';
+		} else {
+			setSearchParams({});
+			navigate('/catalog');
+		}
 	};
 
 	const startItem = products.length === 0 ? 0 : (safeCurrentPage - 1) * itemsPerPage + 1;
@@ -221,7 +231,7 @@ export const CatalogPage: React.FC = () => {
 						<div className="text-center py-20 bg-white border border-industrial-100">
 							<p className="text-gray-500 text-lg">Товары не найдены по выбранным фильтрам.</p>
 							<button
-								onClick={() => window.location.href = '/catalog#/catalog'}
+								onClick={handleResetFilters}
 								className="mt-4 text-industrial-accent font-bold hover:underline"
 							>
 								Сбросить все фильтры

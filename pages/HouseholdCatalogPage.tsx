@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { HouseholdFilterSidebar } from '../components/HouseholdFilterSidebar';
 import { FilterIcon } from '../components/Icons';
 import { ProductCard } from '../components/ProductCard';
@@ -7,6 +7,7 @@ import { ApiService } from '../services/api';
 import { GetProductsUserDto } from '../types';
 
 export const HouseholdCatalogPage: React.FC = () => {
+	const navigate = useNavigate();
 	const [products, setProducts] = useState<GetProductsUserDto[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [showMobileFilter, setShowMobileFilter] = useState(false);
@@ -105,6 +106,15 @@ export const HouseholdCatalogPage: React.FC = () => {
 		const nextSearchParams = new URLSearchParams(searchParams);
 		nextSearchParams.set('page', String(nextPage));
 		setSearchParams(nextSearchParams, { replace: true });
+	};
+
+	const handleResetFilters = () => {
+		if (window.location.pathname !== '/' && window.location.pathname !== '') {
+			window.location.href = '/#/household-catalog';
+		} else {
+			setSearchParams({});
+			navigate('/household-catalog');
+		}
 	};
 
 	const startItem = products.length === 0 ? 0 : (safeCurrentPage - 1) * itemsPerPage + 1;
@@ -222,7 +232,7 @@ export const HouseholdCatalogPage: React.FC = () => {
 						<div className="text-center py-20 bg-white border border-industrial-100">
 							<p className="text-gray-500 text-lg">Бытовые товары не найдены по выбранным фильтрами.</p>
 							<button
-								onClick={() => window.location.href = '/household-catalog#/household-catalog'}
+								onClick={handleResetFilters}
 								className="mt-4 text-industrial-accent font-bold hover:underline"
 							>
 								Сбросить все фильтры

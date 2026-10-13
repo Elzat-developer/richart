@@ -23,6 +23,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ className, onClose
 	const [maxPrice, setMaxPrice] = useState(searchParams.get('maxPrice') || '');
 
 	useEffect(() => {
+		setMinPrice(searchParams.get('minPrice') || '');
+		setMaxPrice(searchParams.get('maxPrice') || '');
+		if (!searchParams.get('categoryId')) {
+			setCategorySearch('');
+		}
+	}, [searchParams]);
+
+	useEffect(() => {
 		ApiService.getCategories('industrial').then(setCategories);
 	}, []);
 

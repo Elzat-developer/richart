@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { buildUrl } from '../config/api';
-import { Link, useLocation, Outlet } from 'react-router-dom';
+import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { CartProvider, useCart } from '../context/CartContext';
 import { AdminAuthProvider, useAdminAuth } from '../context/AdminAuthContext';
 import { ApiService } from '../services/api';
@@ -17,6 +17,7 @@ const getImageUrl = (url: string): string => {
 };
 
 const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean; setIsMenuOpen: (open: boolean) => void; hideOnMobile?: boolean }> = ({ company, isMenuOpen, setIsMenuOpen, hideOnMobile }) => {
+	const navigate = useNavigate();
 	const [searchQuery, setSearchQuery] = useState('');
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
@@ -108,8 +109,8 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 									value={searchQuery}
 									onChange={(e) => setSearchQuery(e.target.value)}
 									onKeyPress={(e) => {
-										if (e.key === 'Enter' && searchQuery) {
-											window.location.href = `#/catalog?search=${searchQuery}`;
+										if (e.key === 'Enter' && searchQuery.trim()) {
+											navigate(`/catalog?search=${encodeURIComponent(searchQuery.trim())}`);
 										}
 									}}
 									placeholder="Поиск по каталогу..."
@@ -180,8 +181,8 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 									value={searchQuery}
 									onChange={(e) => setSearchQuery(e.target.value)}
 									onKeyPress={(e) => {
-										if (e.key === 'Enter' && searchQuery) {
-											window.location.href = `#/catalog?search=${searchQuery}`;
+										if (e.key === 'Enter' && searchQuery.trim()) {
+											navigate(`/catalog?search=${encodeURIComponent(searchQuery.trim())}`);
 										}
 									}}
 									placeholder="Поиск по каталогу..."
