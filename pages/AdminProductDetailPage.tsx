@@ -116,7 +116,7 @@ export const AdminProductDetailPage: React.FC = () => {
 		try {
 			await AdminApiService.deleteProduct(product.productId);
 			// Перенаправляем обратно к списку товаров
-			window.location.href = '/admin/products';
+			navigate('/admin/products');
 		} catch (error) {
 			setDeleting(false);
 		}

@@ -29,7 +29,7 @@ const truncateDescription = (text: string, maxLength = DESCRIPTION_PREVIEW_LENGT
 
 export const AdminCategoriesPage: React.FC = () => {
 	const { admin } = useAdminAuth();
-	const [searchParams] = useSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams();
 	const [categories, setCategories] = useState<BackendCategoryDto[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [showCreateForm, setShowCreateForm] = useState(false);
@@ -67,10 +67,11 @@ export const AdminCategoriesPage: React.FC = () => {
 		if (createParam === 'true') {
 			setShowCreateForm(true);
 			// Очищаем URL параметр после открытия формы
-			const newUrl = window.location.pathname;
-			window.history.replaceState({}, '', newUrl);
+			const newParams = new URLSearchParams(searchParams);
+			newParams.delete('create');
+			setSearchParams(newParams, { replace: true });
 		}
-	}, [searchParams]);
+	}, [searchParams, setSearchParams]);
 
 	useEffect(() => {
 		// Обновляем количество элементов на странице при смене вида

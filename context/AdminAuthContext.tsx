@@ -55,7 +55,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     setError(null);
     
     // Перенаправляем на страницу логина
-    window.location.href = '/admin/login';
+    window.location.href = '/#/admin/login';
   }, []);
 
   const value: AuthContextType = {

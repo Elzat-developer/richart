@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { SignInRequest } from '../types';
 
@@ -141,9 +141,9 @@ export const AdminLoginPage: React.FC = () => {
 					</div>
 
 					<div className="text-center">
-						<a href="/" className="text-sm text-gray-400 hover:text-industrial-accent transition-colors">
+						<Link to="/" className="text-sm text-gray-400 hover:text-industrial-accent transition-colors">
 							← Вернуться на сайт
-						</a>
+						</Link>
 					</div>
 				</form>
 			</div>

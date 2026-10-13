@@ -20,6 +20,16 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
 	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+	<script>
+		// Normalize pathname for HashRouter (e.g. /catalog#/catalog or /catalog -> /#/catalog)
+		(function () {
+			var p = window.location.pathname;
+			if (p && p !== '/' && p !== '/index.html') {
+				var targetHash = window.location.hash || ('#' + p + window.location.search);
+				window.history.replaceState(null, '', '/' + targetHash);
+			}
+		})();
+	</script>
 	<script src="https://cdn.tailwindcss.com"></script>
 	<link
 		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@400;500;700&display=swap"

@@ -109,6 +109,7 @@ export const HouseholdCatalogPage: React.FC = () => {
 	};
 
 	const handleResetFilters = () => {
+		setCurrentPage(1);
 		if (window.location.pathname !== '/' && window.location.pathname !== '') {
 			window.location.href = '/#/household-catalog';
 		} else {

@@ -116,7 +116,7 @@ const AdminCompanyPage: React.FC = () => {
 			if (err.message === 'Требуется авторизация администратора') {
 				setError('Требуется авторизация. Перенаправляем на страницу входа...');
 				setTimeout(() => {
-					window.location.href = '/admin/login';
+					navigate('/admin/login');
 				}, 2000);
 			} else {
 				setError('Ошибка при сохранении данных компании: ' + (err.response?.data?.message || err.message));

@@ -50,7 +50,7 @@ const createAdminApiClient = (): AxiosInstance => {
 				// Токен истек, удаляем и перенаправляем на логин
 				localStorage.removeItem('adminToken');
 				localStorage.removeItem('adminUser');
-				window.location.href = '/admin/login';
+				window.location.href = '/#/admin/login';
 			}
 			return Promise.reject(error);
 		}
@@ -90,7 +90,7 @@ const createUserApiClient = (): AxiosInstance => {
 				// Токен истек, удаляем и перенаправляем на логин
 				localStorage.removeItem('adminToken');
 				localStorage.removeItem('adminUser');
-				window.location.href = '/admin/login';
+				window.location.href = '/#/admin/login';
 			}
 			return Promise.reject(error);
 		}

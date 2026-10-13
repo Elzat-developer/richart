@@ -78,7 +78,7 @@ adminClient.interceptors.response.use(
 			// Токен истек или неверный - перенаправляем на страницу логина
 			localStorage.removeItem('adminToken');
 			localStorage.removeItem('adminUser');
-			window.location.href = '/admin/login';
+			window.location.href = '/#/admin/login';
 		}
 		return Promise.reject(error);
 	}
