@@ -378,13 +378,18 @@ export const AdminProductDetailPage: React.FC = () => {
 										<div>
 											<label className="block text-sm font-medium text-gray-500">Статус</label>
 											<p className="mt-1">
-												<span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-bold ${
-													product.price === 'Нет в наличии' ? 'bg-red-100 text-red-800 border border-red-200' :
-													product.price === 'Под заказ' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
-													'bg-emerald-100 text-emerald-800 border border-emerald-200'
-												}`}>
-													{product.price || 'Уточните цену'}
-												</span>
+												{(() => {
+													const status = product.priceProductStatus || product.price || 'Уточните цену';
+													return (
+														<span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-bold ${
+															status === 'Нет в наличии' ? 'bg-red-100 text-red-800 border border-red-200' :
+															status === 'Под заказ' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
+															'bg-emerald-100 text-emerald-800 border border-emerald-200'
+														}`}>
+															{status}
+														</span>
+													);
+												})()}
 											</p>
 										</div>
 										<div className="text-right">

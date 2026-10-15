@@ -62,6 +62,7 @@ export const AdminProductFormPage: React.FC = () => {
 		productName: '',
 		description: '',
 		tag: '',
+		priceProductStatus: 'Уточните цену',
 		price: 'Уточните цену',
 		material: '',
 		dimensions: '',
@@ -85,11 +86,13 @@ export const AdminProductFormPage: React.FC = () => {
 				if (isEditing && id) {
 					setLoading(true);
 					const productData = await AdminApiService.getProduct(parseInt(id));
+					const status = productData.priceProductStatus || productData.price || 'Уточните цену';
 					setFormData({
 						productName: productData.productName || '',
 						description: productData.description || '',
 						tag: productData.tag || '',
-						price: productData.price || 'Уточните цену',
+						priceProductStatus: status,
+						price: status,
 						material: productData.material || '',
 						dimensions: productData.dimensions || '',
 						weight: productData.weight || 0,
@@ -128,6 +131,7 @@ export const AdminProductFormPage: React.FC = () => {
 
 		setSaving(true);
 		const specifications = entriesToSpecsRecord(specEntries);
+		const status = (formData.priceProductStatus || formData.price || 'Уточните цену') as any;
 		try {
 			if (isEditing && id) {
 				await AdminApiService.editProduct({
@@ -135,7 +139,8 @@ export const AdminProductFormPage: React.FC = () => {
 					productName: formData.productName,
 					description: formData.description,
 					tag: formData.tag,
-					price: formData.price,
+					priceProductStatus: status,
+					price: status,
 					material: formData.material,
 					dimensions: formData.dimensions,
 					weight: formData.weight,
@@ -154,7 +159,12 @@ export const AdminProductFormPage: React.FC = () => {
 					techSpecFile: formData.techSpecFile // Файл технических спецификаций
 				});
 			} else {
-				await AdminApiService.createProduct({ ...formData, specifications });
+				await AdminApiService.createProduct({
+					...formData,
+					priceProductStatus: status,
+					price: status,
+					specifications
+				});
 			}
 
 			// Показываем сообщение об успехе
@@ -180,7 +190,7 @@ export const AdminProductFormPage: React.FC = () => {
 		let value: any = e.target.value;
 
 		// Конвертируем в числа для нужных полей
-		if (field === 'price' || field === 'weight' || field === 'categoryId' || field === 'quantity' ||
+		if (field === 'weight' || field === 'categoryId' || field === 'quantity' ||
 			field === 'width' || field === 'depth' || field === 'height') {
 			value = Number(value);
 		}
@@ -376,13 +386,16 @@ export const AdminProductFormPage: React.FC = () => {
 							<h3 className="text-base sm:text-lg font-medium text-gray-900 mb-3 sm:mb-4">Спецификации</h3>
 							<div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2">
 								<div>
-									<label htmlFor="price" className="block text-sm font-medium text-gray-700">
+									<label htmlFor="priceProductStatus" className="block text-sm font-medium text-gray-700">
 										Статус <span className="text-red-500">*</span>
 									</label>
 									<select
-										id="price"
-										value={formData.price || 'Уточните цену'}
-										onChange={handleChange('price')}
+										id="priceProductStatus"
+										value={formData.priceProductStatus || formData.price || 'Уточните цену'}
+										onChange={(e) => {
+											const val = e.target.value as any;
+											setFormData(prev => ({ ...prev, priceProductStatus: val, price: val }));
+										}}
 										className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent bg-white font-medium text-gray-900"
 									>
 										<option value="Уточните цену">Уточните цену</option>

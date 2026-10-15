@@ -3,11 +3,14 @@ export interface GetPhotoDto {
 	photoURL: string;
 }
 
+export type PriceProductStatus = 'Уточните цену' | 'Нет в наличии' | 'Под заказ';
+
 // Интерфейс для списка товаров пользователя (упрощенный)
 export interface GetProductsUserDto {
 	productId: number;
 	productName: string;
-	productPrice: string;
+	priceProductStatus: PriceProductStatus;
+	productPrice?: PriceProductStatus; // compatibility alias
 	material: string;
 	categoryId: number;
 	productType: 'industrial' | 'household';
@@ -31,7 +34,8 @@ export interface GetProductDto {
 	productName: string;
 	description: string;
 	tag: string; // артикуль
-	price: string;
+	priceProductStatus: PriceProductStatus;
+	price?: PriceProductStatus; // compatibility alias
 	material: string;
 	dimensions: string;
 	weight: number;
@@ -57,7 +61,8 @@ export interface CreateProductDto {
 	productName: string;
 	description: string;
 	tag: string;
-	price: string;
+	priceProductStatus: PriceProductStatus;
+	price?: PriceProductStatus; // compatibility alias
 	material: string;
 	dimensions: string;
 	weight: number;
@@ -72,7 +77,8 @@ export interface EditProductDto {
 	productName: string;
 	description: string;
 	tag: string;
-	price: string;
+	priceProductStatus: PriceProductStatus;
+	price?: PriceProductStatus; // compatibility alias
 	material: string;
 	dimensions: string;
 	weight: number;
@@ -91,7 +97,8 @@ export interface BackendProductDto {
 	updatedAt: string;
 	categoryId: number;
 	material?: string;
-	price?: string;
+	priceProductStatus?: PriceProductStatus;
+	price?: PriceProductStatus;
 	photoDto?: {
 		photo_id: number;
 		photoURL: string;
@@ -104,7 +111,8 @@ export interface BackendProductDetailDto {
 	productName: string;
 	description: string;
 	tag: string;
-	price: string;
+	priceProductStatus: PriceProductStatus;
+	price?: PriceProductStatus;
 	material: string;
 	dimensions: string;
 	weight: number;
@@ -164,7 +172,8 @@ export interface CartItemDto {
 	productId: number;
 	productName: string;
 	tag: string;
-	productPrice: string; // Как в бэкенде
+	priceProductStatus: PriceProductStatus;
+	productPrice?: PriceProductStatus; // compatibility alias
 	quantity: number;
 	productActive?: boolean;
 	characteristics?: string; // Новое: детальное описание
@@ -176,6 +185,7 @@ export interface CartItemDto {
 export interface CartDto {
 	cartId: number;
 	items: CartItemDto[];
+	priceProductStatus?: PriceProductStatus;
 	totalPrice: string; // Как в бэкенде
 }
 

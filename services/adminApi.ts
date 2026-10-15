@@ -157,7 +157,8 @@ export const AdminApiService = {
 			productName: productData.productName,
 			description: productData.description,
 			tag: productData.tag,
-			price: productData.price,
+			priceProductStatus: productData.priceProductStatus || productData.price || 'Уточните цену',
+			price: productData.priceProductStatus || productData.price || 'Уточните цену',
 			material: productData.material,
 			dimensions: productData.dimensions,
 			weight: productData.weight,
@@ -202,7 +203,8 @@ export const AdminApiService = {
 		productName: string;
 		description: string;
 		tag: string;
-		price: string | number;
+		priceProductStatus?: string;
+		price?: string | number;
 		material: string;
 		dimensions: string;
 		weight: number;
@@ -228,7 +230,8 @@ export const AdminApiService = {
 			productName: productData.productName,
 			description: productData.description,
 			tag: productData.tag,
-			price: productData.price,
+			priceProductStatus: productData.priceProductStatus || productData.price || 'Уточните цену',
+			price: productData.priceProductStatus || productData.price || 'Уточните цену',
 			material: productData.material,
 			dimensions: productData.dimensions,
 			weight: productData.weight,

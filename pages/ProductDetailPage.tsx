@@ -168,7 +168,8 @@ export const ProductDetailPage: React.FC = () => {
 
 	const handleWhatsApp = () => {
 		if (product) {
-			const text = `Здравствуйте! Меня интересует ${product.productName} (Статус: ${product.price || 'Уточните цену'}). Количество: ${quantity}`;
+			const status = product.priceProductStatus || product.price || 'Уточните цену';
+			const text = `Здравствуйте! Меня интересует ${product.productName} (Статус: ${status}). Количество: ${quantity}`;
 			window.open(`https://wa.me/77472164664?text=${encodeURIComponent(text)}`, '_blank');
 		}
 	};
@@ -287,7 +288,7 @@ export const ProductDetailPage: React.FC = () => {
 						<div className="flex items-center justify-between mb-4">
 							<div>
 								<p className="text-sm text-gray-600 mb-1">Статус товара</p>
-								<div>{getStatusBadge(product.price)}</div>
+								<div>{getStatusBadge(product.priceProductStatus || product.price || 'Уточните цену')}</div>
 							</div>
 							<div className="text-right">
 								<p className="text-sm text-gray-600 mb-1">В наличии</p>
@@ -303,7 +304,7 @@ export const ProductDetailPage: React.FC = () => {
 								<div className="flex items-center border border-gray-300 rounded-lg">
 									<button
 										onClick={() => setQuantity(Math.max(1, quantity - 1))}
-										disabled={product.price === 'Нет в наличии'}
+										disabled={(product.priceProductStatus || product.price) === 'Нет в наличии'}
 										className="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-50"
 									>
 										-
@@ -313,12 +314,12 @@ export const ProductDetailPage: React.FC = () => {
 										min="1"
 										value={quantity}
 										onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-										disabled={product.price === 'Нет в наличии'}
+										disabled={(product.priceProductStatus || product.price) === 'Нет в наличии'}
 										className="w-20 text-center border-0 focus:outline-none disabled:bg-gray-100"
 									/>
 									<button
 										onClick={() => setQuantity(quantity + 1)}
-										disabled={product.price === 'Нет в наличии'}
+										disabled={(product.priceProductStatus || product.price) === 'Нет в наличии'}
 										className="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-50"
 									>
 										+
@@ -329,15 +330,15 @@ export const ProductDetailPage: React.FC = () => {
 							{/* Add to Cart Button */}
 							<button
 								onClick={handleAddToCart}
-								disabled={product.price === 'Нет в наличии'}
+								disabled={(product.priceProductStatus || product.price) === 'Нет в наличии'}
 								className={`w-full md:w-auto px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 ${
-									product.price === 'Нет в наличии'
+									(product.priceProductStatus || product.price) === 'Нет в наличии'
 										? 'bg-gray-300 text-gray-500 cursor-not-allowed'
 										: 'bg-industrial-900 text-white hover:bg-industrial-800'
 								}`}
 							>
 								<ShoppingCartIcon size={20} />
-								{product.price === 'Нет в наличии' ? 'Нет в наличии' : 'Добавить в корзину'}
+								{(product.priceProductStatus || product.price) === 'Нет в наличии' ? 'Нет в наличии' : 'Добавить в корзину'}
 							</button>
 
 							{/* WhatsApp Button */}

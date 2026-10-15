@@ -77,7 +77,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 						</div>
 						<div className="text-sm sm:text-base font-bold whitespace-nowrap overflow-hidden overflow-ellipsis">
 							{(() => {
-								const rawStatus = (product as any).productPrice || (product as any).price || 'Уточните цену';
+								const rawStatus = (product as any).priceProductStatus || (product as any).productPrice || (product as any).price || 'Уточните цену';
 								const status = String(rawStatus);
 								if (status === 'Нет в наличии') {
 									return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-red-100 text-red-800 border border-red-200">Нет в наличии</span>;
@@ -92,7 +92,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
 					{/* B2B кнопка действий */}
 					<div className="flex flex-col gap-1 sm:gap-2 mt-3 sm:mt-0 ml-0 sm:ml-4 w-full sm:w-auto">
-						{String((product as any).productPrice || (product as any).price) === 'Нет в наличии' ? (
+						{String((product as any).priceProductStatus || (product as any).productPrice || (product as any).price) === 'Нет в наличии' ? (
 							<button
 								disabled
 								className="w-full sm:w-auto bg-gray-200 text-gray-500 cursor-not-allowed px-2 sm:px-4 py-1.5 sm:py-2 rounded-md flex items-center justify-center text-xs sm:text-sm font-medium"

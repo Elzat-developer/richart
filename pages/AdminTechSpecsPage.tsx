@@ -519,7 +519,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 														<th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Название</th>
 														<th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Артикул</th>
 														<th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Тип</th>
-														<th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Цена</th>
+														<th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Статус</th>
 														<th className="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase">Действие</th>
 													</tr>
 												</thead>
@@ -554,7 +554,7 @@ export const AdminTechSpecsPage: React.FC = () => {
 																	</span>
 																</td>
 																<td className="px-4 py-2 text-sm font-medium text-gray-900">
-																	{product.price ? `${product.price.toLocaleString('ru-RU')} ₸` : '—'}
+																	{(product as any).priceProductStatus || (product as any).price || '—'}
 																</td>
 																<td className="px-4 py-2 text-center">
 																	{formData.product_id === product.productId ? (
@@ -617,9 +617,9 @@ export const AdminTechSpecsPage: React.FC = () => {
 																}`}>
 																{product.productType === 'industrial' ? 'Промышленное' : 'Бытовое'}
 															</span>
-															{product.price && (
+															{((product as any).priceProductStatus || (product as any).price) && (
 																<span className="text-sm font-medium text-gray-900">
-																	{product.price.toLocaleString('ru-RU')} ₸
+																	{(product as any).priceProductStatus || (product as any).price}
 																</span>
 															)}
 														</div>

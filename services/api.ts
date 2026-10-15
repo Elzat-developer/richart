@@ -183,8 +183,8 @@ export const ApiService = {
 			return response.data.map(product => ({
 				productId: product.productId,
 				productName: product.productName,
-				// Бэкенд может отдать либо price, либо productPrice. Берем то, что есть.
-				productPrice: String(product.productPrice || product.price || 'Уточните цену'),
+				priceProductStatus: (product.priceProductStatus || product.productPrice || product.price || 'Уточните цену') as any,
+				productPrice: String(product.priceProductStatus || product.productPrice || product.price || 'Уточните цену'),
 				material: product.material,
 				categoryId: product.categoryId,
 				productType: product.productType,
@@ -260,8 +260,8 @@ export const ApiService = {
 			return response.data.map(item => ({
 				productId: item.productId,
 				productName: item.productName,
-				// Приводим к productPrice, так как CatalogPage ищет именно это поле
-				productPrice: String(item.price || item.productPrice || 'Уточните цену'),
+				priceProductStatus: (item.priceProductStatus || item.price || item.productPrice || 'Уточните цену') as any,
+				productPrice: String(item.priceProductStatus || item.price || item.productPrice || 'Уточните цену'),
 				categoryId: item.categoryId,
 				material: item.material,
 				productType: item.productType || 'industrial', // Добавляем productType
