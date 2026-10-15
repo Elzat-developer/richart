@@ -154,9 +154,21 @@ export const ProductDetailPage: React.FC = () => {
 			alert("Не удалось добавить товар в корзину. Попробуйте позже.");
 		}
 	};
+	const getStatusBadge = (status: string) => {
+		switch (status) {
+			case 'Нет в наличии':
+				return <span className="inline-flex items-center px-3 py-1.5 rounded-full text-base font-semibold bg-red-100 text-red-800 border border-red-200">Нет в наличии</span>;
+			case 'Под заказ':
+				return <span className="inline-flex items-center px-3 py-1.5 rounded-full text-base font-semibold bg-amber-100 text-amber-800 border border-amber-200">Под заказ</span>;
+			case 'Уточните цену':
+			default:
+				return <span className="inline-flex items-center px-3 py-1.5 rounded-full text-base font-semibold bg-blue-100 text-blue-800 border border-blue-200">Уточните цену</span>;
+		}
+	};
+
 	const handleWhatsApp = () => {
 		if (product) {
-			const text = `Я хочу закупить ${product.productName} Количество: ${quantity} `;
+			const text = `Здравствуйте! Меня интересует ${product.productName} (Статус: ${product.price || 'Уточните цену'}). Количество: ${quantity}`;
 			window.open(`https://wa.me/77472164664?text=${encodeURIComponent(text)}`, '_blank');
 		}
 	};
@@ -274,10 +286,8 @@ export const ProductDetailPage: React.FC = () => {
 					<div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
 						<div className="flex items-center justify-between mb-4">
 							<div>
-								<p className="text-sm text-gray-600 mb-1">Цена за единицу</p>
-								<p className="text-3xl font-bold text-gray-900">
-									{new Intl.NumberFormat('ru-KZ').format(product.price)} ₸
-								</p>
+								<p className="text-sm text-gray-600 mb-1">Статус товара</p>
+								<div>{getStatusBadge(product.price)}</div>
 							</div>
 							<div className="text-right">
 								<p className="text-sm text-gray-600 mb-1">В наличии</p>
@@ -293,7 +303,8 @@ export const ProductDetailPage: React.FC = () => {
 								<div className="flex items-center border border-gray-300 rounded-lg">
 									<button
 										onClick={() => setQuantity(Math.max(1, quantity - 1))}
-										className="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors"
+										disabled={product.price === 'Нет в наличии'}
+										className="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-50"
 									>
 										-
 									</button>
@@ -302,11 +313,13 @@ export const ProductDetailPage: React.FC = () => {
 										min="1"
 										value={quantity}
 										onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-										className="w-20 text-center border-0 focus:outline-none"
+										disabled={product.price === 'Нет в наличии'}
+										className="w-20 text-center border-0 focus:outline-none disabled:bg-gray-100"
 									/>
 									<button
 										onClick={() => setQuantity(quantity + 1)}
-										className="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors"
+										disabled={product.price === 'Нет в наличии'}
+										className="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-50"
 									>
 										+
 									</button>
@@ -316,10 +329,15 @@ export const ProductDetailPage: React.FC = () => {
 							{/* Add to Cart Button */}
 							<button
 								onClick={handleAddToCart}
-								className="w-full md:w-auto bg-industrial-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-industrial-800 transition-colors flex items-center justify-center gap-2"
+								disabled={product.price === 'Нет в наличии'}
+								className={`w-full md:w-auto px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 ${
+									product.price === 'Нет в наличии'
+										? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+										: 'bg-industrial-900 text-white hover:bg-industrial-800'
+								}`}
 							>
 								<ShoppingCartIcon size={20} />
-								Добавить в корзину
+								{product.price === 'Нет в наличии' ? 'Нет в наличии' : 'Добавить в корзину'}
 							</button>
 
 							{/* WhatsApp Button */}
@@ -350,7 +368,7 @@ export const ProductDetailPage: React.FC = () => {
 									<div>
 										<span className="font-medium text-blue-900">Рассрочка</span>
 										<p className="text-xs text-blue-700 mt-1">
-											от {new Intl.NumberFormat('ru-KZ').format(Math.round(product.price / 12))} ₸/ 12 мес
+											Условия уточняйте у менеджера
 										</p>
 									</div>
 								</div>

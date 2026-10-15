@@ -7,7 +7,7 @@ export interface GetPhotoDto {
 export interface GetProductsUserDto {
 	productId: number;
 	productName: string;
-	productPrice: number;
+	productPrice: string;
 	material: string;
 	categoryId: number;
 	productType: 'industrial' | 'household';
@@ -31,7 +31,7 @@ export interface GetProductDto {
 	productName: string;
 	description: string;
 	tag: string; // артикуль
-	price: number;
+	price: string;
 	material: string;
 	dimensions: string;
 	weight: number;
@@ -57,7 +57,7 @@ export interface CreateProductDto {
 	productName: string;
 	description: string;
 	tag: string;
-	price: number;
+	price: string;
 	material: string;
 	dimensions: string;
 	weight: number;
@@ -72,7 +72,7 @@ export interface EditProductDto {
 	productName: string;
 	description: string;
 	tag: string;
-	price: number;
+	price: string;
 	material: string;
 	dimensions: string;
 	weight: number;
@@ -91,7 +91,7 @@ export interface BackendProductDto {
 	updatedAt: string;
 	categoryId: number;
 	material?: string;
-	price?: number;
+	price?: string;
 	photoDto?: {
 		photo_id: number;
 		photoURL: string;
@@ -104,7 +104,7 @@ export interface BackendProductDetailDto {
 	productName: string;
 	description: string;
 	tag: string;
-	price: number;
+	price: string;
 	material: string;
 	dimensions: string;
 	weight: number;
@@ -130,6 +130,7 @@ export interface FilterParams {
 	minPrice?: string;
 	maxPrice?: string;
 	material?: string;
+	status?: string;
 	productType?: 'industrial' | 'household';
 	active?: boolean; // Добавляем поле активности
 }
@@ -163,7 +164,7 @@ export interface CartItemDto {
 	productId: number;
 	productName: string;
 	tag: string;
-	productPrice: number; // Как в бэкенде
+	productPrice: string; // Как в бэкенде
 	quantity: number;
 	productActive?: boolean;
 	characteristics?: string; // Новое: детальное описание
@@ -175,7 +176,7 @@ export interface CartItemDto {
 export interface CartDto {
 	cartId: number;
 	items: CartItemDto[];
-	totalPrice: number; // Как в бэкенде
+	totalPrice: string; // Как в бэкенде
 }
 
 export interface OrderRequestDto {
@@ -197,7 +198,7 @@ export interface CreateProductDto {
 	productName: string;
 	description: string;
 	tag: string;
-	price: number;
+	price: string;
 	material: string;
 	dimensions: string;
 	weight: number;

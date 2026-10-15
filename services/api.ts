@@ -102,7 +102,7 @@ const MOCK_PRODUCTS: GetProductsUserDto[] = [
 	...Array.from({ length: 12 }, (_, i) => ({
 		productId: i + 1,
 		productName: `Industrial Worktable Model ${String.fromCharCode(65 + i)}`,
-		productPrice: 150000 + (i * 25000),
+		productPrice: (['Уточните цену', 'Под заказ', 'Нет в наличии'] as const)[i % 3],
 		material: ['Сталь', 'Алюминий', 'Дерево'][i % 3],
 		categoryId: (i % 3) + 1,
 		productType: 'industrial' as const,
@@ -116,7 +116,7 @@ const MOCK_PRODUCTS: GetProductsUserDto[] = [
 	...Array.from({ length: 8 }, (_, i) => ({
 		productId: 13 + i,
 		productName: `Household ${['Chair', 'Table', 'Sofa', 'Bed', 'Wardrobe', 'Kitchen Cabinet', 'Shelf', 'Lamp'][i]}`,
-		productPrice: 15000 + (i * 8000),
+		productPrice: (['Уточните цену', 'Под заказ', 'Нет в наличии'] as const)[i % 3],
 		material: ['Дерево', 'МДФ', 'ЛДСП', 'Металл', 'Ткань', 'Пластик', 'Стекло', 'Керамика'][i],
 		categoryId: 4 + (i % 2), // Категории 4-5 для бытовых
 		productType: 'household' as const,
@@ -184,7 +184,7 @@ export const ApiService = {
 				productId: product.productId,
 				productName: product.productName,
 				// Бэкенд может отдать либо price, либо productPrice. Берем то, что есть.
-				productPrice: product.productPrice || product.price,
+				productPrice: String(product.productPrice || product.price || 'Уточните цену'),
 				material: product.material,
 				categoryId: product.categoryId,
 				productType: product.productType,
@@ -247,6 +247,7 @@ export const ApiService = {
 					minPrice: params.minPrice || undefined,
 					maxPrice: params.maxPrice || undefined,
 					material: params.material || undefined,
+					status: params.status || undefined,
 					productType: params.productType || undefined,
 					active: params.active !== undefined ? params.active : undefined
 				}
@@ -260,7 +261,7 @@ export const ApiService = {
 				productId: item.productId,
 				productName: item.productName,
 				// Приводим к productPrice, так как CatalogPage ищет именно это поле
-				productPrice: item.price || item.productPrice || 0,
+				productPrice: String(item.price || item.productPrice || 'Уточните цену'),
 				categoryId: item.categoryId,
 				material: item.material,
 				productType: item.productType || 'industrial', // Добавляем productType
@@ -284,8 +285,7 @@ export const ApiService = {
 			// Затем применяем остальные фильтры
 			if (params.categoryId) filtered = filtered.filter(p => p.categoryId?.toString() === params.categoryId);
 			if (params.material) filtered = filtered.filter(p => p.material === params.material);
-			if (params.minPrice) filtered = filtered.filter(p => p.productPrice >= Number(params.minPrice));
-			if (params.maxPrice) filtered = filtered.filter(p => p.productPrice <= Number(params.maxPrice));
+			if (params.status) filtered = filtered.filter(p => p.productPrice === params.status);
 
 			return filtered;
 		}
@@ -300,7 +300,7 @@ export const ApiService = {
 		} catch (error) {
 			console.warn("API Error (using mock cart):", error);
 			// Simulate server calculation
-			const totalPrice = MOCK_CART.reduce((acc, item) => acc + (item.productPrice * item.quantity), 0);
+			const totalPrice = 'Уточните цену';
 			return { cartId: 1, items: MOCK_CART, totalPrice };
 		}
 	},

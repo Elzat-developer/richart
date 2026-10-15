@@ -62,7 +62,7 @@ export const AdminProductFormPage: React.FC = () => {
 		productName: '',
 		description: '',
 		tag: '',
-		price: 0,
+		price: 'Уточните цену',
 		material: '',
 		dimensions: '',
 		weight: 0,
@@ -89,7 +89,7 @@ export const AdminProductFormPage: React.FC = () => {
 						productName: productData.productName || '',
 						description: productData.description || '',
 						tag: productData.tag || '',
-						price: productData.price || 0,
+						price: productData.price || 'Уточните цену',
 						material: productData.material || '',
 						dimensions: productData.dimensions || '',
 						weight: productData.weight || 0,
@@ -377,17 +377,18 @@ export const AdminProductFormPage: React.FC = () => {
 							<div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2">
 								<div>
 									<label htmlFor="price" className="block text-sm font-medium text-gray-700">
-										Цена (₸)
+										Статус <span className="text-red-500">*</span>
 									</label>
-									<input
-										type="number"
+									<select
 										id="price"
-										step="0.01"
-										value={formData.price}
+										value={formData.price || 'Уточните цену'}
 										onChange={handleChange('price')}
-										className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent"
-										placeholder="150.00"
-									/>
+										className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent bg-white font-medium text-gray-900"
+									>
+										<option value="Уточните цену">Уточните цену</option>
+										<option value="Нет в наличии">Нет в наличии</option>
+										<option value="Под заказ">Под заказ</option>
+									</select>
 								</div>
 
 								<div>

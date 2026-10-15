@@ -574,6 +574,16 @@ export const AdminProductsPage: React.FC = () => {
 															<span className="font-medium">Материал:</span> {product.material || 'Не указан'}
 														</p>
 														<p className="mb-1">
+															<span className="font-medium">Статус:</span>{' '}
+															<span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold ${
+																(product as any).price === 'Нет в наличии' ? 'bg-red-100 text-red-800' :
+																(product as any).price === 'Под заказ' ? 'bg-amber-100 text-amber-800' :
+																'bg-emerald-100 text-emerald-800'
+															}`}>
+																{(product as any).price || 'Уточните цену'}
+															</span>
+														</p>
+														<p className="mb-1">
 															<span className="font-medium">Создан:</span> {formatDate(product.createdAt)}
 														</p>
 														<p>
@@ -647,6 +657,9 @@ export const AdminProductsPage: React.FC = () => {
 															Материал
 														</th>
 														<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+															Статус
+														</th>
+														<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 															Создан
 														</th>
 														<th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -686,6 +699,15 @@ export const AdminProductsPage: React.FC = () => {
 																<div className="text-sm text-gray-900">
 																	{product.material || 'Не указан'}
 																</div>
+															</td>
+															<td className="px-6 py-4 whitespace-nowrap">
+																<span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+																	(product as any).price === 'Нет в наличии' ? 'bg-red-100 text-red-800' :
+																	(product as any).price === 'Под заказ' ? 'bg-amber-100 text-amber-800' :
+																	'bg-emerald-100 text-emerald-800'
+																}`}>
+																	{(product as any).price || 'Уточните цену'}
+																</span>
 															</td>
 															<td className="px-6 py-4 whitespace-nowrap">
 																<div className="text-sm text-gray-900">
@@ -871,6 +893,19 @@ export const AdminProductsPage: React.FC = () => {
 											<div>
 												<span className="text-sm font-medium text-gray-700">Материал:</span>
 												<p className="text-gray-900">{selectedProduct.material || 'Не указан'}</p>
+											</div>
+
+											<div>
+												<span className="text-sm font-medium text-gray-700">Статус:</span>
+												<p className="mt-1">
+													<span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+														(selectedProduct as any).price === 'Нет в наличии' ? 'bg-red-100 text-red-800' :
+														(selectedProduct as any).price === 'Под заказ' ? 'bg-amber-100 text-amber-800' :
+														'bg-emerald-100 text-emerald-800'
+													}`}>
+														{(selectedProduct as any).price || 'Уточните цену'}
+													</span>
+												</p>
 											</div>
 
 											<div>

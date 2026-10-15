@@ -326,7 +326,7 @@ export const AdminImportPage: React.FC = () => {
 													<tbody>
 														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">A (0)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Наименование</td><td className="border border-blue-200 px-1 py-1">Стул "Лофт"</td></tr>
 														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">B (1)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Артикул</td><td className="border border-blue-200 px-1 py-1">LF-001</td></tr>
-														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">C (2)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Цена</td><td className="border border-blue-200 px-1 py-1">15000</td></tr>
+														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">C (2)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Статус</td><td className="border border-blue-200 px-1 py-1">Уточните цену / Нет в наличии / Под заказ</td></tr>
 														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">D (3)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Материал</td><td className="border border-blue-200 px-1 py-1">Дуб, Сталь</td></tr>
 														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">E (4)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Размеры (текст)</td><td className="border border-blue-200 px-1 py-1">50x50x90 см</td></tr>
 														<tr><td className="border border-blue-200 px-1 py-1 font-semibold">F (5)</td><td className="border border-blue-200 px-1 py-1 font-semibold">Вес (кг)</td><td className="border border-blue-200 px-1 py-1">7.5</td></tr>
@@ -366,7 +366,7 @@ export const AdminImportPage: React.FC = () => {
 																<div className="grid grid-cols-6 text-xs">
 																	<div className="border border-gray-300 p-1 text-center">Наименование</div>
 																	<div className="border border-gray-300 p-1 text-center">Артикул</div>
-																	<div className="border border-gray-300 p-1 text-center">Цена</div>
+																	<div className="border border-gray-300 p-1 text-center">Статус</div>
 																	<div className="border border-gray-300 p-1 text-center">Материал</div>
 																	<div className="border border-gray-300 p-1 text-center">Размеры</div>
 																	<div className="border border-gray-300 p-1 text-center">Вес</div>
@@ -374,7 +374,7 @@ export const AdminImportPage: React.FC = () => {
 																<div className="grid grid-cols-6 text-xs bg-blue-50">
 																	<div className="border border-gray-300 p-1">Стул "Лофт"</div>
 																	<div className="border border-gray-300 p-1">LF-001</div>
-																	<div className="border border-gray-300 p-1">15000</div>
+																	<div className="border border-gray-300 p-1">Уточните цену</div>
 																	<div className="border border-gray-300 p-1">Дуб, Сталь</div>
 																	<div className="border border-gray-300 p-1">50x50x90</div>
 																	<div className="border border-gray-300 p-1">7.5</div>
@@ -403,11 +403,12 @@ export const AdminImportPage: React.FC = () => {
 										<div>
 											<h4 className="font-semibold text-blue-900 mb-1">⚠️ Важные правила</h4>
 											<ul className="list-disc list-inside space-y-1 text-xs">
+												<li><strong>Статус (Колонка C):</strong> Укажите один из трех вариантов: <em>Уточните цену</em>, <em>Нет в наличии</em>, <em>Под заказ</em> (по умолчанию: Уточните цену).</li>
 												<li><strong>Тип продукта (Колонка Q):</strong> Используйте только слова industrial (или промышленный) и household (или бытовой).</li>
 												<li><strong>Габариты (K, L, M):</strong> Вводите только целые числа (миллиметры).</li>
 												<li><strong>Фотографии:</strong> Имена файлов в колонке I должны в точности совпадать с именами файлов внутри папки images/.</li>
 												<li><strong>ID Категории:</strong> Посмотрите ID в разделе "Категории" вашей админки. Если ID указан неверно, строка не будет импортирована.</li>
-												<li><strong>Формат чисел:</strong> В колонках Цена, Вес, Кол-во и Габариты не должно быть текста (только цифры).</li>
+												<li><strong>Формат чисел:</strong> В колонках Вес, Кол-во и Габариты не должно быть текста (только цифры).</li>
 											</ul>
 										</div>
 

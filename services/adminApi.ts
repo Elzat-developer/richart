@@ -133,7 +133,7 @@ export const AdminApiService = {
 		productName: string;
 		description: string;
 		tag: string;
-		price: number;
+		price: string | number;
 		material: string;
 		dimensions: string;
 		weight: number;
@@ -202,7 +202,7 @@ export const AdminApiService = {
 		productName: string;
 		description: string;
 		tag: string;
-		price: number;
+		price: string | number;
 		material: string;
 		dimensions: string;
 		weight: number;

@@ -69,42 +69,60 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 					</div>
 				</Link>
 
-				{/* B2B информация о цене */}
+				{/* B2B информация о статусе */}
 				<div className="flex flex-col sm:flex-row sm:items-center justify-between border-t border-slate-100 pt-2 sm:pt-4 mt-auto">
 					<div className="flex-1 min-w-0">
 						<div className="text-xs text-slate-500 uppercase tracking-wide font-medium mb-1">
-							Цена
+							Статус
 						</div>
-						<div className="text-sm sm:text-lg font-bold text-slate-900 whitespace-nowrap overflow-hidden overflow-ellipsis">
-							{(product as any).productPrice || (product as any).price ?
-								`${new Intl.NumberFormat('ru-KZ').format((product as any).productPrice || (product as any).price)} ₸` :
-								'По запросу'
-							}
+						<div className="text-sm sm:text-base font-bold whitespace-nowrap overflow-hidden overflow-ellipsis">
+							{(() => {
+								const rawStatus = (product as any).productPrice || (product as any).price || 'Уточните цену';
+								const status = String(rawStatus);
+								if (status === 'Нет в наличии') {
+									return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-red-100 text-red-800 border border-red-200">Нет в наличии</span>;
+								}
+								if (status === 'Под заказ') {
+									return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-200">Под заказ</span>;
+								}
+								return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">Уточните цену</span>;
+							})()}
 						</div>
 					</div>
 
 					{/* B2B кнопка действий */}
 					<div className="flex flex-col gap-1 sm:gap-2 mt-3 sm:mt-0 ml-0 sm:ml-4 w-full sm:w-auto">
-						<button
-							onClick={handleAddToCart}
-							disabled={isAdding}
-							className="w-full sm:w-auto bg-emerald-600 text-white hover:bg-emerald-700 disabled:bg-emerald-400 disabled:cursor-not-allowed px-2 sm:px-4 py-1.5 sm:py-2 rounded-md transition-colors flex items-center justify-center text-xs sm:text-sm font-medium"
-							title="Добавить в корзину"
-						>
-							{isAdding ? (
-								<>
-									<div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1 sm:mr-2"></div>
-									<span className="hidden sm:inline">Добавление...</span>
-									<span className="sm:hidden">...</span>
-								</>
-							) : (
-								<>
-									<ShoppingCartIcon size={12} className="sm:w-4 sm:h-4" />
-									<span className="ml-1 sm:ml-2 hidden sm:inline">В корзину</span>
-									<span className="sm:hidden">В корз.</span>
-								</>
-							)}
-						</button>
+						{String((product as any).productPrice || (product as any).price) === 'Нет в наличии' ? (
+							<button
+								disabled
+								className="w-full sm:w-auto bg-gray-200 text-gray-500 cursor-not-allowed px-2 sm:px-4 py-1.5 sm:py-2 rounded-md flex items-center justify-center text-xs sm:text-sm font-medium"
+								title="Товар отсутствует"
+							>
+								<span className="hidden sm:inline">Нет в наличии</span>
+								<span className="sm:hidden">Нет</span>
+							</button>
+						) : (
+							<button
+								onClick={handleAddToCart}
+								disabled={isAdding}
+								className="w-full sm:w-auto bg-emerald-600 text-white hover:bg-emerald-700 disabled:bg-emerald-400 disabled:cursor-not-allowed px-2 sm:px-4 py-1.5 sm:py-2 rounded-md transition-colors flex items-center justify-center text-xs sm:text-sm font-medium"
+								title="Добавить в корзину"
+							>
+								{isAdding ? (
+									<>
+										<div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1 sm:mr-2"></div>
+										<span className="hidden sm:inline">Добавление...</span>
+										<span className="sm:hidden">...</span>
+									</>
+								) : (
+									<>
+										<ShoppingCartIcon size={12} className="sm:w-4 sm:h-4" />
+										<span className="ml-1 sm:ml-2 hidden sm:inline">В корзину</span>
+										<span className="sm:hidden">В корз.</span>
+									</>
+								)}
+							</button>
+						)}
 						<Link
 							to={`/product/${product.productId}`}
 							className="text-center text-xs text-emerald-600 hover:text-emerald-700 font-medium"

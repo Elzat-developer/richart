@@ -376,9 +376,15 @@ export const AdminProductDetailPage: React.FC = () => {
 								<div className="lg:col-span-2">
 									<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
 										<div>
-											<label className="block text-sm font-medium text-gray-500">Цена</label>
-											<p className="mt-1 text-lg sm:text-xl font-bold text-green-600">
-												{product.price.toLocaleString('ru-RU')} ₸
+											<label className="block text-sm font-medium text-gray-500">Статус</label>
+											<p className="mt-1">
+												<span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-bold ${
+													product.price === 'Нет в наличии' ? 'bg-red-100 text-red-800 border border-red-200' :
+													product.price === 'Под заказ' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
+													'bg-emerald-100 text-emerald-800 border border-emerald-200'
+												}`}>
+													{product.price || 'Уточните цену'}
+												</span>
 											</p>
 										</div>
 										<div className="text-right">

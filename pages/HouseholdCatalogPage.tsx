@@ -46,8 +46,7 @@ export const HouseholdCatalogPage: React.FC = () => {
 			try {
 				const params = {
 					categoryId: searchParams.get('categoryId') || undefined,
-					minPrice: searchParams.get('minPrice') || undefined,
-					maxPrice: searchParams.get('maxPrice') || undefined,
+					status: searchParams.get('status') || undefined,
 					material: searchParams.get('material') || undefined,
 					productType: 'household' as const,
 					active: true

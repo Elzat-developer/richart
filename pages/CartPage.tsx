@@ -75,9 +75,8 @@ export const CartPage: React.FC = () => {
 				<div className="flex-grow bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
 					<div className="hidden md:grid grid-cols-12 gap-4 bg-gradient-to-r from-blue-50 to-emerald-50 p-4 border-b border-gray-200 font-bold uppercase text-xs text-gray-700">
 						<div className="col-span-6 pl-7">Товар</div>
-						<div className="col-span-2 text-center md:text-left ml-7">Цена</div>
-						<div className="col-span-2 text-center">Количество</div>
-						<div className="col-span-2 text-center md:text-left ml-12">Сумма</div>
+						<div className="col-span-3 text-center md:text-left ml-7">Статус</div>
+						<div className="col-span-3 text-center md:text-right pr-6">Количество</div>
 					</div>
 
 					<div className="divide-y divide-gray-100">
@@ -126,17 +125,21 @@ export const CartPage: React.FC = () => {
 									</div>
 								</div>
 
-								<div className="col-span-1 md:col-span-2 flex flex-col items-start md:block text-left md:text-left">
-									<span className="md:hidden text-xs text-gray-500 uppercase font-medium mb-1 block">Цена:</span>
-									<div className="inline-flex items-center bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
-										<span className="text-base font-semibold text-gray-900 tabular-nums">
-											{item.productPrice.toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} ₸
-										</span>
-									</div>
+								<div className="col-span-1 md:col-span-3 flex flex-col items-start md:block text-left">
+									<span className="md:hidden text-xs text-gray-500 uppercase font-medium mb-1 block">Статус:</span>
+									<span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold ${
+										item.productPrice === 'Нет в наличии'
+											? 'bg-red-100 text-red-800 border border-red-200'
+											: item.productPrice === 'Под заказ'
+											? 'bg-amber-100 text-amber-800 border border-amber-200'
+											: 'bg-blue-100 text-blue-800 border border-blue-200'
+									}`}>
+										{item.productPrice || 'Уточните цену'}
+									</span>
 								</div>
 
-								<div className="col-span-1 md:col-span-2 flex flex-col items-start md:items-center md:justify-center">
-									<span className="md:hidden text-xs text-gray-500 uppercase font-medium mb-2 block">Количество:</span>
+								<div className="col-span-1 md:col-span-3 flex items-center justify-between md:justify-end gap-4">
+									<span className="md:hidden text-xs text-gray-500 uppercase font-medium block">Количество:</span>
 									<div className="flex items-center bg-white border-2 border-gray-200 rounded-lg h-10 shadow-sm">
 										<button
 											onClick={() => updateItemQuantity(item.cart_item_id, Math.max(1, item.quantity - 1))}
@@ -157,24 +160,13 @@ export const CartPage: React.FC = () => {
 											<PlusIcon size={14} />
 										</button>
 									</div>
-								</div>
-
-								<div className="col-span-1 md:col-span-2 flex flex-col md:flex-row md:items-center md:justify-end gap-2 md:gap-4">
-									<span className="md:hidden text-xs text-gray-500 uppercase font-medium block">Сумма:</span>
-									<div className="flex items-center justify-between md:justify-end gap-3 w-full">
-										<div className="text-right">
-											<div className="text-lg font-bold text-gray-900 tabular-nums">
-												{(item.productPrice * item.quantity).toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} ₸
-											</div>
-										</div>
-										<button
-											onClick={() => removeFromCart(item.cart_item_id)}
-											className="text-gray-400 hover:text-red-600 transition-colors p-2 hover:bg-red-50 rounded-lg"
-											title="Удалить товар"
-										>
-											<TrashIcon size={18} />
-										</button>
-									</div>
+									<button
+										onClick={() => removeFromCart(item.cart_item_id)}
+										className="text-gray-400 hover:text-red-600 transition-colors p-2 hover:bg-red-50 rounded-lg"
+										title="Удалить товар"
+									>
+										<TrashIcon size={18} />
+									</button>
 								</div>
 							</div>
 						))}
@@ -200,11 +192,10 @@ export const CartPage: React.FC = () => {
 							</div>
 							<div className="border-t border-white/20 pt-4">
 								<div className="flex justify-between items-center">
-									<span className="text-lg font-medium">Общая сумма</span>
+									<span className="text-lg font-medium">Статус цен</span>
 									<div className="text-right">
-										<div className="text-3xl font-bold tabular-nums inline-flex items-baseline gap-1">
-											<span>{cart.totalPrice.toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
-											<span>₸</span>
+										<div className="text-xl font-bold">
+											Уточните цену
 										</div>
 									</div>
 								</div>

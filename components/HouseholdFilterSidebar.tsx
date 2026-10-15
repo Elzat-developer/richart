@@ -10,6 +10,7 @@ interface HouseholdFilterSidebarProps {
 }
 
 const HOUSEHOLD_MATERIALS = ['Дерево', 'МДФ', 'ЛДСП', 'Металл', 'Ткань', 'Пластик', 'Стекло', 'Керамика'];
+const STATUS_OPTIONS = ['Уточните цену', 'Нет в наличии', 'Под заказ'];
 const CATEGORY_PREVIEW_LIMIT = 5;
 
 export const HouseholdFilterSidebar: React.FC<HouseholdFilterSidebarProps> = ({ className, onCloseMobile, categoryType = 'household' }) => {
@@ -19,13 +20,7 @@ export const HouseholdFilterSidebar: React.FC<HouseholdFilterSidebarProps> = ({ 
 	const [categorySearch, setCategorySearch] = useState('');
 	const [showAllCategories, setShowAllCategories] = useState(false);
 
-	// Local state for inputs to allow typing without immediate URL jumps
-	const [minPrice, setMinPrice] = useState(searchParams.get('minPrice') || '');
-	const [maxPrice, setMaxPrice] = useState(searchParams.get('maxPrice') || '');
-
 	useEffect(() => {
-		setMinPrice(searchParams.get('minPrice') || '');
-		setMaxPrice(searchParams.get('maxPrice') || '');
 		if (!searchParams.get('categoryId')) {
 			setCategorySearch('');
 		}
@@ -69,25 +64,11 @@ export const HouseholdFilterSidebar: React.FC<HouseholdFilterSidebarProps> = ({ 
 		});
 	};
 
-	const handlePriceApply = () => {
-		setSearchParams(prev => {
-			const newParams = new URLSearchParams(prev);
-			if (minPrice) newParams.set('minPrice', minPrice);
-			else newParams.delete('minPrice');
-
-			if (maxPrice) newParams.set('maxPrice', maxPrice);
-			else newParams.delete('maxPrice');
-
-			return newParams;
-		});
-	};
-
 	const currentCategory = searchParams.get('categoryId');
 	const currentMaterial = searchParams.get('material');
+	const currentStatus = searchParams.get('status');
 	const resetFilters = () => {
 		setSearchParams({});
-		setMinPrice('');
-		setMaxPrice('');
 		setCategorySearch('');
 		setShowAllCategories(false);
 	};
@@ -192,32 +173,35 @@ export const HouseholdFilterSidebar: React.FC<HouseholdFilterSidebarProps> = ({ 
 					)}
 				</div>
 
-				{/* Price Range Filter */}
+				{/* Status Filter */}
 				<div className="mb-8">
-					<h3 className="text-sm font-bold uppercase mb-4 text-industrial-500">Ценовой диапазон (₸)</h3>
-					<div className="flex items-center gap-2 mb-3">
-						<input
-							type="number"
-							placeholder="Мин"
-							value={minPrice}
-							onChange={(e) => setMinPrice(e.target.value)}
-							className="w-full border border-gray-300 px-3 py-2 text-sm focus:border-industrial-accent focus:outline-none"
-						/>
-						<span className="text-gray-400">-</span>
-						<input
-							type="number"
-							placeholder="Макс"
-							value={maxPrice}
-							onChange={(e) => setMaxPrice(e.target.value)}
-							className="w-full border border-gray-300 px-3 py-2 text-sm focus:border-industrial-accent focus:outline-none"
-						/>
+					<h3 className="text-sm font-bold uppercase mb-4 text-industrial-500">Статус</h3>
+					<div className="space-y-2">
+						<label className="flex items-center gap-3 cursor-pointer">
+							<input
+								type="radio"
+								name="status"
+								checked={!currentStatus}
+								onChange={() => updateParam('status', null)}
+								className="w-4 h-4 text-industrial-accent focus:ring-industrial-accent"
+							/>
+							<span className={`text-sm ${!currentStatus ? 'text-industrial-900 font-medium' : 'text-gray-600'}`}>Все статусы</span>
+						</label>
+						{STATUS_OPTIONS.map(status => (
+							<label key={status} className="flex items-center gap-3 cursor-pointer">
+								<input
+									type="radio"
+									name="status"
+									checked={currentStatus === status}
+									onChange={() => updateParam('status', status)}
+									className="w-4 h-4 text-industrial-accent focus:ring-industrial-accent"
+								/>
+								<span className={`text-sm ${currentStatus === status ? 'text-industrial-900 font-medium' : 'text-gray-600'}`}>
+									{status}
+								</span>
+							</label>
+						))}
 					</div>
-					<button
-						onClick={handlePriceApply}
-						className="w-full bg-industrial-900 text-white text-xs font-bold uppercase py-2 hover:bg-industrial-700 transition-colors"
-					>
-						Применить цену
-					</button>
 				</div>
 
 				{/* Material Filter */}
