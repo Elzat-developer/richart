@@ -46,4 +46,35 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            nginx -s reload || systemctl reload nginx || true
+            echo "=== 1. Checking /var/www/industrial-furniture/frontend ==="
+            ls -la /var/www/industrial-furniture/frontend
+            grep -o 'index-[^"]*' /var/www/industrial-furniture/frontend/index.html || true
+            
+            echo "=== 2. Finding any directories with old assets ==="
+            OLD_FILES=$(find / -name "index-C4N-Lf7f.js" 2>/dev/null || true)
+            echo "Old file locations: $OLD_FILES"
+            for f in $OLD_FILES; do
+              DIR=$(dirname "$f")
+              BASE_DIR=$(dirname "$DIR")
+              echo "Updating target base dir: $BASE_DIR"
+              cp -r /var/www/industrial-furniture/frontend/* "$BASE_DIR/" 2>/dev/null || true
+            done
+
+            echo "=== 3. Checking running docker containers ==="
+            docker ps -a || true
+            for c in $(docker ps -q 2>/dev/null || true); do
+              echo "Checking container $c:"
+              if docker exec $c test -d /usr/share/nginx/html 2>/dev/null; then
+                echo "Copying into container $c:/usr/share/nginx/html/..."
+                docker cp /var/www/industrial-furniture/frontend/. $c:/usr/share/nginx/html/
+                docker exec $c nginx -s reload 2>/dev/null || true
+              fi
+              if docker exec $c test -d /var/www/html 2>/dev/null; then
+                echo "Copying into container $c:/var/www/html/..."
+                docker cp /var/www/industrial-furniture/frontend/. $c:/var/www/html/
+              fi
+            done
+            
+            echo "=== 4. Reloading host Nginx ==="
+            nginx -s reload || systemctl reload nginx || service nginx reload || true
+            echo "=== Done! ==="
