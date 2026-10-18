@@ -5,6 +5,7 @@ import { ShoppingCartIcon } from './Icons';
 import { ApiService } from '../services/api';
 import { useCart } from '../context/CartContext';
 import { getImageUrl } from '../config/api';
+import { getPriceBadgeInfo } from '../utils/priceUtils';
 
 interface ProductCardProps {
 	product: GetProductsUserDto | GetProductsDto;
@@ -34,6 +35,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 			setIsAdding(false);
 		}
 	};
+
+	const rawStatus = (product as any).priceProductStatus || (product as any).productPrice || (product as any).price;
+	const badge = getPriceBadgeInfo(rawStatus);
 
 	return (
 		<div className="bg-white border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300 group flex flex-col h-full rounded-lg">
@@ -69,30 +73,28 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 					</div>
 				</Link>
 
-				{/* B2B информация о статусе */}
+				{/* B2B информация о цене / статусе */}
 				<div className="flex flex-col sm:flex-row sm:items-center justify-between border-t border-slate-100 pt-2 sm:pt-4 mt-auto">
 					<div className="flex-1 min-w-0">
 						<div className="text-xs text-slate-500 uppercase tracking-wide font-medium mb-1">
-							Статус
+							{badge.isNumeric ? 'Цена' : 'Статус'}
 						</div>
-						<div className="text-sm sm:text-base font-bold whitespace-nowrap overflow-hidden overflow-ellipsis">
-							{(() => {
-								const rawStatus = (product as any).priceProductStatus || (product as any).productPrice || (product as any).price || 'Уточните цену';
-								const status = String(rawStatus);
-								if (status === 'Нет в наличии') {
-									return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-red-100 text-red-800 border border-red-200">Нет в наличии</span>;
-								}
-								if (status === 'Под заказ') {
-									return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-200">Под заказ</span>;
-								}
-								return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">Уточните цену</span>;
-							})()}
+						<div className="text-sm sm:text-base whitespace-nowrap overflow-hidden overflow-ellipsis">
+							{badge.isNumeric ? (
+								<span className="text-emerald-700 font-extrabold text-base sm:text-lg">
+									{badge.text}
+								</span>
+							) : (
+								<span className={`inline-flex items-center px-2 py-0.5 rounded text-xs ${badge.badgeClass}`}>
+									{badge.text}
+								</span>
+							)}
 						</div>
 					</div>
 
 					{/* B2B кнопка действий */}
 					<div className="flex flex-col gap-1 sm:gap-2 mt-3 sm:mt-0 ml-0 sm:ml-4 w-full sm:w-auto">
-						{String((product as any).priceProductStatus || (product as any).productPrice || (product as any).price) === 'Нет в наличии' ? (
+						{badge.isOutOfStock ? (
 							<button
 								disabled
 								className="w-full sm:w-auto bg-gray-200 text-gray-500 cursor-not-allowed px-2 sm:px-4 py-1.5 sm:py-2 rounded-md flex items-center justify-center text-xs sm:text-sm font-medium"

@@ -5,6 +5,7 @@ import { TrashIcon, PlusIcon, MinusIcon, FilePdfIcon, WhatsAppIcon, XIcon } from
 import { Link } from 'react-router-dom';
 import { GetPhotoDto } from '../types';
 import { buildUrl } from '../config/api';
+import { getPriceBadgeInfo, parsePriceNumber, formatPriceNumber } from '../utils/priceUtils';
 
 // Функция для получения URL изображения
 const getImageUrl = (photoDto: GetPhotoDto): string => {
@@ -20,6 +21,50 @@ export const CartPage: React.FC = () => {
 	// Checkout Form State
 	const [formData, setFormData] = useState({ name: '', phone: '' });
 	const [checkoutLoading, setCheckoutLoading] = useState(false);
+
+	// Расчет итогов по корзине с учетом цен и статусов
+	const summary = React.useMemo(() => {
+		if (!cart?.items) {
+			return {
+				totalNumericSum: 0,
+				pricedItemsCount: 0,
+				unpricedItemsCount: 0,
+				totalQuantity: 0,
+				hasOutOfStock: false,
+			};
+		}
+
+		let totalNumericSum = 0;
+		let pricedItemsCount = 0;
+		let unpricedItemsCount = 0;
+		let totalQuantity = 0;
+		let hasOutOfStock = false;
+
+		for (const item of cart.items) {
+			const itemPriceVal = item.priceProductStatus || item.productPrice;
+			const num = parsePriceNumber(itemPriceVal);
+			const qty = item.quantity || 1;
+			totalQuantity += qty;
+
+			if (num !== null) {
+				totalNumericSum += num * qty;
+				pricedItemsCount++;
+			} else {
+				unpricedItemsCount++;
+				if (itemPriceVal === 'Нет в наличии') {
+					hasOutOfStock = true;
+				}
+			}
+		}
+
+		return {
+			totalNumericSum,
+			pricedItemsCount,
+			unpricedItemsCount,
+			totalQuantity,
+			hasOutOfStock,
+		};
+	}, [cart?.items]);
 
 	const handleDownloadCP = async () => {
 		if (!cart?.items.length) return;
@@ -75,101 +120,122 @@ export const CartPage: React.FC = () => {
 				<div className="flex-grow bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
 					<div className="hidden md:grid grid-cols-12 gap-4 bg-gradient-to-r from-blue-50 to-emerald-50 p-4 border-b border-gray-200 font-bold uppercase text-xs text-gray-700">
 						<div className="col-span-6 pl-7">Товар</div>
-						<div className="col-span-3 text-center md:text-left ml-7">Статус</div>
-						<div className="col-span-3 text-center md:text-right pr-6">Количество</div>
+						<div className="col-span-3 text-left">Цена / Статус</div>
+						<div className="col-span-3 text-right pr-6">Количество</div>
 					</div>
 
 					<div className="divide-y divide-gray-100">
-						{cart.items.map(item => (
-							<div key={item.cart_item_id} className="p-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-center hover:bg-gray-50 transition-colors">
-								<div className="col-span-1 md:col-span-6 flex items-start gap-4">
-									{/* Фото товара */}
-									{item.photoDto && (
-										<div className="flex-shrink-0 w-20 h-20 bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
-											<img
-												src={getImageUrl(item.photoDto)}
-												alt={item.productName}
-												className="w-full h-full object-contain"
-												onError={(e) => {
-													(e.target as HTMLImageElement).src = `https://picsum.photos/80/80?error=${item.productId}`;
-												}}
-											/>
-										</div>
-									)}
-									<div className="flex-1 min-w-0">
-										<h3 className="font-bold text-gray-900 text-sm leading-tight mb-1">
-											<Link to={`/product/${item.productId}`} className="hover:text-emerald-600 transition-colors">
-												{item.productName}
-											</Link>
-										</h3>
-										<div className="flex items-center gap-2 mb-2">
-											<span className="text-xs font-mono text-emerald-700 bg-emerald-50 px-2 py-1 rounded border border-emerald-200">{item.tag}</span>
-											{item.productActive === false && (
-												<span className="text-xs font-medium text-red-600 bg-red-50 px-2 py-1 rounded border border-red-200">Неактивен</span>
+						{cart.items.map(item => {
+							const priceValue = item.priceProductStatus || item.productPrice;
+							const badge = getPriceBadgeInfo(priceValue);
+							const numericPrice = parsePriceNumber(priceValue);
+							const lineTotal = numericPrice !== null ? numericPrice * item.quantity : null;
+
+							return (
+								<div key={item.cart_item_id} className="p-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-center hover:bg-gray-50 transition-colors">
+									<div className="col-span-1 md:col-span-6 flex items-start gap-4">
+										{/* Фото товара */}
+										{item.photoDto && (
+											<div className="flex-shrink-0 w-20 h-20 bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
+												<img
+													src={getImageUrl(item.photoDto)}
+													alt={item.productName}
+													className="w-full h-full object-contain"
+													onError={(e) => {
+														(e.target as HTMLImageElement).src = `https://picsum.photos/80/80?error=${item.productId}`;
+													}}
+												/>
+											</div>
+										)}
+										<div className="flex-1 min-w-0">
+											<h3 className="font-bold text-gray-900 text-sm leading-tight mb-1">
+												<Link to={`/product/${item.productId}`} className="hover:text-emerald-600 transition-colors">
+													{item.productName}
+												</Link>
+											</h3>
+											<div className="flex items-center gap-2 mb-2 flex-wrap">
+												<span className="text-xs font-mono text-emerald-700 bg-emerald-50 px-2 py-1 rounded border border-emerald-200">{item.tag}</span>
+												{item.productActive === false && (
+													<span className="text-xs font-medium text-red-600 bg-red-50 px-2 py-1 rounded border border-red-200">Неактивен</span>
+												)}
+											</div>
+
+											{/* Характеристики */}
+											{item.characteristics && (
+												<div className="text-xs text-gray-600 mb-2 line-clamp-2 break-words max-w-full overflow-hidden">
+													{item.characteristics}
+												</div>
+											)}
+
+											{/* Условия доставки */}
+											{item.deliveryTerms && (
+												<div className="text-xs text-blue-600 font-medium bg-blue-50 px-2 py-1 rounded border border-blue-200 inline-block">
+													📦 {item.deliveryTerms}
+												</div>
 											)}
 										</div>
+									</div>
 
-										{/* Характеристики */}
-										{item.characteristics && (
-											<div className="text-xs text-gray-600 mb-2 line-clamp-2 break-words max-w-full overflow-hidden">
-												{item.characteristics}
+									{/* Цена / Статус */}
+									<div className="col-span-1 md:col-span-3 flex flex-col items-start text-left">
+										<span className="md:hidden text-xs text-gray-500 uppercase font-medium mb-1 block">Цена / Статус:</span>
+										{badge.isNumeric ? (
+											<div>
+												<div className="text-base font-bold text-gray-900">{badge.text}</div>
+												{item.quantity > 1 && lineTotal !== null && (
+													<div className="text-xs text-emerald-700 font-medium mt-0.5">
+														Всего: {formatPriceNumber(lineTotal)}
+													</div>
+												)}
 											</div>
-										)}
-
-										{/* Условия доставки */}
-										{item.deliveryTerms && (
-											<div className="text-xs text-blue-600 font-medium bg-blue-50 px-2 py-1 rounded border border-blue-200 inline-block">
-												📦 {item.deliveryTerms}
+										) : (
+											<div>
+												<span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${badge.badgeClass}`}>
+													{badge.text}
+												</span>
+												{badge.isOutOfStock && (
+													<p className="text-[11px] text-red-500 mt-1 font-medium">Нет на складе</p>
+												)}
 											</div>
 										)}
 									</div>
-								</div>
 
-								<div className="col-span-1 md:col-span-3 flex flex-col items-start md:block text-left">
-									<span className="md:hidden text-xs text-gray-500 uppercase font-medium mb-1 block">Статус:</span>
-									<span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold ${
-										item.productPrice === 'Нет в наличии'
-											? 'bg-red-100 text-red-800 border border-red-200'
-											: item.productPrice === 'Под заказ'
-											? 'bg-amber-100 text-amber-800 border border-amber-200'
-											: 'bg-blue-100 text-blue-800 border border-blue-200'
-									}`}>
-										{item.productPrice || 'Уточните цену'}
-									</span>
-								</div>
-
-								<div className="col-span-1 md:col-span-3 flex items-center justify-between md:justify-end gap-4">
-									<span className="md:hidden text-xs text-gray-500 uppercase font-medium block">Количество:</span>
-									<div className="flex items-center bg-white border-2 border-gray-200 rounded-lg h-10 shadow-sm">
+									{/* Количество и кнопка удаления */}
+									<div className="col-span-1 md:col-span-3 flex items-center justify-between md:justify-end gap-4">
+										<span className="md:hidden text-xs text-gray-500 uppercase font-medium block">Количество:</span>
+										<div className="flex items-center bg-white border-2 border-gray-200 rounded-lg h-10 shadow-sm">
+											<button
+												onClick={() => updateItemQuantity(item.cart_item_id, Math.max(1, item.quantity - 1))}
+												className="w-10 h-full flex items-center justify-center hover:bg-red-50 text-red-500 rounded-l-lg transition-colors"
+												title="Уменьшить"
+											>
+												<MinusIcon size={14} />
+											</button>
+											<input
+												type="text"
+												value={item.quantity}
+												readOnly
+												className="w-12 h-full text-center border-x border-gray-200 text-base font-bold focus:outline-none bg-gray-50"
+											/>
+											<button
+												onClick={() => updateItemQuantity(item.cart_item_id, item.quantity + 1)}
+												className="w-10 h-full flex items-center justify-center hover:bg-emerald-50 text-emerald-600 rounded-r-lg transition-colors"
+												title="Увеличить"
+											>
+												<PlusIcon size={14} />
+											</button>
+										</div>
 										<button
-											onClick={() => updateItemQuantity(item.cart_item_id, Math.max(1, item.quantity - 1))}
-											className="w-10 h-full flex items-center justify-center hover:bg-red-50 text-red-500 rounded-l-lg transition-colors"
+											onClick={() => removeFromCart(item.cart_item_id)}
+											className="text-gray-400 hover:text-red-600 transition-colors p-2 hover:bg-red-50 rounded-lg"
+											title="Удалить товар"
 										>
-											<MinusIcon size={14} />
-										</button>
-										<input
-											type="text"
-											value={item.quantity}
-											readOnly
-											className="w-12 h-full text-center border-x border-gray-200 text-base font-bold focus:outline-none bg-gray-50"
-										/>
-										<button
-											onClick={() => updateItemQuantity(item.cart_item_id, item.quantity + 1)}
-											className="w-10 h-full flex items-center justify-center hover:bg-emerald-50 text-emerald-600 rounded-r-lg transition-colors"
-										>
-											<PlusIcon size={14} />
+											<TrashIcon size={18} />
 										</button>
 									</div>
-									<button
-										onClick={() => removeFromCart(item.cart_item_id)}
-										className="text-gray-400 hover:text-red-600 transition-colors p-2 hover:bg-red-50 rounded-lg"
-										title="Удалить товар"
-									>
-										<TrashIcon size={18} />
-									</button>
 								</div>
-							</div>
-						))}
+							);
+						})}
 					</div>
 				</div>
 
@@ -186,20 +252,64 @@ export const CartPage: React.FC = () => {
 						</div>
 
 						<div className="bg-white/10 backdrop-blur rounded-xl p-6 mb-6">
-							<div className="flex justify-between items-center mb-4">
-								<span className="text-white/80 font-medium">Товаров ({cart.items.length})</span>
-								<span className="font-semibold">{cart.items.length} шт.</span>
+							<div className="flex justify-between items-center mb-3 text-sm">
+								<span className="text-white/80 font-medium">Всего единиц</span>
+								<span className="font-semibold">{summary.totalQuantity} шт. ({cart.items.length} поз.)</span>
 							</div>
-							<div className="border-t border-white/20 pt-4">
-								<div className="flex justify-between items-center">
-									<span className="text-lg font-medium">Статус цен</span>
-									<div className="text-right">
-										<div className="text-xl font-bold">
-											Уточните цену
+
+							{summary.pricedItemsCount > 0 && summary.unpricedItemsCount > 0 ? (
+								<>
+									<div className="flex justify-between items-center mb-2 text-sm text-white/90">
+										<span className="text-white/80">Позиций с ценой:</span>
+										<span className="font-semibold">{formatPriceNumber(summary.totalNumericSum)}</span>
+									</div>
+									<div className="flex justify-between items-center mb-3 text-xs text-amber-200 bg-amber-500/20 px-2.5 py-1.5 rounded border border-amber-300/30">
+										<span>Без точной цены:</span>
+										<span className="font-bold">{summary.unpricedItemsCount} поз. (уточняются)</span>
+									</div>
+									<div className="border-t border-white/20 pt-4">
+										<div className="flex justify-between items-baseline">
+											<span className="text-lg font-medium">Предварительно</span>
+											<div className="text-right">
+												<div className="text-2xl font-extrabold tracking-tight">
+													от {formatPriceNumber(summary.totalNumericSum)}
+												</div>
+												<span className="text-xs text-white/70 block mt-0.5">+ позиции по запросу</span>
+											</div>
+										</div>
+									</div>
+								</>
+							) : summary.pricedItemsCount > 0 && summary.unpricedItemsCount === 0 ? (
+								<div className="border-t border-white/20 pt-4">
+									<div className="flex justify-between items-baseline">
+										<span className="text-lg font-medium">Итого к оплате</span>
+										<div className="text-right">
+											<div className="text-2xl font-extrabold tracking-tight">
+												{formatPriceNumber(summary.totalNumericSum)}
+											</div>
+											<span className="text-xs text-emerald-200 block mt-0.5">Точная стоимость заказа</span>
 										</div>
 									</div>
 								</div>
-							</div>
+							) : (
+								<div className="border-t border-white/20 pt-4">
+									<div className="flex justify-between items-baseline">
+										<span className="text-lg font-medium">Итог заказа</span>
+										<div className="text-right">
+											<div className="text-xl font-bold tracking-tight">
+												{cart.totalPrice || 'По запросу'}
+											</div>
+											<span className="text-xs text-white/70 block mt-0.5">Уточняется у менеджера</span>
+										</div>
+									</div>
+								</div>
+							)}
+
+							{summary.hasOutOfStock && (
+								<div className="mt-4 p-2.5 rounded-lg bg-red-500/20 border border-red-300/40 text-xs text-red-100 flex items-center gap-2">
+									<span>⚠️ В заказе есть позиции со статусом «Нет в наличии». Сроки поставки уточнит менеджер.</span>
+								</div>
+							)}
 						</div>
 
 						<button

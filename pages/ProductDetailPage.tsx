@@ -6,6 +6,7 @@ import { useCart } from '../context/CartContext';
 import { GetProductDto, GetProductsUserDto } from '../types';
 import { ProductCard } from '../components/ProductCard';
 import { buildUrl } from '../config/api';
+import { getPriceBadgeInfo } from '../utils/priceUtils';
 
 export const ProductDetailPage: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
@@ -155,21 +156,18 @@ export const ProductDetailPage: React.FC = () => {
 		}
 	};
 	const getStatusBadge = (status: string) => {
-		switch (status) {
-			case 'Нет в наличии':
-				return <span className="inline-flex items-center px-3 py-1.5 rounded-full text-base font-semibold bg-red-100 text-red-800 border border-red-200">Нет в наличии</span>;
-			case 'Под заказ':
-				return <span className="inline-flex items-center px-3 py-1.5 rounded-full text-base font-semibold bg-amber-100 text-amber-800 border border-amber-200">Под заказ</span>;
-			case 'Уточните цену':
-			default:
-				return <span className="inline-flex items-center px-3 py-1.5 rounded-full text-base font-semibold bg-blue-100 text-blue-800 border border-blue-200">Уточните цену</span>;
+		const badge = getPriceBadgeInfo(status);
+		if (badge.isNumeric) {
+			return <span className="text-2xl sm:text-3xl font-extrabold text-emerald-700">{badge.text}</span>;
 		}
+		return <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-base font-semibold ${badge.badgeClass}`}>{badge.text}</span>;
 	};
 
 	const handleWhatsApp = () => {
 		if (product) {
-			const status = product.priceProductStatus || product.price || 'Уточните цену';
-			const text = `Здравствуйте! Меня интересует ${product.productName} (Статус: ${status}). Количество: ${quantity}`;
+			const badge = getPriceBadgeInfo(product.priceProductStatus || product.price);
+			const priceText = badge.isNumeric ? `Цена: ${badge.text}` : `Статус: ${badge.text}`;
+			const text = `Здравствуйте! Меня интересует ${product.productName} (${priceText}). Количество: ${quantity}`;
 			window.open(`https://wa.me/77472164664?text=${encodeURIComponent(text)}`, '_blank');
 		}
 	};
@@ -211,6 +209,7 @@ export const ProductDetailPage: React.FC = () => {
 
 	const photos = product.photos || [];
 	const mainImage = photos[selectedImageIndex];
+	const badge = getPriceBadgeInfo(product.priceProductStatus || product.price);
 
 	return (
 		<div className="container mx-auto px-4 py-8">
@@ -287,7 +286,9 @@ export const ProductDetailPage: React.FC = () => {
 					<div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
 						<div className="flex items-center justify-between mb-4">
 							<div>
-								<p className="text-sm text-gray-600 mb-1">Статус товара</p>
+								<p className="text-sm text-gray-600 mb-1">
+									{badge.isNumeric ? 'Цена товара' : 'Статус цены'}
+								</p>
 								<div>{getStatusBadge(product.priceProductStatus || product.price || 'Уточните цену')}</div>
 							</div>
 							<div className="text-right">
@@ -304,7 +305,7 @@ export const ProductDetailPage: React.FC = () => {
 								<div className="flex items-center border border-gray-300 rounded-lg">
 									<button
 										onClick={() => setQuantity(Math.max(1, quantity - 1))}
-										disabled={(product.priceProductStatus || product.price) === 'Нет в наличии'}
+										disabled={badge.isOutOfStock}
 										className="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-50"
 									>
 										-
@@ -314,12 +315,12 @@ export const ProductDetailPage: React.FC = () => {
 										min="1"
 										value={quantity}
 										onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-										disabled={(product.priceProductStatus || product.price) === 'Нет в наличии'}
+										disabled={badge.isOutOfStock}
 										className="w-20 text-center border-0 focus:outline-none disabled:bg-gray-100"
 									/>
 									<button
 										onClick={() => setQuantity(quantity + 1)}
-										disabled={(product.priceProductStatus || product.price) === 'Нет в наличии'}
+										disabled={badge.isOutOfStock}
 										className="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors disabled:opacity-50"
 									>
 										+
@@ -330,15 +331,15 @@ export const ProductDetailPage: React.FC = () => {
 							{/* Add to Cart Button */}
 							<button
 								onClick={handleAddToCart}
-								disabled={(product.priceProductStatus || product.price) === 'Нет в наличии'}
+								disabled={badge.isOutOfStock}
 								className={`w-full md:w-auto px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 ${
-									(product.priceProductStatus || product.price) === 'Нет в наличии'
+									badge.isOutOfStock
 										? 'bg-gray-300 text-gray-500 cursor-not-allowed'
 										: 'bg-industrial-900 text-white hover:bg-industrial-800'
 								}`}
 							>
 								<ShoppingCartIcon size={20} />
-								{(product.priceProductStatus || product.price) === 'Нет в наличии' ? 'Нет в наличии' : 'Добавить в корзину'}
+								{badge.isOutOfStock ? 'Нет в наличии' : 'Добавить в корзину'}
 							</button>
 
 							{/* WhatsApp Button */}

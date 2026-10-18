@@ -5,6 +5,7 @@ import { useAdminAuth } from '../context/AdminAuthContext';
 import { AdminApiService } from '../services/adminApi';
 import { GetProductDto, GetPhotoDto } from '../types';
 import { AdminNavigation } from '../components/AdminNavigation';
+import { getPriceBadgeInfo } from '../utils/priceUtils';
 import {
 	EditIcon,
 	TrashIcon,
@@ -376,17 +377,13 @@ export const AdminProductDetailPage: React.FC = () => {
 								<div className="lg:col-span-2">
 									<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
 										<div>
-											<label className="block text-sm font-medium text-gray-500">Статус</label>
+											<label className="block text-sm font-medium text-gray-500">Цена / Статус</label>
 											<p className="mt-1">
 												{(() => {
-													const status = product.priceProductStatus || product.price || 'Уточните цену';
+													const badge = getPriceBadgeInfo(product.priceProductStatus || product.price);
 													return (
-														<span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-bold ${
-															status === 'Нет в наличии' ? 'bg-red-100 text-red-800 border border-red-200' :
-															status === 'Под заказ' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
-															'bg-emerald-100 text-emerald-800 border border-emerald-200'
-														}`}>
-															{status}
+														<span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-bold ${badge.badgeClass}`}>
+															{badge.text}
 														</span>
 													);
 												})()}

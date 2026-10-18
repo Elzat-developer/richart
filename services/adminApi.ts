@@ -7,7 +7,8 @@ import {
 	ImportHistoriesDto,
 	ImportHistoryDto,
 	SignInRequest,
-	JwtAuthenticationResponse
+	JwtAuthenticationResponse,
+	PriceProductStatus
 } from '../types';
 
 // Базовый URL для админ API
@@ -133,7 +134,8 @@ export const AdminApiService = {
 		productName: string;
 		description: string;
 		tag: string;
-		price: string | number;
+		priceProductStatus?: PriceProductStatus;
+		price?: string | number;
 		material: string;
 		dimensions: string;
 		weight: number;

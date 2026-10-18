@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { AdminApiService } from '../services/adminApi';
 import { CreateProductDto, GetProductDto, BackendCategoryDto } from '../types';
+import { isNumericPrice, parsePriceNumber, formatPriceNumber } from '../utils/priceUtils';
 
 type SpecEntry = { id: string; name: string; value: string };
 
@@ -33,6 +34,11 @@ export const AdminProductFormPage: React.FC = () => {
 	const [categories, setCategories] = useState<BackendCategoryDto[]>([]);
 	const [loadingCategories, setLoadingCategories] = useState(false);
 	const [specEntries, setSpecEntries] = useState<SpecEntry[]>([]);
+
+	// Режим цены: числовая цена или статус
+	const [priceType, setPriceType] = useState<'numeric' | 'status'>('status');
+	const [numericPrice, setNumericPrice] = useState<string>('');
+	const [selectedStatus, setSelectedStatus] = useState<string>('Уточните цену');
 
 	// Функция для загрузки категорий по типу
 	const loadCategories = async (type: 'industrial' | 'household') => {
@@ -87,6 +93,18 @@ export const AdminProductFormPage: React.FC = () => {
 					setLoading(true);
 					const productData = await AdminApiService.getProduct(parseInt(id));
 					const status = productData.priceProductStatus || productData.price || 'Уточните цену';
+
+					if (isNumericPrice(status)) {
+						setPriceType('numeric');
+						const num = parsePriceNumber(status);
+						setNumericPrice(num !== null ? String(num) : '');
+						setSelectedStatus('Уточните цену');
+					} else {
+						setPriceType('status');
+						setNumericPrice('');
+						setSelectedStatus(status);
+					}
+
 					setFormData({
 						productName: productData.productName || '',
 						description: productData.description || '',
@@ -113,7 +131,7 @@ export const AdminProductFormPage: React.FC = () => {
 					setSpecEntries(specsRecordToEntries(productData.specifications));
 				}
 			} catch (error) {
-				} finally {
+			} finally {
 				setLoading(false);
 			}
 		};
@@ -131,7 +149,10 @@ export const AdminProductFormPage: React.FC = () => {
 
 		setSaving(true);
 		const specifications = entriesToSpecsRecord(specEntries);
-		const status = (formData.priceProductStatus || formData.price || 'Уточните цену') as any;
+		const finalPriceStatus = priceType === 'numeric'
+			? (numericPrice.trim() || 'Уточните цену')
+			: selectedStatus;
+
 		try {
 			if (isEditing && id) {
 				await AdminApiService.editProduct({
@@ -139,8 +160,8 @@ export const AdminProductFormPage: React.FC = () => {
 					productName: formData.productName,
 					description: formData.description,
 					tag: formData.tag,
-					priceProductStatus: status,
-					price: status,
+					priceProductStatus: finalPriceStatus,
+					price: finalPriceStatus,
 					material: formData.material,
 					dimensions: formData.dimensions,
 					weight: formData.weight,
@@ -161,17 +182,16 @@ export const AdminProductFormPage: React.FC = () => {
 			} else {
 				await AdminApiService.createProduct({
 					...formData,
-					priceProductStatus: status,
-					price: status,
+					priceProductStatus: finalPriceStatus,
+					price: finalPriceStatus,
 					specifications
 				});
 			}
 
-			// Показываем сообщение об успехе
 			// Перенаправляем обратно к списку товаров
 			navigate('/admin/products');
 		} catch (error) {
-			} finally {
+		} finally {
 			setSaving(false);
 		}
 	};
@@ -385,23 +405,76 @@ export const AdminProductFormPage: React.FC = () => {
 						<div>
 							<h3 className="text-base sm:text-lg font-medium text-gray-900 mb-3 sm:mb-4">Спецификации</h3>
 							<div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2">
-								<div>
-									<label htmlFor="priceProductStatus" className="block text-sm font-medium text-gray-700">
-										Статус <span className="text-red-500">*</span>
+								<div className="bg-gray-50/80 p-3.5 sm:p-4 rounded-lg border border-gray-200">
+									<label className="block text-sm font-semibold text-gray-900 mb-2">
+										Цена / Статус товара <span className="text-red-500">*</span>
 									</label>
-									<select
-										id="priceProductStatus"
-										value={formData.priceProductStatus || formData.price || 'Уточните цену'}
-										onChange={(e) => {
-											const val = e.target.value as any;
-											setFormData(prev => ({ ...prev, priceProductStatus: val, price: val }));
-										}}
-										className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-industrial-accent focus:border-industrial-accent bg-white font-medium text-gray-900"
-									>
-										<option value="Уточните цену">Уточните цену</option>
-										<option value="Нет в наличии">Нет в наличии</option>
-										<option value="Под заказ">Под заказ</option>
-									</select>
+
+									{/* Переключатель: Числовая цена vs Статус */}
+									<div className="grid grid-cols-2 gap-2 p-1 bg-gray-200/70 rounded-lg mb-3">
+										<button
+											type="button"
+											onClick={() => setPriceType('numeric')}
+											className={`py-1.5 px-3 text-xs sm:text-sm font-medium rounded-md transition-all ${
+												priceType === 'numeric'
+													? 'bg-industrial-accent text-white shadow-sm font-semibold'
+													: 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
+											}`}
+										>
+											💰 Указать цену (₸)
+										</button>
+										<button
+											type="button"
+											onClick={() => setPriceType('status')}
+											className={`py-1.5 px-3 text-xs sm:text-sm font-medium rounded-md transition-all ${
+												priceType === 'status'
+													? 'bg-industrial-accent text-white shadow-sm font-semibold'
+													: 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
+											}`}
+										>
+											📌 Статус без цены
+										</button>
+									</div>
+
+									{priceType === 'numeric' ? (
+										<div>
+											<div className="relative rounded-md shadow-sm">
+												<input
+													type="number"
+													id="numericPrice"
+													min="1"
+													step="1"
+													placeholder="Например: 150000"
+													value={numericPrice}
+													onChange={(e) => setNumericPrice(e.target.value)}
+													className="block w-full pr-10 px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-industrial-accent focus:border-industrial-accent text-gray-900 font-semibold"
+													required={priceType === 'numeric'}
+												/>
+												<div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+													<span className="text-gray-500 font-bold sm:text-sm">₸</span>
+												</div>
+											</div>
+											<p className="mt-1.5 text-xs text-gray-600">
+												Отображение: <span className="font-bold text-emerald-700">{numericPrice ? `${new Intl.NumberFormat('ru-RU').format(Number(numericPrice))} ₸` : 'Уточните цену'}</span>
+											</p>
+										</div>
+									) : (
+										<div>
+											<select
+												id="selectedStatus"
+												value={selectedStatus}
+												onChange={(e) => setSelectedStatus(e.target.value)}
+												className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-industrial-accent focus:border-industrial-accent bg-white font-medium text-gray-900"
+											>
+												<option value="Уточните цену">Уточните цену</option>
+												<option value="Под заказ">Под заказ</option>
+												<option value="Нет в наличии">Нет в наличии</option>
+											</select>
+											<p className="mt-1.5 text-xs text-gray-500">
+												Товар будет создан со статусом «{selectedStatus}»
+											</p>
+										</div>
+									)}
 								</div>
 
 								<div>

@@ -3,7 +3,7 @@ export interface GetPhotoDto {
 	photoURL: string;
 }
 
-export type PriceProductStatus = 'Уточните цену' | 'Нет в наличии' | 'Под заказ';
+export type PriceProductStatus = 'Уточните цену' | 'Нет в наличии' | 'Под заказ' | string;
 
 // Интерфейс для списка товаров пользователя (упрощенный)
 export interface GetProductsUserDto {
@@ -22,10 +22,13 @@ export interface GetProductsDto {
 	productId: number;
 	productName: string;
 	tag: string;
+	priceProductStatus: PriceProductStatus;
+	price?: PriceProductStatus;
 	createdAt: string;
 	updatedAt: string;
 	material: string;
 	categoryId: number;
+	productType?: 'industrial' | 'household';
 	photoDto: GetPhotoDto;
 }
 
@@ -70,6 +73,16 @@ export interface CreateProductDto {
 	quantity: number;
 	photos: File[];
 	techSpecFile?: File; // Файл технических спецификаций
+	width?: number;
+	depth?: number;
+	height?: number;
+	power?: string;
+	voltage?: string;
+	country?: string;
+	specifications?: Record<string, string>;
+	createdAt?: string;
+	productType?: 'industrial' | 'household';
+	active?: boolean;
 }
 
 export interface EditProductDto {
@@ -204,26 +217,7 @@ export interface OrderResponseDto {
 }
 
 // --- Admin Types ---
-export interface CreateProductDto {
-	productName: string;
-	description: string;
-	tag: string;
-	price: string;
-	material: string;
-	dimensions: string;
-	weight: number;
-	width?: number;  // Ширина, мм
-	depth?: number;  // Глубина, мм
-	height?: number; // Высота, мм
-	power?: string;   // Мощность (может быть в кВт или ккал)
-	voltage?: string; // Напряжение (220В, 380В)
-	country?: string;
-	specifications?: Record<string, string>;
-	createdAt: string;
-	categoryId: number;
-	quantity: number;
-	productType?: 'industrial' | 'household';
-}
+
 
 export interface CreateCategoryDto {
 	categoryName: string;

@@ -5,6 +5,7 @@ import { AdminApiService } from '../services/adminApi';
 import { GetProductsDto, BackendCategoryDto, GetPhotoDto } from '../types';
 import { AdminNavigation } from '../components/AdminNavigation';
 import { buildUrl } from '../config/api';
+import { isNumericPrice, getPriceBadgeInfo } from '../utils/priceUtils';
 import {
 	EditIcon,
 	TrashIcon,
@@ -25,6 +26,7 @@ export const AdminProductsPage: React.FC = () => {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [filterCategory, setFilterCategory] = useState('');
 	const [filterMaterial, setFilterMaterial] = useState('');
+	const [filterStatus, setFilterStatus] = useState('');
 	const [filterDateFrom, setFilterDateFrom] = useState('');
 	const [filterDateTo, setFilterDateTo] = useState('');
 	const [filterDateType, setFilterDateType] = useState<'created' | 'updated'>('created');
@@ -150,16 +152,27 @@ export const AdminProductsPage: React.FC = () => {
 	// Сбрасываем страницу при изменении фильтров
 	useEffect(() => {
 		setCurrentPage(1);
-	}, [searchTerm, filterCategory, filterMaterial, filterDateFrom, filterDateTo, filterDateType]);
+	}, [searchTerm, filterCategory, filterMaterial, filterStatus, filterDateFrom, filterDateTo, filterDateType]);
 
 	// Получаем уникальные материалы для фильтра
 	const uniqueMaterials = [...new Set(products.map(p => p.material).filter(Boolean))].sort();
 
 	const filteredProducts = products.filter(product => {
+		const statusText = String((product as any).priceProductStatus || (product as any).price || '');
 		const matchesSearch = product.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-			product.tag.toLowerCase().includes(searchTerm.toLowerCase());
+			product.tag.toLowerCase().includes(searchTerm.toLowerCase()) ||
+			statusText.toLowerCase().includes(searchTerm.toLowerCase());
 		const matchesCategory = !filterCategory || product.categoryId.toString() === filterCategory;
 		const matchesMaterial = !filterMaterial || product.material === filterMaterial;
+
+		let matchesStatus = true;
+		if (filterStatus) {
+			if (filterStatus === 'with_price') {
+				matchesStatus = isNumericPrice(statusText);
+			} else {
+				matchesStatus = statusText === filterStatus;
+			}
+		}
 
 		// Фильтрация по дате
 		let matchesDate = true;
@@ -200,7 +213,7 @@ export const AdminProductsPage: React.FC = () => {
 			console.log(`Product ${product.productId} matches date:`, matchesDate);
 		}
 
-		return matchesSearch && matchesCategory && matchesMaterial && matchesDate;
+		return matchesSearch && matchesCategory && matchesMaterial && matchesStatus && matchesDate;
 	});
 
 	// Пагинация
@@ -257,6 +270,7 @@ export const AdminProductsPage: React.FC = () => {
 		setSearchTerm('');
 		setFilterCategory('');
 		setFilterMaterial('');
+		setFilterStatus('');
 		setFilterDateFrom('');
 		setFilterDateTo('');
 		setFilterDateType('created');
@@ -374,14 +388,14 @@ export const AdminProductsPage: React.FC = () => {
 					<div className="bg-white shadow rounded-lg mb-6 p-4">
 						<div className="space-y-4">
 							{/* First row - Main filters */}
-							<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 								<div className="relative">
 									<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
 										<SearchIcon className="h-5 w-5 text-gray-400" />
 									</div>
 									<input
 										type="text"
-										placeholder="Поиск по названию или артикулу..."
+										placeholder="Поиск по названию, артикулу, статусу..."
 										value={searchTerm}
 										onChange={(e) => setSearchTerm(e.target.value)}
 										className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-industrial-accent focus:border-industrial-accent"
@@ -412,6 +426,18 @@ export const AdminProductsPage: React.FC = () => {
 											{material}
 										</option>
 									))}
+								</select>
+
+								<select
+									value={filterStatus}
+									onChange={(e) => setFilterStatus(e.target.value)}
+									className="block w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-industrial-accent focus:border-industrial-accent"
+								>
+									<option value="">Все цены и статусы</option>
+									<option value="with_price">💰 С точной ценой</option>
+									<option value="Уточните цену">🔵 Уточните цену</option>
+									<option value="Под заказ">🟡 Под заказ</option>
+									<option value="Нет в наличии">🔴 Нет в наличии</option>
 								</select>
 							</div>
 
@@ -573,17 +599,14 @@ export const AdminProductsPage: React.FC = () => {
 														<p className="mb-1">
 															<span className="font-medium">Материал:</span> {product.material || 'Не указан'}
 														</p>
-														<p className="mb-1">
-															<span className="font-medium">Статус:</span>{' '}
+														<p className="mb-1 flex items-center gap-1.5 flex-wrap">
+															<span className="font-medium">Цена / Статус:</span>{' '}
 															{(() => {
-																const status = (product as any).priceProductStatus || (product as any).price || 'Уточните цену';
+																const rawVal = (product as any).priceProductStatus || (product as any).price;
+																const badge = getPriceBadgeInfo(rawVal);
 																return (
-																	<span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold ${
-																		status === 'Нет в наличии' ? 'bg-red-100 text-red-800' :
-																		status === 'Под заказ' ? 'bg-amber-100 text-amber-800' :
-																		'bg-emerald-100 text-emerald-800'
-																	}`}>
-																		{status}
+																	<span className={`inline-flex items-center px-2 py-0.5 rounded text-xs ${badge.badgeClass}`}>
+																		{badge.text}
 																	</span>
 																);
 															})()}
@@ -662,7 +685,7 @@ export const AdminProductsPage: React.FC = () => {
 															Материал
 														</th>
 														<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-															Статус
+															Цена / Статус
 														</th>
 														<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 															Создан
@@ -707,14 +730,11 @@ export const AdminProductsPage: React.FC = () => {
 															</td>
 															<td className="px-6 py-4 whitespace-nowrap">
 																{(() => {
-																	const status = (product as any).priceProductStatus || (product as any).price || 'Уточните цену';
+																	const rawVal = (product as any).priceProductStatus || (product as any).price;
+																	const badge = getPriceBadgeInfo(rawVal);
 																	return (
-																		<span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-																			status === 'Нет в наличии' ? 'bg-red-100 text-red-800' :
-																			status === 'Под заказ' ? 'bg-amber-100 text-amber-800' :
-																			'bg-emerald-100 text-emerald-800'
-																		}`}>
-																			{status}
+																		<span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs ${badge.badgeClass}`}>
+																			{badge.text}
 																		</span>
 																	);
 																})()}
@@ -906,17 +926,14 @@ export const AdminProductsPage: React.FC = () => {
 											</div>
 
 											<div>
-												<span className="text-sm font-medium text-gray-700">Статус:</span>
+												<span className="text-sm font-medium text-gray-700">Цена / Статус:</span>
 												<p className="mt-1">
 													{(() => {
-														const status = (selectedProduct as any).priceProductStatus || (selectedProduct as any).price || 'Уточните цену';
+														const rawVal = (selectedProduct as any).priceProductStatus || (selectedProduct as any).price;
+														const badge = getPriceBadgeInfo(rawVal);
 														return (
-															<span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-																status === 'Нет в наличии' ? 'bg-red-100 text-red-800' :
-																status === 'Под заказ' ? 'bg-amber-100 text-amber-800' :
-																'bg-emerald-100 text-emerald-800'
-															}`}>
-																{status}
+															<span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${badge.badgeClass}`}>
+																{badge.text}
 															</span>
 														);
 													})()}

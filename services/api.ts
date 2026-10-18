@@ -102,6 +102,7 @@ const MOCK_PRODUCTS: GetProductsUserDto[] = [
 	...Array.from({ length: 12 }, (_, i) => ({
 		productId: i + 1,
 		productName: `Industrial Worktable Model ${String.fromCharCode(65 + i)}`,
+		priceProductStatus: (['Уточните цену', 'Под заказ', 'Нет в наличии'] as const)[i % 3],
 		productPrice: (['Уточните цену', 'Под заказ', 'Нет в наличии'] as const)[i % 3],
 		material: ['Сталь', 'Алюминий', 'Дерево'][i % 3],
 		categoryId: (i % 3) + 1,
@@ -116,6 +117,7 @@ const MOCK_PRODUCTS: GetProductsUserDto[] = [
 	...Array.from({ length: 8 }, (_, i) => ({
 		productId: 13 + i,
 		productName: `Household ${['Chair', 'Table', 'Sofa', 'Bed', 'Wardrobe', 'Kitchen Cabinet', 'Shelf', 'Lamp'][i]}`,
+		priceProductStatus: (['Уточните цену', 'Под заказ', 'Нет в наличии'] as const)[i % 3],
 		productPrice: (['Уточните цену', 'Под заказ', 'Нет в наличии'] as const)[i % 3],
 		material: ['Дерево', 'МДФ', 'ЛДСП', 'Металл', 'Ткань', 'Пластик', 'Стекло', 'Керамика'][i],
 		categoryId: 4 + (i % 2), // Категории 4-5 для бытовых
@@ -321,7 +323,8 @@ export const ApiService = {
 						productId: product.productId,
 						productName: product.productName,
 						tag: 'industrial', // Используем статичное значение
-						productPrice: product.productPrice || 0, // Используем productPrice
+						priceProductStatus: product.priceProductStatus || product.productPrice || 'Уточните цену',
+						productPrice: product.priceProductStatus || product.productPrice || 'Уточните цену',
 						quantity: quantity
 					});
 				}
@@ -371,7 +374,7 @@ export const ApiService = {
 			return {
 				id: Date.now(),
 				orderNumber: `ORD-${Date.now()}`,
-				totalAmount: MOCK_CART.reduce((acc, item) => acc + (item.productPrice * item.quantity), 0),
+				totalAmount: MOCK_CART.reduce((acc, item) => acc + ((Number(item.priceProductStatus || item.productPrice) || 0) * item.quantity), 0),
 				status: 'pending',
 				createdAt: new Date().toISOString()
 			};
