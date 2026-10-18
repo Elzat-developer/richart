@@ -5,12 +5,27 @@ export const STATUS_ON_ORDER = 'Под заказ';
 export const ALL_STATUSES = [STATUS_CHECK_PRICE, STATUS_OUT_OF_STOCK, STATUS_ON_ORDER] as const;
 
 /**
- * Returns true if the value represents a valid numeric price (not undefined, null, or a text status).
+ * Safely extracts string value from primitive or object ({ value: '...' }).
  */
-export const isNumericPrice = (value?: string | number | null): boolean => {
-	if (value === null || value === undefined) return false;
-	const str = String(value).trim();
-	if (!str) return false;
+export const unwrapPriceValue = (value?: any): string => {
+	if (value === null || value === undefined) return '';
+	if (typeof value === 'object' && value !== null) {
+		if ('value' in value) {
+			return String(value.value || '').trim();
+		}
+		if ('priceProductStatus' in value) {
+			return unwrapPriceValue(value.priceProductStatus);
+		}
+	}
+	return String(value).trim();
+};
+
+/**
+ * Returns true if the value represents a valid numeric price (greater than 0, not text status).
+ */
+export const isNumericPrice = (value?: any): boolean => {
+	const str = unwrapPriceValue(value);
+	if (!str || str === '[object Object]') return false;
 	if (str === STATUS_CHECK_PRICE || str === STATUS_OUT_OF_STOCK || str === STATUS_ON_ORDER) {
 		return false;
 	}
@@ -24,17 +39,17 @@ export const isNumericPrice = (value?: string | number | null): boolean => {
 };
 
 /**
- * Parses numeric price from string/number. Returns number or null.
+ * Parses numeric price from string/number/object. Returns number > 0 or null.
  */
-export const parsePriceNumber = (value?: string | number | null): number | null => {
+export const parsePriceNumber = (value?: any): number | null => {
 	if (!isNumericPrice(value)) return null;
-	const clean = String(value)
-		.trim()
+	const str = unwrapPriceValue(value);
+	const clean = str
 		.replace(/\s+/g, '')
 		.replace(/\u00A0/g, '')
 		.replace(/[₸тТkztKZTруб\.р]/gi, '');
 	const num = Number(clean);
-	return isNaN(num) ? null : num;
+	return isNaN(num) || num <= 0 ? null : num;
 };
 
 /**
@@ -46,28 +61,27 @@ export const formatPriceNumber = (amount: number): string => {
 
 /**
  * Formats either a numeric price or a status string.
- * If numeric -> "150 000 ₸"
- * If status ("Нет в наличии", "Под заказ", "Уточните цену") -> "Нет в наличии" / "Под заказ" / "Уточните цену"
+ * If numeric (> 0) -> "150 000 ₸"
+ * If 0, null, or status -> "Нет в наличии" / "Под заказ" / "Уточните цену"
  */
-export const formatPrice = (value?: string | number | null): string => {
-	if (value === null || value === undefined) return STATUS_CHECK_PRICE;
-	const num = parsePriceNumber(value);
-	if (num !== null) {
+export const formatPrice = (value?: any): string => {
+	const str = unwrapPriceValue(value);
+	if (!str || str === '0') return STATUS_CHECK_PRICE;
+	const num = parsePriceNumber(str);
+	if (num !== null && num > 0) {
 		return formatPriceNumber(num);
 	}
-	const str = String(value).trim();
-	if (!str) return STATUS_CHECK_PRICE;
 	return str;
 };
 
 /**
  * Helper to get status information, badge classes, and stock state.
  */
-export const getPriceBadgeInfo = (value?: string | number | null) => {
+export const getPriceBadgeInfo = (value?: any) => {
 	const num = parsePriceNumber(value);
-	const str = String(value || STATUS_CHECK_PRICE).trim();
+	const str = unwrapPriceValue(value) || STATUS_CHECK_PRICE;
 
-	if (num !== null) {
+	if (num !== null && num > 0) {
 		return {
 			isNumeric: true,
 			text: formatPriceNumber(num),

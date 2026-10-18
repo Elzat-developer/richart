@@ -380,7 +380,7 @@ export const AdminProductDetailPage: React.FC = () => {
 											<label className="block text-sm font-medium text-gray-500">Цена / Статус</label>
 											<p className="mt-1">
 												{(() => {
-													const badge = getPriceBadgeInfo(product.priceProductStatus || product.price);
+													const badge = getPriceBadgeInfo(product.priceProductStatus ?? product.price);
 													return (
 														<span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-bold ${badge.badgeClass}`}>
 															{badge.text}

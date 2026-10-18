@@ -165,7 +165,7 @@ export const ProductDetailPage: React.FC = () => {
 
 	const handleWhatsApp = () => {
 		if (product) {
-			const badge = getPriceBadgeInfo(product.priceProductStatus || product.price);
+			const badge = getPriceBadgeInfo(product.priceProductStatus ?? product.price);
 			const priceText = badge.isNumeric ? `Цена: ${badge.text}` : `Статус: ${badge.text}`;
 			const text = `Здравствуйте! Меня интересует ${product.productName} (${priceText}). Количество: ${quantity}`;
 			window.open(`https://wa.me/77472164664?text=${encodeURIComponent(text)}`, '_blank');
@@ -209,7 +209,7 @@ export const ProductDetailPage: React.FC = () => {
 
 	const photos = product.photos || [];
 	const mainImage = photos[selectedImageIndex];
-	const badge = getPriceBadgeInfo(product.priceProductStatus || product.price);
+	const badge = getPriceBadgeInfo(product.priceProductStatus ?? product.price);
 
 	return (
 		<div className="container mx-auto px-4 py-8">
@@ -289,7 +289,7 @@ export const ProductDetailPage: React.FC = () => {
 								<p className="text-sm text-gray-600 mb-1">
 									{badge.isNumeric ? 'Цена товара' : 'Статус цены'}
 								</p>
-								<div>{getStatusBadge(product.priceProductStatus || product.price || 'Уточните цену')}</div>
+								<div>{getStatusBadge(product.priceProductStatus ?? product.price ?? 'Уточните цену')}</div>
 							</div>
 							<div className="text-right">
 								<p className="text-sm text-gray-600 mb-1">В наличии</p>

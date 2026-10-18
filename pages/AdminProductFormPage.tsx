@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { AdminApiService } from '../services/adminApi';
 import { CreateProductDto, GetProductDto, BackendCategoryDto } from '../types';
-import { isNumericPrice, parsePriceNumber, formatPriceNumber } from '../utils/priceUtils';
+import { isNumericPrice, parsePriceNumber, formatPriceNumber, unwrapPriceValue } from '../utils/priceUtils';
 
 type SpecEntry = { id: string; name: string; value: string };
 
@@ -92,17 +92,18 @@ export const AdminProductFormPage: React.FC = () => {
 				if (isEditing && id) {
 					setLoading(true);
 					const productData = await AdminApiService.getProduct(parseInt(id));
-					const status = productData.priceProductStatus || productData.price || 'Уточните цену';
+					const rawVal = (productData as any).priceProductStatus ?? (productData as any).price;
+					const status = unwrapPriceValue(rawVal) || 'Уточните цену';
 
 					if (isNumericPrice(status)) {
 						setPriceType('numeric');
 						const num = parsePriceNumber(status);
-						setNumericPrice(num !== null ? String(num) : '');
+						setNumericPrice(num !== null && num > 0 ? String(num) : '');
 						setSelectedStatus('Уточните цену');
 					} else {
 						setPriceType('status');
 						setNumericPrice('');
-						setSelectedStatus(status);
+						setSelectedStatus(status || 'Уточните цену');
 					}
 
 					setFormData({
@@ -149,9 +150,19 @@ export const AdminProductFormPage: React.FC = () => {
 
 		setSaving(true);
 		const specifications = entriesToSpecsRecord(specEntries);
-		const finalPriceStatus = priceType === 'numeric'
-			? (numericPrice.trim() || 'Уточните цену')
-			: selectedStatus;
+		const parsedNum = parsePriceNumber(numericPrice);
+		let finalPriceStatus: string;
+
+		if (priceType === 'numeric') {
+			if (parsedNum !== null && parsedNum > 0) {
+				finalPriceStatus = String(parsedNum);
+			} else {
+				// Если введено 0 или пусто - сохраняем статус без цены
+				finalPriceStatus = selectedStatus || 'Уточните цену';
+			}
+		} else {
+			finalPriceStatus = selectedStatus || 'Уточните цену';
+		}
 
 		try {
 			if (isEditing && id) {
@@ -190,7 +201,9 @@ export const AdminProductFormPage: React.FC = () => {
 
 			// Перенаправляем обратно к списку товаров
 			navigate('/admin/products');
-		} catch (error) {
+		} catch (error: any) {
+			console.error('❌ Ошибка при сохранении товара:', error);
+			alert('Ошибка при сохранении товара: ' + (error?.response?.data?.message || error?.message || 'Проверьте соединение с сервером'));
 		} finally {
 			setSaving(false);
 		}
@@ -442,13 +455,12 @@ export const AdminProductFormPage: React.FC = () => {
 												<input
 													type="number"
 													id="numericPrice"
-													min="1"
+													min="0"
 													step="1"
-													placeholder="Введите сумму (например, 150000)"
+													placeholder="Введите сумму (или 0 / пусто для статуса)"
 													value={numericPrice}
 													onChange={(e) => setNumericPrice(e.target.value)}
 													className="block w-full pr-10 px-3.5 py-2.5 border-2 border-industrial-accent/50 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-industrial-accent focus:border-industrial-accent text-gray-900 font-bold text-base"
-													required={priceType === 'numeric'}
 												/>
 												<div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none">
 													<span className="text-industrial-accent font-extrabold sm:text-base">₸</span>
@@ -456,10 +468,23 @@ export const AdminProductFormPage: React.FC = () => {
 											</div>
 											<div className="flex items-center justify-between text-xs text-gray-600 bg-white p-2 rounded border border-gray-200">
 												<span>Отображение в каталоге:</span>
-												<span className="font-extrabold text-sm text-emerald-700">
-													{numericPrice ? `${new Intl.NumberFormat('ru-RU').format(Number(numericPrice))} ₸` : '0 ₸'}
+												<span className={`font-extrabold text-sm ${parsePriceNumber(numericPrice) ? 'text-emerald-700' : 'text-blue-700'}`}>
+													{parsePriceNumber(numericPrice)
+														? `${formatPriceNumber(parsePriceNumber(numericPrice)!)}`
+														: 'Уточните цену (без точной цены)'}
 												</span>
 											</div>
+											<button
+												type="button"
+												onClick={() => {
+													setNumericPrice('');
+													setPriceType('status');
+													setSelectedStatus('Уточните цену');
+												}}
+												className="text-xs text-industrial-accent hover:underline flex items-center gap-1 font-medium pt-1"
+											>
+												🔄 Сбросить цену и установить статус «Уточните цену»
+											</button>
 										</div>
 									) : (
 										<div className="space-y-3">

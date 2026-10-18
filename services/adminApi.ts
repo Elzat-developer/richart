@@ -10,6 +10,7 @@ import {
 	JwtAuthenticationResponse,
 	PriceProductStatus
 } from '../types';
+import { unwrapPriceValue } from '../utils/priceUtils';
 
 // Базовый URL для админ API
 const BASE_URL = '/api/v1/admin';
@@ -159,8 +160,8 @@ export const AdminApiService = {
 			productName: productData.productName,
 			description: productData.description,
 			tag: productData.tag,
-			priceProductStatus: productData.priceProductStatus || productData.price || 'Уточните цену',
-			price: productData.priceProductStatus || productData.price || 'Уточните цену',
+			priceProductStatus: unwrapPriceValue(productData.priceProductStatus ?? productData.price) || 'Уточните цену',
+			price: unwrapPriceValue(productData.priceProductStatus ?? productData.price) || 'Уточните цену',
 			material: productData.material,
 			dimensions: productData.dimensions,
 			weight: productData.weight,
@@ -232,8 +233,8 @@ export const AdminApiService = {
 			productName: productData.productName,
 			description: productData.description,
 			tag: productData.tag,
-			priceProductStatus: productData.priceProductStatus || productData.price || 'Уточните цену',
-			price: productData.priceProductStatus || productData.price || 'Уточните цену',
+			priceProductStatus: unwrapPriceValue(productData.priceProductStatus ?? productData.price) || 'Уточните цену',
+			price: unwrapPriceValue(productData.priceProductStatus ?? productData.price) || 'Уточните цену',
 			material: productData.material,
 			dimensions: productData.dimensions,
 			weight: productData.weight,

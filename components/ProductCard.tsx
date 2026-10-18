@@ -36,7 +36,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 		}
 	};
 
-	const rawStatus = (product as any).priceProductStatus || (product as any).productPrice || (product as any).price;
+	const rawStatus = (product as any).priceProductStatus ?? (product as any).productPrice ?? (product as any).price;
 	const badge = getPriceBadgeInfo(rawStatus);
 
 	return (

@@ -5,7 +5,7 @@ import { AdminApiService } from '../services/adminApi';
 import { GetProductsDto, BackendCategoryDto, GetPhotoDto } from '../types';
 import { AdminNavigation } from '../components/AdminNavigation';
 import { buildUrl } from '../config/api';
-import { isNumericPrice, getPriceBadgeInfo } from '../utils/priceUtils';
+import { isNumericPrice, getPriceBadgeInfo, unwrapPriceValue } from '../utils/priceUtils';
 import {
 	EditIcon,
 	TrashIcon,
@@ -158,7 +158,7 @@ export const AdminProductsPage: React.FC = () => {
 	const uniqueMaterials = [...new Set(products.map(p => p.material).filter(Boolean))].sort();
 
 	const filteredProducts = products.filter(product => {
-		const statusText = String((product as any).priceProductStatus || (product as any).price || '');
+		const statusText = unwrapPriceValue((product as any).priceProductStatus ?? (product as any).price);
 		const matchesSearch = product.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
 			product.tag.toLowerCase().includes(searchTerm.toLowerCase()) ||
 			statusText.toLowerCase().includes(searchTerm.toLowerCase());
@@ -602,7 +602,7 @@ export const AdminProductsPage: React.FC = () => {
 														<p className="mb-1 flex items-center gap-1.5 flex-wrap">
 															<span className="font-medium">Цена / Статус:</span>{' '}
 															{(() => {
-																const rawVal = (product as any).priceProductStatus || (product as any).price;
+																const rawVal = unwrapPriceValue((product as any).priceProductStatus ?? (product as any).price);
 																const badge = getPriceBadgeInfo(rawVal);
 																return (
 																	<span className={`inline-flex items-center px-2 py-0.5 rounded text-xs ${badge.badgeClass}`}>
@@ -730,7 +730,7 @@ export const AdminProductsPage: React.FC = () => {
 															</td>
 															<td className="px-6 py-4 whitespace-nowrap">
 																{(() => {
-																	const rawVal = (product as any).priceProductStatus || (product as any).price;
+																	const rawVal = unwrapPriceValue((product as any).priceProductStatus ?? (product as any).price);
 																	const badge = getPriceBadgeInfo(rawVal);
 																	return (
 																		<span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs ${badge.badgeClass}`}>
@@ -929,7 +929,7 @@ export const AdminProductsPage: React.FC = () => {
 												<span className="text-sm font-medium text-gray-700">Цена / Статус:</span>
 												<p className="mt-1">
 													{(() => {
-														const rawVal = (selectedProduct as any).priceProductStatus || (selectedProduct as any).price;
+														const rawVal = unwrapPriceValue((selectedProduct as any).priceProductStatus ?? (selectedProduct as any).price);
 														const badge = getPriceBadgeInfo(rawVal);
 														return (
 															<span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${badge.badgeClass}`}>
