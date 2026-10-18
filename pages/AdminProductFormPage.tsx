@@ -411,68 +411,107 @@ export const AdminProductFormPage: React.FC = () => {
 									</label>
 
 									{/* Переключатель: Числовая цена vs Статус */}
-									<div className="grid grid-cols-2 gap-2 p-1 bg-gray-200/70 rounded-lg mb-3">
+									<div className="grid grid-cols-2 gap-2 p-1.5 bg-gray-200/80 rounded-xl mb-4">
 										<button
 											type="button"
 											onClick={() => setPriceType('numeric')}
-											className={`py-1.5 px-3 text-xs sm:text-sm font-medium rounded-md transition-all ${
+											className={`py-2 px-3 text-xs sm:text-sm font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
 												priceType === 'numeric'
-													? 'bg-industrial-accent text-white shadow-sm font-semibold'
+													? 'bg-industrial-accent text-white shadow-md'
 													: 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
 											}`}
 										>
-											💰 Указать цену (₸)
+											<span>💰</span> Указать цену (₸)
 										</button>
 										<button
 											type="button"
 											onClick={() => setPriceType('status')}
-											className={`py-1.5 px-3 text-xs sm:text-sm font-medium rounded-md transition-all ${
+											className={`py-2 px-3 text-xs sm:text-sm font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
 												priceType === 'status'
-													? 'bg-industrial-accent text-white shadow-sm font-semibold'
+													? 'bg-industrial-accent text-white shadow-md'
 													: 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
 											}`}
 										>
-											📌 Статус без цены
+											<span>📌</span> Выбрать статус
 										</button>
 									</div>
 
 									{priceType === 'numeric' ? (
-										<div>
-											<div className="relative rounded-md shadow-sm">
+										<div className="space-y-2">
+											<div className="relative rounded-lg shadow-sm">
 												<input
 													type="number"
 													id="numericPrice"
 													min="1"
 													step="1"
-													placeholder="Например: 150000"
+													placeholder="Введите сумму (например, 150000)"
 													value={numericPrice}
 													onChange={(e) => setNumericPrice(e.target.value)}
-													className="block w-full pr-10 px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-industrial-accent focus:border-industrial-accent text-gray-900 font-semibold"
+													className="block w-full pr-10 px-3.5 py-2.5 border-2 border-industrial-accent/50 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-industrial-accent focus:border-industrial-accent text-gray-900 font-bold text-base"
 													required={priceType === 'numeric'}
 												/>
-												<div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-													<span className="text-gray-500 font-bold sm:text-sm">₸</span>
+												<div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none">
+													<span className="text-industrial-accent font-extrabold sm:text-base">₸</span>
 												</div>
 											</div>
-											<p className="mt-1.5 text-xs text-gray-600">
-												Отображение: <span className="font-bold text-emerald-700">{numericPrice ? `${new Intl.NumberFormat('ru-RU').format(Number(numericPrice))} ₸` : 'Уточните цену'}</span>
-											</p>
+											<div className="flex items-center justify-between text-xs text-gray-600 bg-white p-2 rounded border border-gray-200">
+												<span>Отображение в каталоге:</span>
+												<span className="font-extrabold text-sm text-emerald-700">
+													{numericPrice ? `${new Intl.NumberFormat('ru-RU').format(Number(numericPrice))} ₸` : '0 ₸'}
+												</span>
+											</div>
 										</div>
 									) : (
-										<div>
-											<select
-												id="selectedStatus"
-												value={selectedStatus}
-												onChange={(e) => setSelectedStatus(e.target.value)}
-												className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-industrial-accent focus:border-industrial-accent bg-white font-medium text-gray-900"
-											>
-												<option value="Уточните цену">Уточните цену</option>
-												<option value="Под заказ">Под заказ</option>
-												<option value="Нет в наличии">Нет в наличии</option>
-											</select>
-											<p className="mt-1.5 text-xs text-gray-500">
-												Товар будет создан со статусом «{selectedStatus}»
-											</p>
+										<div className="space-y-3">
+											{/* Визуальный выбор статуса кнопками */}
+											<div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+												<button
+													type="button"
+													onClick={() => setSelectedStatus('Уточните цену')}
+													className={`py-2 px-2.5 text-xs font-bold rounded-lg border-2 transition-all flex items-center justify-center text-center gap-1 ${
+														selectedStatus === 'Уточните цену'
+															? 'bg-blue-50 border-blue-600 text-blue-800 shadow-sm ring-2 ring-blue-400'
+															: 'bg-white border-gray-200 text-gray-700 hover:bg-blue-50/50'
+													}`}
+												>
+													💬 Уточните цену
+												</button>
+												<button
+													type="button"
+													onClick={() => setSelectedStatus('Под заказ')}
+													className={`py-2 px-2.5 text-xs font-bold rounded-lg border-2 transition-all flex items-center justify-center text-center gap-1 ${
+														selectedStatus === 'Под заказ'
+															? 'bg-amber-50 border-amber-600 text-amber-800 shadow-sm ring-2 ring-amber-400'
+															: 'bg-white border-gray-200 text-gray-700 hover:bg-amber-50/50'
+													}`}
+												>
+													⏳ Под заказ
+												</button>
+												<button
+													type="button"
+													onClick={() => setSelectedStatus('Нет в наличии')}
+													className={`py-2 px-2.5 text-xs font-bold rounded-lg border-2 transition-all flex items-center justify-center text-center gap-1 ${
+														selectedStatus === 'Нет в наличии'
+															? 'bg-red-50 border-red-600 text-red-800 shadow-sm ring-2 ring-red-400'
+															: 'bg-white border-gray-200 text-gray-700 hover:bg-red-50/50'
+													}`}
+												>
+													🚫 Нет в наличии
+												</button>
+											</div>
+
+											<div className="flex items-center justify-between text-xs p-2 rounded bg-white border border-gray-200">
+												<span className="text-gray-500">Выбранный статус:</span>
+												<span className={`px-2.5 py-0.5 rounded-full font-bold ${
+													selectedStatus === 'Нет в наличии'
+														? 'bg-red-100 text-red-800'
+														: selectedStatus === 'Под заказ'
+														? 'bg-amber-100 text-amber-800'
+														: 'bg-blue-100 text-blue-800'
+												}`}>
+													{selectedStatus}
+												</span>
+											</div>
 										</div>
 									)}
 								</div>

@@ -35,3 +35,15 @@ jobs:
           source: "dist/*"
           target: "/var/www/industrial-furniture/frontend"
           strip_components: 1 # Убирает папку dist/ и кладет сразу содержимое
+          rm: true
+          overwrite: true
+
+      - name: Reload Nginx on Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: root
+          port: ${{ secrets.SERVER_PORT }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            nginx -s reload || systemctl reload nginx || true
