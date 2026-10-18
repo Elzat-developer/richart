@@ -46,35 +46,21 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            echo "=== 1. Checking /var/www/industrial-furniture/frontend ==="
-            ls -la /var/www/industrial-furniture/frontend
-            grep -o 'index-[^"]*' /var/www/industrial-furniture/frontend/index.html || true
+            echo "=== 1. Checking docker-compose and configs ==="
+            cat /opt/richart/docker-compose*.yml 2>/dev/null || true
+            docker exec richart-nginx cat /etc/nginx/conf.d/default.conf 2>/dev/null || true
             
-            echo "=== 2. Finding any directories with old assets ==="
-            OLD_FILES=$(find / -name "index-C4N-Lf7f.js" 2>/dev/null || true)
-            echo "Old file locations: $OLD_FILES"
-            for f in $OLD_FILES; do
-              DIR=$(dirname "$f")
-              BASE_DIR=$(dirname "$DIR")
-              echo "Updating target base dir: $BASE_DIR"
-              cp -r /var/www/industrial-furniture/frontend/* "$BASE_DIR/" 2>/dev/null || true
-            done
-
-            echo "=== 3. Checking running docker containers ==="
-            docker ps -a || true
-            for c in $(docker ps -q 2>/dev/null || true); do
-              echo "Checking container $c:"
-              if docker exec $c test -d /usr/share/nginx/html 2>/dev/null; then
-                echo "Copying into container $c:/usr/share/nginx/html/..."
-                docker cp /var/www/industrial-furniture/frontend/. $c:/usr/share/nginx/html/
-                docker exec $c nginx -s reload 2>/dev/null || true
-              fi
-              if docker exec $c test -d /var/www/html 2>/dev/null; then
-                echo "Copying into container $c:/var/www/html/..."
-                docker cp /var/www/industrial-furniture/frontend/. $c:/var/www/html/
-              fi
-            done
+            echo "=== 2. Assets in /var/www/industrial-furniture/frontend/assets ==="
+            ls -la /var/www/industrial-furniture/frontend/assets/
             
-            echo "=== 4. Reloading host Nginx ==="
-            nginx -s reload || systemctl reload nginx || service nginx reload || true
+            echo "=== 3. Copying dist into richart-frontend and richart-nginx ==="
+            docker cp /var/www/industrial-furniture/frontend/. richart-frontend:/usr/share/nginx/html/ 2>/dev/null || true
+            docker cp /var/www/industrial-furniture/frontend/. richart-nginx:/usr/share/nginx/html/ 2>/dev/null || true
+            
+            echo "=== 4. Restarting richart-frontend and richart-nginx ==="
+            docker restart richart-frontend richart-nginx || true
+            
+            echo "=== 5. Checking inside richart-frontend ==="
+            docker exec richart-frontend grep -o 'index-[^"]*' /usr/share/nginx/html/index.html || true
+            docker exec richart-frontend ls -la /usr/share/nginx/html/assets/ || true
             echo "=== Done! ==="
