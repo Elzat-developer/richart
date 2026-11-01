@@ -23,19 +23,19 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 	const [isScrolled, setIsScrolled] = useState(false);
 
 	useEffect(() => {
+		let ticking = false;
 		const handleScroll = () => {
-			const scrollY = window.scrollY;
-			const windowHeight = window.innerHeight;
-			const documentHeight = document.documentElement.scrollHeight;
-			const isNearBottom = scrollY + windowHeight >= documentHeight - 100;// 100px от низа 
-			// // Мгновенное переключение состояний 
-			if (isNearBottom || scrollY <= 1) {
-				setIsScrolled(false);
+			if (!ticking) {
+				window.requestAnimationFrame(() => {
+					setIsScrolled(window.scrollY > 20);
+					ticking = false;
+				});
+				ticking = true;
 			}
-			else if (scrollY > 50) {
-				setIsScrolled(true);
-			}
-		}; window.addEventListener('scroll', handleScroll);
+		};
+
+		window.addEventListener('scroll', handleScroll, { passive: true });
+		handleScroll();
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 	const { cart } = useCart();
@@ -44,7 +44,7 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 
 	return (
 		<>
-			<header className={`sticky top-0 z-40 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white shadow-xl border-b border-slate-700 backdrop-blur-sm ${hideOnMobile ? 'hidden md:block' : ''}`}>
+			<header className={`sticky top-0 z-40 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white transition-shadow duration-200 ${isScrolled ? 'shadow-2xl border-b border-slate-700' : 'shadow-md border-b border-slate-800'} backdrop-blur-sm ${hideOnMobile ? 'hidden md:block' : ''}`}>
 				{/* Top Info Bar */}
 				<div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-2">
 					<div className="container mx-auto px-4">
@@ -77,32 +77,30 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 
 				<div className="container mx-auto px-4">
 					{/* Main Header */}
-					<div className={`transition-all duration-300 ${isScrolled ? 'py-2' : 'py-4'} flex items-center justify-between`}>
+					<div className="py-2.5 sm:py-3 flex items-center justify-between">
 						{/* Logo */}
-						<Link to="/" className={`transition-all duration-300 ${isScrolled ? 'flex flex-col items-center gap-1' : 'flex flex-col items-center gap-2'}`}>
-							<div className={`flex items-center gap-3 transition-all duration-300 ${isScrolled ? 'scale-90' : 'scale-100'}`}>
+						<Link to="/" className="flex flex-col items-center gap-1 group">
+							<div className="flex items-center gap-3">
 								{company?.logoUrl ? (
 									<img
 										src={getImageUrl(company.logoUrl)}
-										alt={company.name || 'Rest Art'}
-										className={`transition-all duration-300 rounded-lg object-contain ${isScrolled ? 'w-8 h-8' : 'w-43 h-36'}`}
+										alt={company.name || 'Industrial Furniture'}
+										className="h-10 sm:h-12 w-auto max-w-[160px] sm:max-w-[200px] rounded-lg object-contain"
 										onError={(e) => {
 											const target = e.target as HTMLImageElement;
 											target.src = 'https://picsum.photos/64/64?error=logo-failed';
 										}}
 									/>
 								) : (
-									<div className={`bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center font-bold text-white font-display shadow-lg transition-all duration-300 ${isScrolled ? 'w-8 h-8 text-xs' : 'w-12 h-12 text-sm'}`}>
+									<div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center font-bold text-white text-base font-display shadow-lg">
 										I
 									</div>
 								)}
 							</div>
-							{!isScrolled && (
-								<p className="text-xs text-gray-400">Промышленное оборудование с 2015 года</p>
-							)}
+							<p className="hidden sm:block text-[10px] text-gray-400">Промышленное оборудование с 2015 года</p>
 						</Link>
 						{/* Search Bar - Desktop */}
-						<div className={`hidden lg:flex transition-all duration-300 ${isScrolled ? 'flex-1 max-w-xl mx-4' : 'flex-1 max-w-2xl mx-8'}`}>
+						<div className="hidden lg:flex flex-1 max-w-xl mx-6">
 							<div className="relative w-full">
 								<input
 									type="text"
@@ -114,49 +112,48 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 										}
 									}}
 									placeholder="Поиск по каталогу..."
-									className={`w-full transition-all duration-300 ${isScrolled ? 'px-3 py-2 pl-10 text-sm rounded-lg' : 'px-4 py-3 pl-12 bg-slate-800/50 border border-slate-600 rounded-xl'} bg-slate-800/50 border border-slate-600 text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 focus:bg-slate-700/50 backdrop-blur-sm`}
+									className="w-full px-4 py-2 pl-11 bg-slate-800/60 border border-slate-600 rounded-xl text-white placeholder-gray-400 text-sm focus:outline-none focus:border-emerald-500 focus:bg-slate-700/60 backdrop-blur-sm transition-colors"
 								/>
-								<SearchIcon className={`absolute transition-all duration-300 ${isScrolled ? 'left-3 top-2.5 h-4 w-4' : 'left-4 top-3.5 h-5 w-5'} text-gray-400`} />
+								<SearchIcon className="absolute left-3.5 top-2.5 h-4 w-4 text-gray-400" />
 							</div>
 						</div>
 
 						{/* Right Actions */}
-						<div className="flex items-center gap-3">
-							{/* B2B Button - скрыть при прокрутке */}
-							{!isScrolled && (
-								<a
-									href="https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20сделать%20оптовые%20заказы%20промышленного%20оборудования"
-									target="_blank"
-									rel="noopener noreferrer"
-									className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all shadow-lg"
-								>
-									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-										<path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
-										<path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-									</svg>
-									B2B
-								</a>
-							)}
+						<div className="flex items-center gap-2 sm:gap-3">
+							{/* B2B Button */}
+							<a
+								href="https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20сделать%20оптовые%20заказы%20промышленного%20оборудования"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-3.5 py-2 rounded-lg text-sm font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all shadow-md"
+							>
+								<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+									<path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+									<path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+								</svg>
+								B2B
+							</a>
 
 							{/* Mobile Search Toggle */}
 							<button
-								className={`lg:hidden transition-all duration-300 ${isScrolled ? 'text-gray-300 p-1.5' : 'text-gray-300 p-2'}`}
+								className="lg:hidden text-gray-300 p-2 rounded-lg hover:bg-slate-800/50 transition-colors"
 								onClick={() => setIsSearchOpen(!isSearchOpen)}
+								aria-label="Поиск"
 							>
-								<SearchIcon className={`transition-all duration-300 ${isScrolled ? 'h-4 w-4' : 'h-5 w-5'}`} />
+								<SearchIcon className="h-5 w-5" />
 							</button>
 
 							{/* Orders */}
-							<Link to="/orders" className={`relative cursor-pointer group flex items-center gap-2 transition-all duration-300 ${isScrolled ? 'px-2 py-1.5' : 'px-3 py-2'} rounded-lg hover:bg-slate-800/50`}>
-								<PackageIcon className={`transition-all duration-300 ${isScrolled ? 'h-4 w-4' : 'h-5 w-5'} text-gray-300 group-hover:text-emerald-400`} />
-								<span className={`hidden transition-all duration-300 ${isScrolled ? 'md:block text-xs' : 'md:block text-sm'} text-gray-300 group-hover:text-white`}>Мои заказы</span>
+							<Link to="/orders" className="relative cursor-pointer group flex items-center gap-2 px-2.5 sm:px-3 py-2 rounded-lg hover:bg-slate-800/50 transition-colors">
+								<PackageIcon className="h-5 w-5 text-gray-300 group-hover:text-emerald-400 transition-colors" />
+								<span className="hidden md:block text-sm text-gray-300 group-hover:text-white transition-colors">Мои заказы</span>
 							</Link>
 
 							{/* Cart */}
-							<Link to="/cart" className={`relative cursor-pointer group transition-all duration-300 ${isScrolled ? 'p-1.5' : 'p-2'} rounded-lg hover:bg-slate-800/50`}>
-								<ShoppingCartIcon className={`transition-all duration-300 ${isScrolled ? 'h-4 w-4' : 'h-5 w-5'} text-gray-300 group-hover:text-emerald-400`} />
+							<Link to="/cart" className="relative cursor-pointer group p-2 rounded-lg hover:bg-slate-800/50 transition-colors" aria-label="Корзина">
+								<ShoppingCartIcon className="h-5 w-5 text-gray-300 group-hover:text-emerald-400 transition-colors" />
 								{cartCount > 0 && (
-									<span className={`absolute transition-all duration-300 ${isScrolled ? '-top-0.5 -right-0.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-[8px] font-bold h-4 w-4' : '-top-1 -right-1 bg-gradient-to-r from-emerald-500 to-teal-600 text-[10px] font-bold h-5 w-5'} flex items-center justify-center rounded-full animate-bounce shadow-lg`}>
+									<span className="absolute -top-1 -right-1 bg-gradient-to-r from-emerald-500 to-teal-600 text-[10px] font-bold h-5 w-5 flex items-center justify-center rounded-full shadow-lg">
 										{cartCount}
 									</span>
 								)}
@@ -164,10 +161,11 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 
 							{/* Mobile Menu */}
 							<button
-								className={`md:hidden transition-all duration-300 ${isScrolled ? 'text-gray-300 p-1.5' : 'text-gray-300 p-2'}`}
+								className="md:hidden text-gray-300 p-2 rounded-lg hover:bg-slate-800/50 transition-colors"
 								onClick={() => setIsMenuOpen(!isMenuOpen)}
+								aria-label="Меню"
 							>
-								<MenuIcon className={`transition-all duration-300 ${isScrolled ? 'h-4 w-4' : 'h-5 w-5'}`} />
+								<MenuIcon className="h-5 w-5" />
 							</button>
 						</div>
 					</div>
