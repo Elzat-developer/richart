@@ -113,7 +113,7 @@ const Footer: React.FC<FooterProps> = ({ company, getImageUrl }) => {
 								</svg>
 								<div>
 									<p className="text-gray-400">Адрес</p>
-									<p className="text-white">{company?.address || 'г. Алматы, ул. Толе би, д. 187, Торговый дом «Тумар», 2-й этаж.'}</p>
+									<p className="text-white">{company?.address || 'г. Алматы, ул. Саина, д. 18А'}</p>
 								</div>
 							</div>
 							<div className="flex items-start gap-3">

@@ -271,33 +271,59 @@ const AboutPage: React.FC = () => {
 							<div className="lg:col-span-2 space-y-8">
 								{/* Карта */}
 								<div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-									<div className="p-6 border-b border-gray-100">
-										<h3 className="text-xl font-bold text-gray-900 flex items-center gap-3">
-											<div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-												<svg className="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-													<path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-												</svg>
-											</div>
-											Наше местоположение
+									<div className="p-4 bg-emerald-600 text-white flex items-center justify-between">
+										<h3 className="font-bold text-lg flex items-center gap-2">
+											<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+												<path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+											</svg>
+											Интерактивная карта
 										</h3>
+										<span className="text-xs bg-emerald-700/60 px-3 py-1 rounded-full text-emerald-100 font-medium">43.238023, 76.842060</span>
 									</div>
 									<div className="relative h-96">
 										<iframe
-											src="https://yandex.ru/map-widget/v1/?ll=76.899480%2C43.252110&z=17&pt=76.899480%2C43.252110&mode=whatshere&whatshere%5Bpoint%5D=76.899480%2C43.252110"
+											src="https://yandex.ru/map-widget/v1/?ll=76.842060%2C43.238023&z=17&pt=76.842060%2C43.238023&mode=search&text=43.238023%2C76.842060"
 											width="100%"
 											height="100%"
 											frameBorder="0"
 											className="w-full h-full"
 											allowFullScreen
+											title="Интерактивная карта"
 										></iframe>
+										<div className="absolute bottom-4 right-4 bg-white rounded-lg shadow-lg p-3">
+											<a
+												href="https://yandex.ru/maps/?whatshere[point]=76.842060,43.238023&whatshere[zoom]=17&text=43.238023,76.842060"
+												target="_blank"
+												rel="noopener noreferrer"
+												className="flex items-center gap-2 text-emerald-600 font-semibold hover:text-emerald-700 text-sm"
+											>
+												<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+													<path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1a1 1 0 112 0v1a1 1 0 11-2 0zM12 14a1 1 0 00-.707.293l-.707.707a1 1 0 101.414 1.414l.707-.707A1 1 0 0012 14zM5.757 14.243a1 1 0 00-1.414 0l-.707.707a1 1 0 101.414 1.414l.707-.707a1 1 0 000-1.414z" />
+												</svg>
+												Открыть в Яндекс.Картах
+											</a>
+										</div>
 									</div>
-									<div className="p-6 bg-gray-50">
-										<p className="text-gray-700 font-medium">
-											📍 г. Алматы, ул. Толе би, д. 187
-										</p>
-										<p className="text-gray-600 text-sm mt-2">
-											Торговый дом «Тумар», 2-й этаж
-										</p>
+									<div className="p-6 bg-gray-50 border-t border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-4">
+										<div>
+											<p className="text-gray-900 font-bold flex items-center gap-2">
+												<span>📍</span> Адрес:
+											</p>
+											<p className="text-gray-700 font-medium mt-1">
+												{company?.address || 'г. Алматы, ул. Саина, д. 18А'}
+											</p>
+											<p className="text-gray-500 text-xs mt-1">
+												Координаты: 43.238023, 76.842060
+											</p>
+										</div>
+										<div className="text-sm text-gray-700 space-y-1">
+											<p className="font-bold text-gray-900 flex items-center gap-2">
+												<span>🚇</span> Как добраться:
+											</p>
+											<p>• <strong>Метро:</strong> Сарыарка, Москва, Бауыржан Момышулы</p>
+											<p>• <strong>Автобус:</strong> №12, 29, 63, 118 (ост. «Толе би» / «Саина»)</p>
+											<p>• <strong>Парковка:</strong> Бесплатная для клиентов</p>
+										</div>
 									</div>
 								</div>
 

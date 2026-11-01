@@ -207,7 +207,8 @@ export const HomePage: React.FC = () => {
 									Адрес
 								</h3>
 								<address className="text-gray-700 not-italic space-y-2">
-									<p className="font-semibold">{company?.address || 'г. Алматы, ул. Толе би, д. 187, Торговый дом «Тумар», 2-й этаж.'}</p>
+									<p className="font-semibold">{company?.address || 'г. Алматы, ул. Саина, д. 18А'}</p>
+									<p className="text-gray-500 text-xs">Координаты: 43.238023, 76.842060</p>
 								</address>
 							</div>
 
@@ -247,8 +248,8 @@ export const HomePage: React.FC = () => {
 									Как добраться
 								</h3>
 								<div className="space-y-3 text-gray-700">
-									<p>• <strong>Метро:</strong> Абай (5 минут пешком)</p>
-									<p>• <strong>Автобус:</strong> №12, 29, 63 (остановка "Толе би")</p>
+									<p>• <strong>Метро:</strong> Сарыарка, Москва, Бауыржан Момышулы</p>
+									<p>• <strong>Автобус:</strong> №12, 29, 63, 118 (остановка «Улица Толе би» / «Улица Саина»)</p>
 									<p>• <strong>Парковка:</strong> Бесплатная для клиентов</p>
 								</div>
 							</div>
@@ -256,21 +257,22 @@ export const HomePage: React.FC = () => {
 
 						{/* Map */}
 						<div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-							<div className="p-4 bg-emerald-600 text-white">
+							<div className="p-4 bg-emerald-600 text-white flex items-center justify-between">
 								<h3 className="font-bold text-lg">Интерактивная карта</h3>
+								<span className="text-xs bg-emerald-700/60 px-3 py-1 rounded-full text-emerald-100 font-medium">43.238023, 76.842060</span>
 							</div>
 							<div className="relative">
 								<iframe
-									src="https://yandex.ru/map-widget/v1/?ll=76.9129%2C43.2569&z=17&pt=76.9129%2C43.2569&mode=search&text=Алматы%2C%20ул.%20Толе%20би%2C%20187"
+									src="https://yandex.ru/map-widget/v1/?ll=76.842060%2C43.238023&z=17&pt=76.842060%2C43.238023&mode=search&text=43.238023%2C76.842060"
 									width="100%"
 									height="450"
 									frameBorder="0"
 									className="w-full"
-									title="Карта проезда к Rest Art"
+									title="Интерактивная карта проезда"
 								></iframe>
 								<div className="absolute bottom-4 right-4 bg-white rounded-lg shadow-lg p-3">
 									<a
-										href="https://yandex.ru/maps/?whatshere[point]=76.9129,43.2569&text=Алматы,%20ул.%20Толе%20би,%20187"
+										href="https://yandex.ru/maps/?whatshere[point]=76.842060,43.238023&whatshere[zoom]=17&text=43.238023,76.842060"
 										target="_blank"
 										rel="noopener noreferrer"
 										className="flex items-center gap-2 text-emerald-600 font-semibold hover:text-emerald-700 text-sm"

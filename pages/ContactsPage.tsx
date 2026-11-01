@@ -92,9 +92,32 @@ const ContactsPage: React.FC = () => {
 										</div>
 										<div>
 											<h3 className="text-lg font-semibold text-gray-900 mb-2">Адрес</h3>
-											<p className="text-gray-600 leading-relaxed">
-												{company?.address || 'Загрузка...'}
+											<p className="text-gray-700 leading-relaxed font-medium">
+												{company?.address || 'г. Алматы, ул. Саина, д. 18А'}
 											</p>
+											<p className="text-gray-500 text-xs mt-1">
+												Координаты: 43.238023, 76.842060
+											</p>
+										</div>
+									</div>
+								</div>
+
+								{/* How to get there */}
+								<div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+									<div className="flex items-start gap-4">
+										<div className="bg-emerald-100 text-emerald-600 p-3 rounded-lg flex-shrink-0">
+											<svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+												<path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+												<path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z" />
+											</svg>
+										</div>
+										<div>
+											<h3 className="text-lg font-semibold text-gray-900 mb-2">Как добраться</h3>
+											<div className="space-y-1.5 text-sm text-gray-600">
+												<p>• <strong>Метро:</strong> Сарыарка, Москва, Бауыржан Момышулы</p>
+												<p>• <strong>Автобус:</strong> №12, 29, 63, 118 (остановка «Улица Толе би» / «Улица Саина»)</p>
+												<p>• <strong>Парковка:</strong> Бесплатная для клиентов</p>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -144,10 +167,10 @@ const ContactsPage: React.FC = () => {
 										<div>
 											<h3 className="text-lg font-semibold text-gray-900 mb-2">E-mail</h3>
 											<a
-												href={`mailto:${company?.email || 'info@example.com'}`}
+												href={`mailto:${company?.email || 'info@industrial-furniture.kz'}`}
 												className="text-purple-600 font-medium hover:text-purple-700 transition-colors"
 											>
-												{company?.email || 'info@example.com'}
+												{company?.email || 'info@industrial-furniture.kz'}
 											</a>
 										</div>
 									</div>
@@ -198,36 +221,53 @@ const ContactsPage: React.FC = () => {
 							</h2>
 
 							<div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-								<div className="aspect-square lg:aspect-video">
+								<div className="p-4 bg-emerald-600 text-white flex items-center justify-between">
+									<h3 className="font-bold text-lg flex items-center gap-2">
+										<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+											<path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+										</svg>
+										Интерактивная карта
+									</h3>
+									<span className="text-xs bg-emerald-700/60 px-3 py-1 rounded-full text-emerald-100 font-medium">43.238023, 76.842060</span>
+								</div>
+								<div className="relative aspect-square lg:aspect-video">
 									<iframe
-										src="https://yandex.ru/map-widget/v1/?um=comment%3A%20RESTArt%2F%2F&ll=76.899480%2C43.252110&z=16"
+										src="https://yandex.ru/map-widget/v1/?ll=76.842060%2C43.238023&z=17&pt=76.842060%2C43.238023&mode=search&text=43.238023%2C76.842060"
 										width="100%"
 										height="100%"
 										style={{ border: 0 }}
 										allowFullScreen
 										loading="lazy"
 										className="w-full h-full"
+										title="Интерактивная карта"
 									/>
+									<div className="absolute bottom-4 right-4 bg-white rounded-lg shadow-lg p-3">
+										<a
+											href="https://yandex.ru/maps/?whatshere[point]=76.842060,43.238023&whatshere[zoom]=17&text=43.238023,76.842060"
+											target="_blank"
+											rel="noopener noreferrer"
+											className="flex items-center gap-2 text-emerald-600 font-semibold hover:text-emerald-700 text-sm"
+										>
+											<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+												<path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1a1 1 0 112 0v1a1 1 0 11-2 0zM12 14a1 1 0 00-.707.293l-.707.707a1 1 0 101.414 1.414l.707-.707A1 1 0 0012 14zM5.757 14.243a1 1 0 00-1.414 0l-.707.707a1 1 0 101.414 1.414l.707-.707a1 1 0 000-1.414z" />
+											</svg>
+											Открыть в Яндекс.Картах
+										</a>
+									</div>
 								</div>
-								<div className="p-6">
-									<div className="flex items-center gap-2 text-emerald-600 font-medium mb-2">
+								<div className="p-6 bg-gray-50 border-t border-gray-100">
+									<div className="flex items-center gap-2 text-emerald-600 font-bold mb-2">
 										<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
 											<path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
 										</svg>
-										{company?.name || 'RichART'}
+										{company?.name || 'Industrial Furniture'}
 									</div>
-									<p className="text-gray-600">
-										{company?.address || 'Загрузка адреса...'}
+									<p className="text-gray-700 font-medium">
+										{company?.address || 'г. Алматы, ул. Саина, д. 18А'}
 									</p>
-									<a
-										href="https://yandex.ru/maps/?ll=76.899480%2C43.252110&z=16&text=RESTArt"
-										target="_blank"
-										rel="noopener noreferrer"
-										className="inline-flex items-center gap-2 text-blue-600 font-medium hover:text-blue-700 transition-colors mt-3"
-									>
-										<path fillRule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1-2.828-2.828l3-3zm-4.172 8.828a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0-2-2 2 0 010-2.828l3-3z" clipRule="evenodd" />
-										Открыть в Яндекс Картах
-									</a>
+									<p className="text-gray-500 text-xs mt-1">
+										Координаты: 43.238023, 76.842060
+									</p>
 								</div>
 							</div>
 						</div>
