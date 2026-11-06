@@ -51,7 +51,7 @@ const PrivacyPage: React.FC = () => {
 							<p className="text-gray-600">
 								По вопросам конфиденциальности обращайтесь:<br />
 								Email: info@richart.kz<br />
-								Телефон: +7 747 216 4664
+								Телефон: +7 707 706 9899
 							</p>
 						</section>
 					</div>

@@ -278,7 +278,7 @@ export const OrderDetailPage: React.FC = () => {
 							Наши менеджеры готовы ответить на все ваши вопросы по заказу
 						</p>
 						<a
-							href={`https://wa.me/77472164664?text=Хотел задать вопрос по заказу №${order.orderNumber}`}
+							href={`https://wa.me/77077069899?text=Хотел задать вопрос по заказу №${order.orderNumber}`}
 							target="_blank"
 							rel="noopener noreferrer"
 							className="w-full inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-emerald-700 border border-emerald-300 px-4 py-2 rounded-lg transition-colors"

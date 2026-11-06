@@ -165,7 +165,7 @@ export const HomePage: React.FC = () => {
 
 					<div className="text-center mt-16">
 						<a
-							href="https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20сделать%20оптовые%20заказы%20промышленного%20оборудования"
+							href="https://wa.me/77077069899?text=Здравствуйте!%20Хочу%20сделать%20оптовые%20заказы%20промышленного%20оборудования"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-600 to-green-600 text-white px-10 py-4 rounded-xl hover:from-emerald-700 hover:to-green-700 transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-2xl transform hover:-translate-y-1"
@@ -176,7 +176,7 @@ export const HomePage: React.FC = () => {
 							Связаться с менеджером
 						</a>
 						<p className="text-gray-500 mt-4">
-							или позвоните: <a href="tel:+77472164664" className="text-industrial-700 font-semibold hover:text-industrial-800">+7 747 216 4664</a>
+							или позвоните: <a href="tel:+77077069899" className="text-industrial-700 font-semibold hover:text-industrial-800">+7 707 706 9899</a>
 						</p>
 					</div>
 				</div>
@@ -222,8 +222,8 @@ export const HomePage: React.FC = () => {
 								<div className="space-y-3">
 									<p>
 										<span className="text-gray-600">Телефон:</span>{' '}
-										<a href="tel:+77472164664" className="text-emerald-600 font-semibold hover:text-emerald-700">
-										{company?.phone || '+7 747 216 4664'}
+										<a href="tel:+77077069899" className="text-emerald-600 font-semibold hover:text-emerald-700">
+										{company?.phone || '+7 707 706 9899'}
 										</a>
 									</p>
 									<p>
@@ -296,7 +296,7 @@ export const HomePage: React.FC = () => {
 							</p>
 							<div className="flex flex-col sm:flex-row gap-4 justify-center">
 								<a
-									href="tel:+77472164664"
+									href="tel:+77077069899"
 									className="inline-flex items-center justify-center gap-2 bg-emerald-600 text-white px-8 py-3 rounded-lg hover:bg-emerald-700 transition-colors font-semibold"
 								>
 									<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -305,7 +305,7 @@ export const HomePage: React.FC = () => {
 									Позвонить сейчас
 								</a>
 								<a
-									href="https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20записаться%20на%20консультацию%20в%20выставочный%20зал"
+									href="https://wa.me/77077069899?text=Здравствуйте!%20Хочу%20записаться%20на%20консультацию%20в%20выставочный%20зал"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="inline-flex items-center justify-center gap-2 bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"

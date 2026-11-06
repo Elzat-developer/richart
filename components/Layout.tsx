@@ -54,7 +54,7 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
 										<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
 									</svg>
-									{company?.phone || '+7 747 216 4664'}
+									{company?.phone || '+7 707 706 9899'}
 								</span>
 								<span className="flex items-center gap-2">
 									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -64,10 +64,10 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 								</span>
 							</div>
 							<div className="flex items-center gap-4 mt-2 sm:mt-0">
-								<a href="https://wa.me/77472164664" target="_blank" rel="noopener noreferrer" className="hover:bg-white/20 px-3 py-1 rounded transition-colors">
+								<a href="https://wa.me/77077069899" target="_blank" rel="noopener noreferrer" className="hover:bg-white/20 px-3 py-1 rounded transition-colors">
 									WhatsApp
 								</a>
-								<a href="tel:+77472164664" className="hover:bg-white/20 px-3 py-1 rounded transition-colors">
+								<a href="tel:+77077069899" className="hover:bg-white/20 px-3 py-1 rounded transition-colors">
 									Позвонить
 								</a>
 							</div>
@@ -97,7 +97,7 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 									</div>
 								)}
 							</div>
-							<p className="hidden sm:block text-[10px] text-gray-400">Промышленное оборудование с 2015 года</p>
+							<p className="hidden sm:block text-[10px] text-gray-400">Кухонное оборудование с 2018 года</p>
 						</Link>
 						{/* Search Bar - Desktop */}
 						<div className="hidden lg:flex flex-1 max-w-xl mx-6">
@@ -122,7 +122,7 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 						<div className="flex items-center gap-2 sm:gap-3">
 							{/* B2B Button */}
 							<a
-								href="https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20сделать%20оптовые%20заказы%20промышленного%20оборудования"
+								href="https://wa.me/77077069899?text=Здравствуйте!%20Хочу%20сделать%20оптовые%20заказы%20промышленного%20оборудования"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-3.5 py-2 rounded-lg text-sm font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all shadow-md"
@@ -207,11 +207,11 @@ const HeaderContent: React.FC<{ company: CompanyDto | null; isMenuOpen: boolean;
 
 							{/* Quick Actions */}
 							<div className="hidden lg:flex items-center gap-4">
-								<a href={`tel:+77472164664`} className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors text-sm font-medium">
+								<a href={`tel:+77077069899`} className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors text-sm font-medium">
 									<svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
 										<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
 									</svg>
-									{company?.phone || '+7 747 216 4664'}
+									{company?.phone || '+7 707 706 9899'}
 								</a>
 								<a href={`mailto:${company?.email || 'info@industrial-furniture.kz'}`} className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors text-sm font-medium">
 									<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

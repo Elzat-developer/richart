@@ -29,7 +29,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, company, cartC
 
 				{/* B2B Button Mobile */}
 				<a
-					href="https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20сделать%20оптовые%20заказы%20промышленного%20оборудования"
+					href="https://wa.me/77077069899?text=Здравствуйте!%20Хочу%20сделать%20оптовые%20заказы%20промышленного%20оборудования"
 					target="_blank"
 					rel="noopener noreferrer"
 					className="mx-4 mt-4 mb-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-4 py-3 rounded-lg font-semibold text-center"
@@ -53,8 +53,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, company, cartC
 						<svg className="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
 							<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
 						</svg>
-						<a href="tel:+77472164664" className="text-white font-medium">
-							{company?.phone || '+7 747 216 4664'}
+						<a href="tel:+77077069899" className="text-white font-medium">
+							{company?.phone || '+7 707 706 9899'}
 						</a>
 					</div>
 					<div className="mb-3 flex items-center gap-2">

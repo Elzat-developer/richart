@@ -168,7 +168,7 @@ export const ProductDetailPage: React.FC = () => {
 			const badge = getPriceBadgeInfo(product.priceProductStatus ?? product.price);
 			const priceText = badge.isNumeric ? `Цена: ${badge.text}` : `Статус: ${badge.text}`;
 			const text = `Здравствуйте! Меня интересует ${product.productName} (${priceText}). Количество: ${quantity}`;
-			window.open(`https://wa.me/77472164664?text=${encodeURIComponent(text)}`, '_blank');
+			window.open(`https://wa.me/77077069899?text=${encodeURIComponent(text)}`, '_blank');
 		}
 	};
 

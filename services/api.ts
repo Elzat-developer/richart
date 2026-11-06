@@ -365,6 +365,18 @@ export const ApiService = {
 		}
 	},
 
+	generateCPExcel: async (items: CartItemDto[]): Promise<Blob> => {
+		try {
+			const response = await apiClient.post('/generate_cp_excel', items, {
+				responseType: 'blob'
+			});
+			return response.data;
+		} catch (error) {
+			console.warn("API Error (using mock Excel):", error);
+			return new Blob(["Mock Excel Data"], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+		}
+	},
+
 	checkout: async (data: OrderRequestDto): Promise<OrderResponseDto> => {
 		try {
 			const response = await apiClient.post<OrderResponseDto>('/create_order', data);

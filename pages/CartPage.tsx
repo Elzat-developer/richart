@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { ApiService } from '../services/api';
-import { TrashIcon, PlusIcon, MinusIcon, FilePdfIcon, WhatsAppIcon, XIcon } from '../components/Icons';
+import { TrashIcon, PlusIcon, MinusIcon, FilePdfIcon, FileSpreadsheetIcon, WhatsAppIcon, XIcon } from '../components/Icons';
 import { Link } from 'react-router-dom';
 import { GetPhotoDto } from '../types';
 import { buildUrl } from '../config/api';
@@ -21,6 +21,7 @@ export const CartPage: React.FC = () => {
 	// Checkout Form State
 	const [formData, setFormData] = useState({ name: '', phone: '' });
 	const [checkoutLoading, setCheckoutLoading] = useState(false);
+	const [downloadingFormat, setDownloadingFormat] = useState<'pdf' | 'excel' | null>(null);
 
 	// Расчет итогов по корзине с учетом цен и статусов
 	const summary = React.useMemo(() => {
@@ -66,20 +67,26 @@ export const CartPage: React.FC = () => {
 		};
 	}, [cart?.items]);
 
-	const handleDownloadCP = async () => {
-		if (!cart?.items.length) return;
+	const handleDownloadCP = async (format: 'pdf' | 'excel' = 'pdf') => {
+		if (!cart?.items.length || downloadingFormat) return;
+		setDownloadingFormat(format);
 		try {
-			const blob = await ApiService.generateCP(cart.items);
+			const blob = format === 'excel'
+				? await ApiService.generateCPExcel(cart.items)
+				: await ApiService.generateCP(cart.items);
 			const url = window.URL.createObjectURL(blob);
 			const a = document.createElement('a');
 			a.href = url;
-			a.download = 'Commercial_Proposal.pdf';
+			a.download = format === 'excel' ? 'Commercial_Proposal.xlsx' : 'Commercial_Proposal.pdf';
 			document.body.appendChild(a);
 			a.click();
 			window.URL.revokeObjectURL(url);
 			document.body.removeChild(a);
 		} catch (error) {
-			}
+			console.error(`Ошибка при скачивании КП (${format}):`, error);
+		} finally {
+			setDownloadingFormat(null);
+		}
 	};
 
 	const handleCheckoutSubmit = async (e: React.FormEvent) => {
@@ -88,7 +95,7 @@ export const CartPage: React.FC = () => {
 		try {
 			const response = await ApiService.checkout(formData);
 			// Перенаправляем на WhatsApp с полученной ссылкой
-			window.open(response.whatsappLink || `https://wa.me/77472164664?text=${encodeURIComponent(`New order from ${formData.name}. Phone: ${formData.phone}`)}`, '_blank');
+			window.open(response.whatsappLink || `https://wa.me/77077069899?text=${encodeURIComponent(`New order from ${formData.name}. Phone: ${formData.phone}`)}`, '_blank');
 			window.dispatchEvent(new CustomEvent('mobile-filters', { detail: { open: false } }));
 			setIsCheckoutModalOpen(false);
 		} catch (error) {
@@ -325,13 +332,40 @@ export const CartPage: React.FC = () => {
 							Оформить заказ
 						</button>
 
-						<button
-							onClick={handleDownloadCP}
-							className="w-full bg-white/20 backdrop-blur hover:bg-white/30 text-white font-bold py-3 rounded-xl uppercase tracking-wide transition-all flex items-center justify-center gap-2 border border-white/30"
-						>
-							<FilePdfIcon size={18} />
-							Скачать КП
-						</button>
+						<div className="space-y-2">
+							<div className="text-center text-white/80 text-xs font-semibold uppercase tracking-wider">
+								Скачать коммерческое предложение:
+							</div>
+							<div className="grid grid-cols-2 gap-2">
+								<button
+									onClick={() => handleDownloadCP('pdf')}
+									disabled={downloadingFormat !== null}
+									className="bg-white/20 backdrop-blur hover:bg-white/30 disabled:opacity-50 text-white font-bold py-3 px-2 rounded-xl text-xs uppercase tracking-wide transition-all flex items-center justify-center gap-1.5 border border-white/30"
+									title="Скачать КП в формате PDF"
+								>
+									{downloadingFormat === 'pdf' ? (
+										<span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+									) : (
+										<FilePdfIcon size={16} />
+									)}
+									<span>КП в PDF</span>
+								</button>
+
+								<button
+									onClick={() => handleDownloadCP('excel')}
+									disabled={downloadingFormat !== null}
+									className="bg-white/20 backdrop-blur hover:bg-white/30 disabled:opacity-50 text-white font-bold py-3 px-2 rounded-xl text-xs uppercase tracking-wide transition-all flex items-center justify-center gap-1.5 border border-white/30"
+									title="Скачать КП в формате Excel (.xlsx)"
+								>
+									{downloadingFormat === 'excel' ? (
+										<span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+									) : (
+										<FileSpreadsheetIcon size={16} />
+									)}
+									<span>КП в Excel</span>
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

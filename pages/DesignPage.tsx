@@ -77,7 +77,7 @@ const DesignPage: React.FC = () => {
 								Смотреть каталог
 							</Link>
 							<a
-								href="https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20заказать%20проектирование%20кухни%20под%20ключ"
+								href="https://wa.me/77077069899?text=Здравствуйте!%20Хочу%20заказать%20проектирование%20кухни%20под%20ключ"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="bg-emerald-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-emerald-700 transition-colors"
@@ -356,7 +356,7 @@ const DesignPage: React.FC = () => {
 						</p>
 						<div className="flex flex-col sm:flex-row gap-4 justify-center">
 							<a
-								href="https://wa.me/77472164664?text=Здравствуйте!%20Хочу%20заказать%20проектирование%20кухни"
+								href="https://wa.me/77077069899?text=Здравствуйте!%20Хочу%20заказать%20проектирование%20кухни"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors flex items-center justify-center gap-2"
